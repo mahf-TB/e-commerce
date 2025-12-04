@@ -1,0 +1,156 @@
+"use client";
+
+import { cn } from "@/lib/utils";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { Minus, Plus, X } from "lucide-react";
+
+type ProductCheckoutItemProps = {
+  id: string;
+  nom: string;
+  image: string;
+  description: string;
+  prix: number;
+  quantite?: number;
+  total?: number;
+  onRemove?: (id: string) => void;
+  onQuantityChange?: (id: string, quantity: number) => void;
+  onClick?: (id: string) => void;
+  containerClassName?: string;
+  showQuantityControl?: boolean;
+};
+
+export default function ProductItem({
+  id,
+  nom,
+  image,
+  description,
+  prix,
+  quantite = 4,
+  total,
+  onRemove,
+  onQuantityChange,
+  onClick,
+  containerClassName,
+  showQuantityControl = true,
+}: ProductCheckoutItemProps) {
+  const totalPrice = total ?? prix * quantite;
+
+  const handleClick = () => {
+    onClick?.(id);
+  };
+
+  const handleRemove = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    onRemove?.(id);
+  };
+
+  const handleQuantityChange = (
+    e: React.ChangeEvent<HTMLInputElement>,
+    newQuantity: number
+  ) => {
+    e.stopPropagation();
+    if (newQuantity > 0) {
+      onQuantityChange?.(id, newQuantity);
+    }
+  };
+
+  return (
+    <div
+      className={cn(
+        "relative flex items-center gap-4 p-2 rounded border border-transparent hover:border-border hover:bg-accent transition-all  group",
+        containerClassName
+      )}
+      onClick={handleClick}
+      role="button"
+      tabIndex={0}
+      onKeyDown={(e) => {
+        if (e.key === "Enter" || e.key === " ") {
+          handleClick();
+        }
+      }}
+    >
+      {/* Image produit */}
+      <div className="relative shrink-0">
+        <img
+          alt={nom}
+          className="w-16 h-16 rounded-xs object-cover"
+          src={image}
+        />
+      </div>
+
+      {/* Contenu produit */}
+      <div className="flex-1 min-w-0 space-y-1">
+        <h3 className="font-medium text-sm text-foreground hover:underline truncate cursor-pointer">
+          {nom}
+        </h3>
+        <p className="text-xs text-muted-foreground line-clamp-1">
+          {description}
+        </p>
+
+        {/* Quantité + Prix unitaire */}
+        <div className="flex items-center gap-2 text-xs">
+          <span className="text-muted-foreground">
+            {quantite}* {prix.toLocaleString("fr-FR")} Ar
+          </span>
+        </div>
+      </div>
+
+      {/* Prix total */}
+      <div className="flex flex-col items-end gap-2 shrink-0">
+        <div className="flex items-center gap-1 px-2">
+          <span className="font-semibold text-sm text-foreground">
+            {totalPrice.toLocaleString("fr-FR")} Ar
+          </span>
+          <Button
+            type="button"
+            variant="destructive"
+            size="sm"
+            onClick={handleRemove}
+            className="absolute -top-2 -right-2 h-6 w-6 p-0 opacity-0 group-hover:opacity-100 transition-opacity rounded-2xl"
+          >
+            <X size={10} />
+            <span className="sr-only">Supprimer</span>
+          </Button>
+        </div>
+
+        {showQuantityControl && (
+          <div className="flex items-center gap-0 bg-secondary rounded px-2 py-1">
+            <Button
+              type="button"
+              size="sm"
+              onClick={(e) => {
+                e.stopPropagation();
+                onQuantityChange?.(id, quantite - 1);
+              }}
+              className="h-6 w-6 text-muted hover:text-muted/50"
+              disabled={quantite <= 1}
+            >
+              <Minus size={14} />
+            </Button>
+            <input
+              type="text"
+              value={quantite}
+              onChange={(e) =>
+                handleQuantityChange(e, parseInt(e.target.value) || 1)
+              }
+              className="w-8 text-center text-xs bg-transparent border-0 outline-none"
+              min="1"
+            />
+            <Button
+              type="button"
+              size="sm"
+              onClick={(e) => {
+                e.stopPropagation();
+                onQuantityChange?.(id, quantite + 1);
+              }}
+              className="h-6 w-6 text-muted hover:text-muted/50"
+            >
+              <Plus size={14} />
+            </Button>
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}
