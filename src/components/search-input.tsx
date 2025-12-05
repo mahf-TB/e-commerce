@@ -9,6 +9,7 @@ export interface SearchInputProps {
   classNames?: string[];
   style?: CSSProperties;
   icon?: ReactElement;
+  value?: string;
   onChange?: (value: string) => void;
 }
 
@@ -16,6 +17,7 @@ const SearchInput: React.FC<SearchInputProps> = ({
   placeholder,
   isMobile = false,
   classNames = [],
+  value,
   style = {},
   icon = <Search size={20} className="text-gray-400" />,
   onChange,
@@ -28,6 +30,7 @@ const SearchInput: React.FC<SearchInputProps> = ({
 
       <Input
         type="text"
+        value={value}
         placeholder={
           placeholder ??
           (isMobile

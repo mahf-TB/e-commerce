@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 
 import InputForm from "@/components/input-form";
 import { Lock, Mail } from "lucide-react";
-import useAuthStore from "@/store/use-auth";
+import useAuthStore from "@/store/use-auth.store";
 import { isValidEmail } from "@/utils/helpers";
 import FormRegister from "./FormRegister";
 import authService from "@/services/authService";
@@ -13,9 +13,9 @@ import { useNavigate } from "react-router-dom";
 import { setAuthToken } from "@/lib/axios";
 
 const FormConnected = () => {
-  const { invalidateAuthUser } = useAuthInvalidate();
-  const { pending, step, setStep } = useAuthStore();
   const navigate = useNavigate();
+  const { invalidateAuthUser } = useAuthInvalidate();
+  const { pending,setPending, step, setStep } = useAuthStore();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [userInfo, setUserInfo] = useState({
@@ -25,7 +25,6 @@ const FormConnected = () => {
     telephone: "",
     password: "",
   });
-  const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
   const loginUser = async () => {
@@ -49,11 +48,11 @@ const FormConnected = () => {
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
-    setLoading(true);
+    setPending(true);
     setError(null);
     if (!email || !isValidEmail(email)) {
       setError("Veuillez saisir une adresse email valide.");
-      setLoading(false);
+      setPending(false);
       return;
     }
     try {
@@ -79,9 +78,12 @@ const FormConnected = () => {
       console.error("Erreur lors de la vérification de l'email", error);
       setError("Une erreur est survenue. Veuillez réessayer.");
     } finally {
-      setLoading(false);
+      setPending(false);
     }
   }
+
+
+
   return (
     <div>
       <form onSubmit={handleSubmit} className="space-y-2">
@@ -124,9 +126,9 @@ const FormConnected = () => {
         <Button
           type="submit"
           className="w-full rounded flex items-center justify-center gap-2 mt-5"
-          disabled={loading}
+          disabled={pending}
         >
-          {(loading || pending) && (
+          {(pending) && (
             <svg
               className="w-4 h-4 animate-spin"
               viewBox="0 0 24 24"
@@ -148,7 +150,7 @@ const FormConnected = () => {
               />
             </svg>
           )}
-          <span>{loading || pending ? "Connexion..." : "Se connecter"}</span>
+          <span>{pending ? "Connexion..." : "Se connecter"}</span>
         </Button>
       </form>
     </div>

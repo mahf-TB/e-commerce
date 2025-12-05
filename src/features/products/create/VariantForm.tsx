@@ -59,8 +59,9 @@ const VariantForm = ({
           </div>
           <div>
             <InputForm
-              type="text"
+              type="number"
               label="Prix unitaire"
+               placeholder="Ex: 250000"
               min={0}
               value={v.prixUnitaire}
               onChange={(e) =>
@@ -75,8 +76,9 @@ const VariantForm = ({
           </div>
           <div>
             <InputForm
-              type="text"
+              type="number"
               min={0}
+               placeholder="Ex: 100"
               value={v.qte}
               label="Quantité"
               onChange={(e) =>
@@ -86,9 +88,10 @@ const VariantForm = ({
           </div>
           <div>
             <InputForm
-              type="text"
+              type="number"
               min={0}
               label="Seuil d’alerte"
+               placeholder="Ex: 10"
               value={v.seuil}
               onChange={(e) =>
                 handleChangeVariant(index, "seuil", Number(e.target.value))

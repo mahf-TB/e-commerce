@@ -30,10 +30,12 @@ export default function TextareaForm({
   return (
     <div className="*:not-first:mt-2">
       {label && (
+        <>
         <Label htmlFor={inputId} className="font-medium text-xs">
           {label}
           {required && <span className="text-destructive ml-1">*</span>}
         </Label>
+        </>
       )}
       <Textarea
         id={inputId}

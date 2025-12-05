@@ -6,9 +6,22 @@ export const formatPrice = (price: number): string => {
   return price.toLocaleString(undefined, {
     style: "currency",
     currency: "MGA",
+    minimumFractionDigits: 0,
+    maximumFractionDigits: 0,
   });
 };
 
+//format date en format "DD MMM YYYY"
+export const formatDate = (dateStr: string): string => {
+  const date = new Date(dateStr);
+  return date.toLocaleDateString(undefined, {
+    day: "2-digit",
+    month: "short",
+    year: "numeric",
+  });
+}
+
+// Formater un nombre en format compact (1.2K, 3.4M, etc.)
 export function formatCompactNumber(n: number): string {
   if (n >= 1_000_000) return (n / 1_000_000).toFixed(1).replace(/\.0$/, "") + "M";
   if (n >= 1_000) return (n / 1_000).toFixed(1).replace(/\.0$/, "") + "K";

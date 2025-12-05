@@ -56,7 +56,7 @@ const navigate = useNavigate()
 
         {/* Boutons */}
         <div className="mt-3 flex items-center gap-2">
-          <Tooltips text={"Passer aux commande direct de ce produit"}>
+          <Tooltips side="bottom" text={"Passer aux commande direct de ce produit"}>
             <Button
               className="flex-1 bg-green-600 hover:bg-green-600/90 text-slate-100 font-semibold rounded-md"
               size="sm"

@@ -1,7 +1,7 @@
 import { useCallback } from "react";
 import { useGoogleOneTapLogin } from "@react-oauth/google";
 import authService from "@/services/authService";
-import useAuthStore from "@/store/use-auth";
+import useAuthStore from "@/store/use-auth.store";
 
 export default function useGoogleAuth() {
   const {pending , setPending} = useAuthStore();

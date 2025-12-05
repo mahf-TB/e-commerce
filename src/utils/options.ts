@@ -1,4 +1,5 @@
 export const productStatusOptions = [
+  { label: "Tout", value: "all" },
   { label: "Actif", value: "active" },
   { label: "Inactif", value: "inactive" },
   { label: "Archivé", value: "archived" },
@@ -26,4 +27,15 @@ export const paymentStatusOptions = [
   { label: "Échouée", value: "failed" },
   { label: "Partiellement remboursée", value: "partially_refunded" },
   { label: "Remboursée", value: "refunded" },
+];
+
+
+export const sortOptions = [
+  { label: "Plus récent", value: "newest" },
+  { label: "Plus ancien", value: "oldest" },
+  { label: "Prix : faible → élevé", value: "price_asc" },
+  { label: "Prix : élevé → faible", value: "price_desc" },
+  { label: "Popularité", value: "popular" },
+  { label: "Note : élevée → faible", value: "rating_desc" },
+  { label: "Note : faible → élevée", value: "rating_asc" },
 ];

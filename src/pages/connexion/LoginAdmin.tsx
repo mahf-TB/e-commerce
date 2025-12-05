@@ -9,7 +9,7 @@ import { AnimatedBackground } from "@/components/AnimatedBackground";
 import authService from "@/services/authService";
 import { setAuthToken } from "@/lib/axios";
 import { useAuthInvalidate } from "@/hooks/use-auth-invalidate";
-import useAuthStore from "@/store/use-auth";
+import useAuthStore from "@/store/use-auth.store";
 import { useNavigate } from "react-router-dom";
 import GoogleOneTap from "@/features/auth/GoogleOneTap";
 

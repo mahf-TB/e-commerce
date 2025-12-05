@@ -16,6 +16,7 @@ import {
 import { formatBytes, useFileUpload } from "@/hooks/use-file-upload";
 import { Button } from "@/components/ui/button";
 import Tooltips from "./tooltips";
+import useAuthStore from "@/store/use-auth.store";
 // ou où tu le définis
 
 export type ImageToUpload = {
@@ -35,6 +36,8 @@ export default function DropImageUpload({
   value,
   onChange,
 }: DropImageUploadProps) {
+
+    const { pending } = useAuthStore();
   const maxSizeMB = 5;
   const maxSize = maxSizeMB * 1024 * 1024;
   const maxFiles = 6;
@@ -52,7 +55,7 @@ export default function DropImageUpload({
       getInputProps,
     },
   ] = useFileUpload({
-    accept: "image/svg+xml,image/png,image/jpeg,image/jpg,image/gif",
+    accept: "image/png,image/jpeg,image/jpg,image/gif",
     initialFiles: [], // on enlève les mocks
     maxFiles,
     maxSize,
@@ -108,6 +111,7 @@ export default function DropImageUpload({
         <input
           {...getInputProps()}
           aria-label="Upload image file"
+          disabled={pending}
           className="sr-only"
         />
         <div className="flex flex-col items-center justify-center px-4 py-3 text-center">
@@ -117,11 +121,11 @@ export default function DropImageUpload({
           >
             <ImageIcon className="size-4 opacity-60" />
           </div>
-          <p className="mb-1.5 font-medium text-sm">Drop your images here</p>
+          <p className="mb-1.5 font-medium text-sm">Déposez vos images ici</p>
           <p className="text-muted-foreground text-xs">
-            SVG, PNG, JPG or GIF (max. {maxSizeMB}MB)
+           PNG, JPG or GIF (max. {maxSizeMB}MB)
           </p>
-          <Button className="mt-4" onClick={openFileDialog} variant="outline">
+          <Button className="mt-4" onClick={openFileDialog} variant="outline" disabled={pending}>
             <UploadIcon aria-hidden="true" className="-ms-1 opacity-60" />
             Select images
           </Button>
@@ -171,6 +175,7 @@ export default function DropImageUpload({
                   onClick={() => togglePrincipale(img.id)}
                   size="icon"
                   variant="ghost"
+                  disabled={pending}
                 >
                   {img.isPrincipale ? (
                     <Tooltips text={"Image principale"}>
@@ -188,8 +193,9 @@ export default function DropImageUpload({
                 </Button>
                 <Button
                   aria-label={`Remove ${img.file.name}`}
+                  disabled={pending}
                   className="size-8 text-muted-foreground/80 hover:bg-transparent hover:text-foreground"
-                  onClick={() => removeFile(img.id)}
+                  onClick={() => handleRemove(img.id)}
                   size="icon"
                   variant="ghost"
                 >
@@ -201,7 +207,7 @@ export default function DropImageUpload({
 
           {value.length > 1 && (
             <div>
-              <Button onClick={handleClear} size="sm" variant="outline">
+              <Button disabled={pending} onClick={handleClear} size="sm" variant="outline">
                 Supprimer toutes les images
               </Button>
             </div>

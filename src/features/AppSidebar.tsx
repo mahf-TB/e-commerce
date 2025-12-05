@@ -32,6 +32,7 @@ import { Badge } from "../components/ui/badge";
 import { NavLink, useLocation, useNavigate } from "react-router-dom";
 import { logout } from "@/services/authService";
 import { useAuthInvalidate } from "@/hooks/use-auth-invalidate";
+import useAuthUser from "@/hooks/use-auth-user";
 
 const items = [
   { title: "Dashboard", url: "/admin/dashboard", icon: Home },
@@ -49,12 +50,13 @@ const items2 = [
 export function AppSidebar() {
   const { pathname } = useLocation();
    const { removeAuthUser } = useAuthInvalidate();
+     const { data : user, isAuthenticated, isLoading } = useAuthUser();
   const navigate = useNavigate();
     const handleLogout = async () => {
       try {
-        await logout();
+         logout();
         navigate("/admin-login");
-         await removeAuthUser();
+          removeAuthUser();
       } catch (error) {}
     };
   return (
@@ -140,17 +142,20 @@ export function AppSidebar() {
       </SidebarContent>
       <SidebarSeparator className="mx-0 bg-gray-600" />
 
-      <SidebarFooter className="z-50">
+      <SidebarFooter className="z-50 ">
         {/* Maybe a settings button or profile */}
         <div className="px-2 flex items-center justify-between">
-          <div className="py-2 flex items-center gap-2">
+          <div className="py-2 flex items-center gap-2 overflow-hidden">
             <Avatar>
-              <AvatarImage src="https://github.com/shadcn.png" />
+              <AvatarImage src={user?.avatarUrl ?? "https://github.com/shadcn.png"} />
               <AvatarFallback>CN</AvatarFallback>
             </Avatar>
             <div className="hidden md:block">
-              <p className="text-sm font-medium">Abraham Illcoon</p>
-              <p className="text-xs">ma@exemple.com</p>
+              <p className="text-sm font-medium">
+                 {`${user?.prenom || ""} ${user?.nom || ""}`.trim() ||
+                    user?.username}
+              </p>
+              <p className="text-xs line-clamp-1">{user?.email + "ma@exemple.com"}</p>
             </div>
           </div>
           <Dropdown

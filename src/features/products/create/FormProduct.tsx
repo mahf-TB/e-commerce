@@ -10,10 +10,14 @@ import { Plus } from "lucide-react";
 import VariantForm from "./VariantForm";
 import useCategories from "@/hooks/use-categories";
 import useBrands from "@/hooks/use-marques";
+import useAuthStore from "@/store/use-auth.store";
+import { useNavigate } from "react-router-dom";
 // à adapter selon ton client HTTP
 // import { api } from "@/services/apiClient";
 
 const FormProduct: React.FC<{ images: ImageToUpload[] }> = ({ images }) => {
+    const navigate = useNavigate();
+  const { pending, setPending } = useAuthStore();
   const { categoriesOptions } = useCategories();
   const { marquesOptions } = useBrands();
   const [nom, setNom] = useState("");
@@ -26,9 +30,9 @@ const FormProduct: React.FC<{ images: ImageToUpload[] }> = ({ images }) => {
     {
       variant: "",
       code: "",
-      prixUnitaire: 0,
-      qte: 0,
-      seuil: 0,
+      prixUnitaire: null!,
+      qte: null!,
+      seuil: null!,
       statut: "active",
       etatProduit: "neuf",
     },
@@ -40,9 +44,9 @@ const FormProduct: React.FC<{ images: ImageToUpload[] }> = ({ images }) => {
       {
         variant: "",
         code: "",
-        prixUnitaire: 0,
-        qte: 0,
-        seuil: 0,
+        prixUnitaire: null!,
+        qte: null!,
+        seuil: null!,
         statut: "active",
         etatProduit: "neuf",
       },
@@ -51,32 +55,18 @@ const FormProduct: React.FC<{ images: ImageToUpload[] }> = ({ images }) => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-
-    const payload = {
-      nom,
-      description,
-      garantie,
-      marque: marqueId || null,
-      categorie: categorieId || null,
-      images, // vient du parent
-      variants, // tableau conforme à ton VariantSchema
-    };
-    console.log("Submitting product:", payload);
-
     const formData = new FormData();
     formData.append("nom", nom);
     formData.append("description", description);
     formData.append("garantie", garantie);
     if (marqueId) formData.append("marque", marqueId);
     if (categorieId) formData.append("categorie", categorieId);
-
     // variants en JSON
     formData.append("variants", JSON.stringify(variants));
-    // images
-    images.forEach((img, idx) => {
+    // images handling
+    images.forEach((img) => {
       formData.append(`images`, img.file);
     });
-
     formData.append(
       "imagesMeta",
       JSON.stringify(
@@ -86,16 +76,18 @@ const FormProduct: React.FC<{ images: ImageToUpload[] }> = ({ images }) => {
         }))
       )
     );
-
-    console.log("FormData prepared for submission.", formData);
-
+    setPending(true);
     // Envoi à l'API (à adapter selon ton client HTTP)
     await createNewProduct(formData)
       .then((res) => {
         console.log("Product created successfully:", res);
+        navigate("/admin/produits");
       })
       .catch((err) => {
         console.error("Error creating product:", err);
+      })
+      .finally(() => {
+        setPending(false);
       });
     // TODO: reset / redirection / toast
   };
@@ -188,7 +180,9 @@ const FormProduct: React.FC<{ images: ImageToUpload[] }> = ({ images }) => {
         </div>
 
         <div className="flex justify-end">
-          <Button type="submit">Enregistrer le produit</Button>
+          <Button disabled={pending} type="submit">
+             <span>{pending ? "Enregistrement..." : "Enregistrer  le produit"}</span>
+          </Button>
         </div>
       </form>
     </div>

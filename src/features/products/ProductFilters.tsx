@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useMemo } from "react"
+import { useState } from "react"
 import { Checkbox } from "@/components/ui/checkbox" // chemin généré par shadcn
 // import tes produits depuis ton API ou un hook
 

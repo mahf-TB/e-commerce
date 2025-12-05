@@ -8,6 +8,7 @@ import {
   Heart,
   LogOut,
   Package,
+  ShieldUser,
   ShoppingBag,
   ShoppingCartIcon,
   UserCircle,
@@ -31,9 +32,9 @@ const HeaderPage = () => {
 
   const handleLogout = async () => {
     try {
-      await logout();
+      logout();
       navigate("/connexion");
-      await removeAuthUser();
+      removeAuthUser();
     } catch (error) {}
   };
 
@@ -127,6 +128,14 @@ const HeaderPage = () => {
               title="Mon compte"
               onClick={() => navigate("/account")}
             />
+            {data?.role === "admin" && (
+              <DropdownItems
+                icon={<ShieldUser size={18} />}
+                title="Espace Administrateur"
+                onClick={() => navigate("/admin/dashboard")}
+              />
+            )}
+
             <DropdownItems
               icon={<Package size={18} />}
               title="Commandes"

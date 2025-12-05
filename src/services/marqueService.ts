@@ -1,4 +1,4 @@
-import api, { apiAuth, setAuthToken } from "../lib/axios";
+import api, { apiAuth } from "../lib/axios";
 import type { Paginated } from "@/types";
 import type { Marque } from "@/hooks/use-marques";
 const headers = {
@@ -10,7 +10,6 @@ const headers = {
 
 export async function fetchMarques(): Promise<Paginated<Marque>> {
   const res = await api.get("/marques");
-  console.log(res.data);
   return res.data 
 }
 export async function createNewProduct(credential: any) {

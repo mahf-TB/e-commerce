@@ -2,7 +2,7 @@ import { Button } from "@/components/ui/button";
 import googleIcon from "@/assets/google-icon.svg";
 import { GoogleLogin } from "@react-oauth/google";
 import { useRef } from "react";
-import useAuthStore from "@/store/use-auth";
+import useAuthStore from "@/store/use-auth.store";
 import authService from "@/services/authService";
 import { useNavigate } from "react-router-dom";
 import { useAuthInvalidate } from "@/hooks/use-auth-invalidate";

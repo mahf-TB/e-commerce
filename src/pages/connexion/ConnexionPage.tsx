@@ -1,7 +1,7 @@
 import FormConnected from "@/features/auth/FormConnected";
 import GoogleOneTap from "@/features/auth/GoogleOneTap";
 import { cn } from "@/lib/utils";
-import useAuthStore from "@/store/use-auth";
+import useAuthStore from "@/store/use-auth.store";
 import React from "react";
 
 const ConnexionPage = () => {

@@ -1,16 +1,19 @@
 // types/product.ts
 export type ProductListItem = {
   id: string;
+  code:string;
   nom: string;
   marqueNom: string | null;
   categorieNom: string | null;
   imagePrincipale: string | null;
   variantsCount: number;
+  statut: "active" | "inactive" | "archived";
   stockTotal: number;
   minPrice: number;
   createdAt: string; // ou Date si tu la castes
   nombreAvis: number;
   noteMoyenne: number;
+  popularite: number;
 };
 
 

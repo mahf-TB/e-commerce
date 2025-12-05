@@ -7,5 +7,6 @@ export type Paginated<T> = {
   items: T[];
   limit: number;
   page: number;
-  total: number;
+  totalItems: number;
+  totalPages: number;
 };

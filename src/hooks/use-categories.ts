@@ -13,9 +13,6 @@ export type Category = {
   updatedAt?: string;
 };
 
-
-
-
 export function useCategories() {
   const query = useQuery({
     queryKey: ["categories"],
@@ -29,20 +26,16 @@ export function useCategories() {
   let items: Category[] = [];
   let pagination: Paginated<Category> | undefined = undefined;
 
-  if (Array.isArray(raw)) {
-    items = raw as Category[];
-  } else if (raw && typeof raw === "object" && "items" in (raw as any)) {
+  if (raw && typeof raw === "object" && "items" in (raw as any)) {
     const r = raw as Paginated<Category>;
     items = Array.isArray(r.items) ? r.items : [];
-    pagination = { items: r.items ?? [], limit: r.limit ?? 0, page: r.page ?? 0, total: r.total ?? 0 };
+    pagination = r;
   }
 
-  
   const categoriesOptions: SelectOption[] = (items ?? []).map((c) => ({
     label: c.nom,
     value: String(c._id || c.id),
   }));
-
 
   return { ...query, items, pagination, categoriesOptions };
 }

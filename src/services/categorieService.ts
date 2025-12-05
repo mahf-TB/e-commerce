@@ -1,5 +1,5 @@
 import type { Category } from "@/hooks/use-categories";
-import api, { apiAuth, setAuthToken } from "../lib/axios";
+import api, { apiAuth } from "../lib/axios";
 import type { Paginated } from "@/types";
 const headers = {
   headers: {
@@ -10,7 +10,6 @@ const headers = {
 
 export async function fetchCategories(): Promise<Paginated<Category>> {
   const res = await api.get("/categories");
-  console.log(res.data);
   return res.data 
 }
 export async function createNewProduct(credential: any) {
