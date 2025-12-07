@@ -2,8 +2,22 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import ProductItem from "@/components/product-item";
 import { formatPrice } from "@/utils/helpers";
+import { useCartStore } from "@/store/use-panier.store";
+import { ShoppingCart } from "lucide-react";
 
 export function OrderSummary() {
+  const {
+      cartItems,
+      isOpen,
+      removeItem,
+      incrementQuantity,
+      decrementQuantity,
+      getTotalItems,
+      getTotalPrice,
+      openCart,
+      closeCart,
+      removeAll,
+    } = useCartStore();
   return (
     <div className="p-6 space-y-4">
       <h2 className="text-lg font-semibold font-poppins"> Récapitulatif de commande</h2>
@@ -11,26 +25,32 @@ export function OrderSummary() {
       {/* Liste des produits */}
       <div className="space-y-3">
         {/* Ici tu map tes items du panier */}
-        <ProductItem
-          id="1"
-          nom="Électronique"
-          image="/images/article1.jpg"
-          description="Ordinateurs portables"
-          prix={4500}
-          quantite={1}
-          showQuantityControl={false}
-          onClick={(id: string) => console.log("Clicked:", id)}
-        />
-        <ProductItem
-          id="1"
-          nom="Électronique"
-          image="/images/article1.jpg"
-          description="Ordinateurs portables"
-          prix={4500}
-          quantite={1}
-          showQuantityControl={false}
-          onClick={(id: string) => console.log("Clicked:", id)}
-        />
+          {cartItems.length === 0 ? (
+            <div className="px-4 py-8 text-center">
+              <ShoppingCart className="h-12 w-12 mx-auto mb-2 text-muted-foreground opacity-50" />
+              <p className="text-sm text-muted-foreground">
+                Your cart is empty
+              </p>
+            </div>
+          ) : (
+            cartItems.map((item) => (
+              <ProductItem
+                key={item.id}
+                id={item.id}
+                nom={item.name}
+                image={item.image}
+                description={item?.description}
+                prix={item.price}
+                quantite={item.quantity}
+                showQuantityControl={false}
+                onClick={() => console.log("Clicked:", item.id)}
+                incrementQuantity={() => incrementQuantity(item.id)}
+                decrementQuantity={() => decrementQuantity(item.id)}
+                removeItem={() => removeItem(item.id)}
+              />
+            ))
+          )}
+
       </div>
 
       {/* Code promo */}

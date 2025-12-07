@@ -1,9 +1,12 @@
 import UserAvatar from "@/components/user-avatar";
+import useAuthUser from "@/hooks/use-auth-user";
 import { cn } from "@/lib/utils";
-import { Bell, Heart, LayoutDashboard, Package, User } from "lucide-react";
+import { getFullName, maskEmail } from "@/utils/helpers";
+import { Bell, Heart, LayoutDashboard, Package } from "lucide-react";
 import { NavLink, Outlet, useLocation } from "react-router-dom";
 
 const AccountLayout = () => {
+   const { data, isAuthenticated, isLoading } = useAuthUser();
   const { pathname } = useLocation();
   const navItems = [
     { to: "/account", label: "Mon compte", icon: <LayoutDashboard size={18} /> },
@@ -15,17 +18,18 @@ const AccountLayout = () => {
       icon: <Bell size={18} />,
     },
   ];
-
   
   return (
     <div className={cn(" w-full")}>
       <div className="w-full flex py-4 gap-5 mt-5">
         <aside className="w-1/5 sticky top-20 h-fit px-4  ">
-          <div className="py-2 flex items-center gap-2  mb-4">
-            <UserAvatar fallback="CN" size={50} src="https://github.com/shadcn.png"/>
+          <div className="py-2 flex items-center gap-2  mb-4 overflow-hidden">
+            <UserAvatar fallback="CN" size={50} src={data?.photo}/>
             <div className="hidden md:block">
-              <p className="text-lg font-medium">Abraham Illcoon</p>
-              <p className="text-sm">ma@exemple.com</p>
+              <p className="text-lg font-medium">{getFullName(data)}</p>
+              <p className="text-sm line-clamp-1">
+                {maskEmail(data?.email)}
+              </p>
             </div>
           </div>
           <nav className="flex flex-col gap-2">

@@ -36,6 +36,7 @@
     "react-payment-inputs": "^1.2.0",
     "react-phone-number-input": "^3.4.14",
     "react-router-dom": "^7.9.6",
+    "recharts": "^2.15.1",
     "tailwind-merge": "^3.4.0",
     "tailwindcss": "^4.1.17",
     "zustand": "^5.0.8"

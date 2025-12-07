@@ -2,7 +2,7 @@ import React, { useCallback, useState } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import { Expand, Shrink, X } from "lucide-react";
 import { cn } from "@/lib/utils";
-
+import useSystemStore from "@/store/use-system.store";
 
 interface CardSheetModalProps {
   openModal: boolean;
@@ -15,11 +15,13 @@ const CardSheetModal: React.FC<CardSheetModalProps> = ({
   setOpenModal,
   children,
 }) => {
-  const [isExpanded, setIsExpanded] = useState(false);
+  const { expandSheet: isExpanded, setExpandSheet: setIsExpanded } =
+    useSystemStore();
 
   const handleClose = useCallback(() => {
     setOpenModal(false);
-  }, [setOpenModal]);
+    setIsExpanded(false);
+  }, [setOpenModal, setIsExpanded]);
 
   return (
     <AnimatePresence mode="wait">
@@ -50,24 +52,23 @@ const CardSheetModal: React.FC<CardSheetModalProps> = ({
             )}
           >
             {/* Header */}
-            <div className="flex justify-end items-center p-4 sticky top-0 bg-white dark:bg-gray-800">
-              
+            <div className="flex justify-end items-center p-4 sticky top-0 z-50 bg-white dark:bg-gray-800">
               <div className="flex items-center gap-4">
                 {isExpanded ? (
                   <motion.button
                     whileHover={{ scale: 1.1 }}
                     whileTap={{ scale: 0.95 }}
-                    onClick={()=> setIsExpanded(false)}
+                    onClick={() => setIsExpanded(false)}
                     className="text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition-colors"
                     aria-label="Fermer"
                   >
-                    <Shrink  size={16} />
+                    <Shrink size={16} />
                   </motion.button>
                 ) : (
                   <motion.button
                     whileHover={{ scale: 1.1 }}
                     whileTap={{ scale: 0.95 }}
-                     onClick={()=> setIsExpanded(true)}
+                    onClick={() => setIsExpanded(true)}
                     className="text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition-colors"
                     aria-label="Fermer"
                   >
@@ -75,16 +76,15 @@ const CardSheetModal: React.FC<CardSheetModalProps> = ({
                   </motion.button>
                 )}
                 <motion.button
-                whileHover={{ scale: 1.1 }}
-                whileTap={{ scale: 0.95 }}
-                onClick={handleClose}
-                className="text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition-colors"
-                aria-label="Fermer"
-              >
-                <X size={20} />
-              </motion.button>
+                  whileHover={{ scale: 1.1 }}
+                  whileTap={{ scale: 0.95 }}
+                  onClick={handleClose}
+                  className="text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition-colors"
+                  aria-label="Fermer"
+                >
+                  <X size={20} />
+                </motion.button>
               </div>
-              
             </div>
 
             {/* Content */}
@@ -92,7 +92,10 @@ const CardSheetModal: React.FC<CardSheetModalProps> = ({
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ delay: 0.2, duration: 0.3 }}
-              className={cn("px-4" , isExpanded ? " container mx-auto " : "w-full")}
+              className={cn(
+                "px-4",
+                isExpanded ? " container mx-auto " : "w-full"
+              )}
             >
               {children}
             </motion.div>

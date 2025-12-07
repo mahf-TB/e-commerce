@@ -1,17 +1,13 @@
 import { create } from "zustand";
 
-interface AuthState {
-  pending: boolean;
-  step: "check" | "login" | "register";
-  setStep: (step: "check" | "login" | "register") => void;
-  setPending: (pending: boolean) => void;
+interface SystemState {
+  expandSheet: boolean;
+  setExpandSheet: (expandSheet: boolean) => void;
 }
 
-const useAuthStore = create<AuthState>((set) => ({
-  pending: false,
-  setPending: (pending: boolean) => set({ pending }),
-  step: "check",
-  setStep: (step) => set({ step }),
+const useSystemStore = create<SystemState>((set) => ({
+  expandSheet: false,
+  setExpandSheet: (expandSheet: boolean) => set({ expandSheet }),
 }));
 
-export default useAuthStore;
+export default useSystemStore;

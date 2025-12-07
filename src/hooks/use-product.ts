@@ -41,6 +41,7 @@ export function useProductList(params: ProductListParams = {}) {
     statut,
   } = params;
 
+
   const query = useQuery({
     queryKey: [
       "products",

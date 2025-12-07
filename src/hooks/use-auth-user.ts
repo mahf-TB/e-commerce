@@ -1,6 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { fetchMe, hasToken } from "@/services/authService";
 import type { User } from "@/types";
+import React from "react";
 
 export function useAuthUser() {
   const hasTokenValue = hasToken();
@@ -12,8 +13,10 @@ export function useAuthUser() {
     staleTime: 1000 * 60 * 5,
   });
   const isAuthenticated = !!query.data && !query.error;
+    const user = query.data as User;
   return {
     ...query,
+    data: user,
     isAuthenticated,
   };
 }

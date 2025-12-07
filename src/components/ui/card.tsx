@@ -81,6 +81,12 @@ function CardFooter({ className, ...props }: React.ComponentProps<"div">) {
   )
 }
 
+
+function CardToolbar({ className, ...props }: React.ComponentProps<"div">) {
+  return <div data-slot="card-toolbar" className={cn('flex items-center gap-2.5', className)} {...props} />;
+}
+
+
 export {
   Card,
   CardHeader,
@@ -89,4 +95,5 @@ export {
   CardAction,
   CardDescription,
   CardContent,
+  CardToolbar
 }

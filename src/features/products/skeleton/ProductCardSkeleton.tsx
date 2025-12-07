@@ -3,9 +3,9 @@ import { Skeleton } from "@/components/ui/skeleton"
 
 export function ProductCardSkeleton() {
   return (
-    <Card className="flex flex-col rounded-2xl shadow-none overflow-hidden p-0 gap-0">
+    <Card className="flex flex-col rounded-sm shadow-none overflow-hidden p-0 gap-0">
       {/* Image */}
-      <Skeleton className="h-52 w-full" />
+      <Skeleton className="h-52 w-full rounded-none rounded-t-sm" />
 
       <div className="px-4 py-4 space-y-3">
         {/* Titre */}
@@ -25,8 +25,8 @@ export function ProductCardSkeleton() {
 
         {/* Boutons */}
         <div className="flex items-center gap-2 pt-2">
-          <Skeleton className="h-9 flex-1 rounded-full" />
-          <Skeleton className="h-8 w-16 rounded-full" />
+          <Skeleton className="h-9 flex-1 rounded-md" />
+          <Skeleton className="h-9 w-16 rounded-md" />
         </div>
       </div>
     </Card>

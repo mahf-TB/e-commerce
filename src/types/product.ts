@@ -5,6 +5,7 @@ export type ProductListItem = {
   nom: string;
   marqueNom: string | null;
   categorieNom: string | null;
+  description?: string | null;
   imagePrincipale: string | null;
   variantsCount: number;
   statut: "active" | "inactive" | "archived";
@@ -21,6 +22,7 @@ export type Produit = {
   id: string;
   nom: string;
   description: string;
+  statut: "active" | "inactive" | "archived";
   garantie: string;
   marque?: { nom: string };
   categorie?: { nom: string };
@@ -33,6 +35,7 @@ export type Produit = {
 
 
 export type VariantProduct = {
+  id: string;
   variant: string;
   code: string;
   prixUnitaire: number;

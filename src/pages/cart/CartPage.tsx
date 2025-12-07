@@ -1,7 +1,21 @@
 import ProductItem from "@/components/product-item";
 import { Button } from "@/components/ui/button";
+import { useCartStore } from "@/store/use-panier.store";
+import { ShoppingCart } from "lucide-react";
 
 const CartPage = () => {
+  const {
+        cartItems,
+        isOpen,
+        removeItem,
+        incrementQuantity,
+        decrementQuantity,
+        getTotalItems,
+        getTotalPrice,
+        openCart,
+        closeCart,
+        removeAll,
+      } = useCartStore();
   return (
     <div className="flex flex-col md:flex-row items-start mt-5 gap-6">
       {/* Colonne gauche: espace publicitaire / promotions */}
@@ -23,56 +37,31 @@ const CartPage = () => {
             {/* Liste des produits */}
             <div className="space-y-3">
               {/* Ici tu map tes items du panier */}
+               {cartItems.length === 0 ? (
+            <div className="px-4 py-8 text-center">
+              <ShoppingCart className="h-12 w-12 mx-auto mb-2 text-muted-foreground opacity-50" />
+              <p className="text-sm text-muted-foreground">
+                Your cart is empty
+              </p>
+            </div>
+          ) : (
+            cartItems.map((item) => (
               <ProductItem
-                id="1"
-                nom="Électronique"
-                image="/images/article1.jpg"
-                description="Ordinateurs portables"
-                prix={4500}
-                quantite={1}
-                showQuantityControl
-                onClick={(id: string) => console.log("Clicked:", id)}
+                key={item.id}
+                id={item.id}
+                nom={item.name}
+                image={item.image}
+                description={item?.description}
+                prix={item.price}
+                quantite={item.quantity}
+                showQuantityControl={true}
+                onClick={() => console.log("Clicked:", item.id)}
+                incrementQuantity={() => incrementQuantity(item.id)}
+                decrementQuantity={() => decrementQuantity(item.id)}
+                removeItem={() => removeItem(item.id)}
               />
-              <ProductItem
-                id="1"
-                nom="Électronique"
-                image="/images/article1.jpg"
-                description="Ordinateurs portables"
-                prix={4500}
-                quantite={1}
-                showQuantityControl
-                onClick={(id: string) => console.log("Clicked:", id)}
-              />
-              <ProductItem
-                id="1"
-                nom="Électronique"
-                image="/images/article1.jpg"
-                description="Ordinateurs portables"
-                prix={4500}
-                quantite={1}
-                showQuantityControl
-                onClick={(id: string) => console.log("Clicked:", id)}
-              />
-              <ProductItem
-                id="1"
-                nom="Électronique"
-                image="/images/article1.jpg"
-                description="Ordinateurs portables"
-                prix={4500}
-                quantite={1}
-                showQuantityControl
-                onClick={(id: string) => console.log("Clicked:", id)}
-              />
-              <ProductItem
-                id="1"
-                nom="Électronique"
-                image="/images/article1.jpg"
-                description="Ordinateurs portables"
-                prix={4500}
-                quantite={1}
-                showQuantityControl
-                onClick={(id: string) => console.log("Clicked:", id)}
-              />
+            ))
+          )}
             </div>
           </div>
         </main>

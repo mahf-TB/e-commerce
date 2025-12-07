@@ -1,14 +1,14 @@
 // Types relatifs à l'authentification et à l'utilisateur
 export interface User {
-  id?: string;
-  username?: string;
-  email?: string;
-  role:string;
+  id: string;
+  username: string;
+  email: string;
+  role:Role;
   photo?: string;
   [key: string]: any;
 }
 
-type Role = "admin" | "user" | "guest";
+type Role = "admin" | "manager" | "guest" | "customer";
 
 export interface AuthenticatedUser extends User {
   role: Role;

@@ -76,3 +76,25 @@ export function getStatusColorClass(statut: CommandeDetail["statut"]) {
   }
 
 }
+
+
+  // Fonction pour masquer une partie de l'email
+export const maskEmail = (email: string): string => {
+  return email ? `${email.substring(0, 1)}${'*'.repeat(8)}@${email.split('@')[1]}` : '';
+};
+
+
+export const getFullName = (data: { prenom?: string; nom?: string; username?: string }): string => {
+  return data?.username || `${data?.prenom || ""} ${data?.nom || ""}`.trim() || "Utilisateur";
+};
+
+
+
+export  const fallbackAvatar = (data: { prenom?: string; nom?: string; username?: string; email?: string }) => {
+    if (!data) return "";
+    if (data.username) return data.username.slice(0, 2).toUpperCase();
+    const first = (data.prenom || "").trim().charAt(0);
+    const last = (data.nom || "").trim().charAt(0);
+    const initials = (first + last).toUpperCase();
+    return initials || (data.email?.charAt(0).toUpperCase() ?? "");
+  };

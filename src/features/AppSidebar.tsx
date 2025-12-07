@@ -33,6 +33,8 @@ import { NavLink, useLocation, useNavigate } from "react-router-dom";
 import { logout } from "@/services/authService";
 import { useAuthInvalidate } from "@/hooks/use-auth-invalidate";
 import useAuthUser from "@/hooks/use-auth-user";
+import { fallbackAvatar, getFullName, maskEmail } from "@/utils/helpers";
+import UserAvatar from "@/components/user-avatar";
 
 const items = [
   { title: "Dashboard", url: "/admin/dashboard", icon: Home },
@@ -49,23 +51,26 @@ const items2 = [
 
 export function AppSidebar() {
   const { pathname } = useLocation();
-   const { removeAuthUser } = useAuthInvalidate();
-     const { data : user, isAuthenticated, isLoading } = useAuthUser();
+  const { removeAuthUser } = useAuthInvalidate();
+  const { data: user, isAuthenticated, isLoading } = useAuthUser();
   const navigate = useNavigate();
-    const handleLogout = async () => {
-      try {
-         logout();
-        navigate("/admin-login");
-          removeAuthUser();
-      } catch (error) {}
-    };
+  const handleLogout = async () => {
+    try {
+      logout();
+      navigate("/admin-login");
+      removeAuthUser();
+    } catch (error) {}
+  };
   return (
     <Sidebar className="text-white">
       <div className="bg-gray-950 absolute inset-0 z-0" />
       <SidebarHeader className="z-50">
         {/* Logo or title */}
         <div className="flex items-end justify-between gap-4 p-3 pr-1">
-          <div className="flex items-center gap-2 text-xl">
+          <div
+            onClick={() => navigate("/")}
+            className="flex items-center gap-2 text-xl cursor-pointer"
+          >
             <ShoppingBag className="" size={22} />
             <h1 className="font-poppins font-black">Mark-E</h1>
           </div>
@@ -85,7 +90,7 @@ export function AppSidebar() {
                 return (
                   <SidebarMenuItem key={item.title}>
                     <SidebarMenuButton
-                     className={`
+                      className={`
                         transition-colors
                         ${isActive ? "bg-gray-900 text-white" : "text-gray-400"}
                         hover:bg-gray-800 hover:text-white
@@ -146,16 +151,14 @@ export function AppSidebar() {
         {/* Maybe a settings button or profile */}
         <div className="px-2 flex items-center justify-between">
           <div className="py-2 flex items-center gap-2 overflow-hidden">
-            <Avatar>
-              <AvatarImage src={user?.avatarUrl ?? "https://github.com/shadcn.png"} />
-              <AvatarFallback>CN</AvatarFallback>
-            </Avatar>
+            <UserAvatar
+              size={32}
+              src={user?.photo}
+              fallback={fallbackAvatar(user)}
+            />
             <div className="hidden md:block">
-              <p className="text-sm font-medium">
-                 {`${user?.prenom || ""} ${user?.nom || ""}`.trim() ||
-                    user?.username}
-              </p>
-              <p className="text-xs line-clamp-1">{user?.email + "ma@exemple.com"}</p>
+              <p className="text-sm font-medium">{getFullName(user)}</p>
+              <p className="text-xs line-clamp-1">{maskEmail(user?.email)}</p>
             </div>
           </div>
           <Dropdown
@@ -167,13 +170,14 @@ export function AppSidebar() {
             }
           >
             <DropdownItems
-              title="Abraham Illcoon"
-              description="ma@exemple.com"
+              title={getFullName(user)}
+              description={maskEmail(user?.email)}
               icon={
-                <Avatar className="rounded-lg">
-                  <AvatarImage src="https://github.com/shadcn.png" />
-                  <AvatarFallback>CN</AvatarFallback>
-                </Avatar>
+                <UserAvatar
+              size={32}
+              src={user?.photo}
+              fallback={fallbackAvatar(user)}
+            />
               }
             />
             <DropdownMenuSeparator />

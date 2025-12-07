@@ -6,18 +6,19 @@ import { Button } from "@/components/ui/button";
 import { Minus, Plus, X } from "lucide-react";
 
 type ProductCheckoutItemProps = {
-  id: string;
+  id: string | number;
   nom: string;
   image: string;
-  description: string;
+  description?: string;
   prix: number;
   quantite?: number;
   total?: number;
-  onRemove?: (id: string) => void;
-  onQuantityChange?: (id: string, quantity: number) => void;
-  onClick?: (id: string) => void;
+  onClick?: () => void;
   containerClassName?: string;
   showQuantityControl?: boolean;
+  incrementQuantity?: () => void;
+  decrementQuantity?: () => void;
+  removeItem?: () => void;
 };
 
 export default function ProductItem({
@@ -28,32 +29,16 @@ export default function ProductItem({
   prix,
   quantite = 4,
   total,
-  onRemove,
-  onQuantityChange,
   onClick,
   containerClassName,
   showQuantityControl = true,
+  incrementQuantity,
+  decrementQuantity,
+  removeItem,
 }: ProductCheckoutItemProps) {
   const totalPrice = total ?? prix * quantite;
 
-  const handleClick = () => {
-    onClick?.(id);
-  };
 
-  const handleRemove = (e: React.MouseEvent) => {
-    e.stopPropagation();
-    onRemove?.(id);
-  };
-
-  const handleQuantityChange = (
-    e: React.ChangeEvent<HTMLInputElement>,
-    newQuantity: number
-  ) => {
-    e.stopPropagation();
-    if (newQuantity > 0) {
-      onQuantityChange?.(id, newQuantity);
-    }
-  };
 
   return (
     <div
@@ -61,14 +46,9 @@ export default function ProductItem({
         "relative flex items-center gap-4 p-2 rounded border border-transparent hover:border-border hover:bg-accent transition-all  group",
         containerClassName
       )}
-      onClick={handleClick}
+      onClick={onClick}
       role="button"
       tabIndex={0}
-      onKeyDown={(e) => {
-        if (e.key === "Enter" || e.key === " ") {
-          handleClick();
-        }
-      }}
     >
       {/* Image produit */}
       <div className="relative shrink-0">
@@ -90,7 +70,7 @@ export default function ProductItem({
 
         {/* Quantité + Prix unitaire */}
         <div className="flex items-center gap-2 text-xs">
-          <span className="text-muted-foreground">
+          <span className="text-foreground">
             {quantite}* {prix.toLocaleString("fr-FR")} Ar
           </span>
         </div>
@@ -106,7 +86,7 @@ export default function ProductItem({
             type="button"
             variant="destructive"
             size="sm"
-            onClick={handleRemove}
+            onClick={removeItem}
             className="absolute -top-2 -right-2 h-6 w-6 p-0 opacity-0 group-hover:opacity-100 transition-opacity rounded-2xl"
           >
             <X size={10} />
@@ -119,10 +99,7 @@ export default function ProductItem({
             <Button
               type="button"
               size="sm"
-              onClick={(e) => {
-                e.stopPropagation();
-                onQuantityChange?.(id, quantite - 1);
-              }}
+              onClick={decrementQuantity}
               className="h-6 w-6 text-muted hover:text-muted/50"
               disabled={quantite <= 1}
             >
@@ -131,19 +108,16 @@ export default function ProductItem({
             <input
               type="text"
               value={quantite}
-              onChange={(e) =>
-                handleQuantityChange(e, parseInt(e.target.value) || 1)
-              }
+              // onChange={(e) =>
+              //   handleQuantityChange(e, parseInt(e.target.value) || 1)
+              // }
               className="w-8 text-center text-xs bg-transparent border-0 outline-none"
               min="1"
             />
             <Button
               type="button"
               size="sm"
-              onClick={(e) => {
-                e.stopPropagation();
-                onQuantityChange?.(id, quantite + 1);
-              }}
+              onClick={incrementQuantity}
               className="h-6 w-6 text-muted hover:text-muted/50"
             >
               <Plus size={14} />

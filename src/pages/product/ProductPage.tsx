@@ -1,7 +1,7 @@
 import { Card } from "@/components/ui/card";
-import { FeaturedSection } from "@/features/products/FeaturedSection";
-import { PriceFilter } from "@/features/products/PriceFilter";
-import { ProductFilters } from "@/features/products/ProductFilters";
+import { FeaturedSection } from "@/features/products/listGrid/FeaturedSection";
+import { PriceFilter } from "@/features/products/listGrid/PriceFilter";
+import { ProductFilters } from "@/features/products/listGrid/ProductFilters";
 import { ListCheck } from "lucide-react";
 import {
   Sheet,

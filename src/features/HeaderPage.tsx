@@ -10,6 +10,7 @@ import {
   Package,
   ShieldUser,
   ShoppingBag,
+  ShoppingCart,
   ShoppingCartIcon,
   UserCircle,
 } from "lucide-react";
@@ -23,12 +24,19 @@ import {
   DropdownMenuSeparator,
 } from "@/components/ui/dropdown-menu";
 import { useAuthInvalidate } from "@/hooks/use-auth-invalidate";
+import { fallbackAvatar, getFullName, maskEmail } from "@/utils/helpers";
+import CartPopover from "@/features/cart/PanierPopover";
+import { useCartStore } from "@/store/use-panier.store";
 
 const HeaderPage = () => {
   const navigate = useNavigate();
   const { removeAuthUser } = useAuthInvalidate();
   const { data, isAuthenticated, isLoading } = useAuthUser();
   const [dropdownOpen, setDropdownOpen] = useState(false);
+   const {
+      cartItems
+    } = useCartStore();
+console.log(cartItems);
 
   const handleLogout = async () => {
     try {
@@ -38,14 +46,6 @@ const HeaderPage = () => {
     } catch (error) {}
   };
 
-  const fallbackAvatar = () => {
-    if (!data) return "";
-    if (data.username) return data.username.slice(0, 2).toUpperCase();
-    const first = (data.prenom || "").trim().charAt(0);
-    const last = (data.nom || "").trim().charAt(0);
-    const initials = (first + last).toUpperCase();
-    return initials || (data.email?.charAt(0).toUpperCase() ?? "");
-  };
   if (isLoading) return null; // ou un indicateur de chargement
 
   return (
@@ -65,13 +65,18 @@ const HeaderPage = () => {
           </Button>
         </div>
         <div className="flex items-center gap-2 md:gap-5 justify-end">
-          <Tooltips text="Panier">
-            <BadgeButton
-              icon={ShoppingCartIcon}
-              count={7}
-              onClick={() => console.log("Notifications")}
-            />
-          </Tooltips>
+          {/* Badge Button Panier */}
+
+          <CartPopover
+            tooltipLabel="Panier"
+            btnShow={
+              <BadgeButton
+                icon={ShoppingCartIcon}
+                count={cartItems.length}
+              />
+            }
+          />
+          {/* Button Notification */}
           <Tooltips text="Notifications">
             <BadgeButton
               icon={Bell}
@@ -79,6 +84,7 @@ const HeaderPage = () => {
               onClick={() => console.log("Notifications")}
             />
           </Tooltips>
+          {/* User Logo and btn connexion */}
           {isAuthenticated ? (
             <Tooltips text="Profile">
               <div
@@ -88,7 +94,7 @@ const HeaderPage = () => {
                 <UserAvatar
                   size={32}
                   src={data?.photo}
-                  fallback={fallbackAvatar()}
+                  fallback={fallbackAvatar(data)}
                 />
               </div>
             </Tooltips>
@@ -109,16 +115,15 @@ const HeaderPage = () => {
               <UserAvatar
                 size={32}
                 src={data?.photo}
-                fallback={fallbackAvatar()}
+                fallback={fallbackAvatar(data)}
                 fallbackClassName="bg-gray-50 text-gray-900"
               />
               <div className="flex min-w-0 flex-col">
                 <span className="truncate font-medium text-sm text-white">
-                  {`${data?.prenom || ""} ${data?.nom || ""}`.trim() ||
-                    data?.username}
+                  {getFullName(data)}
                 </span>
                 <span className="truncate font-normal text-muted/70 text-xs">
-                  {data?.email}
+                  {maskEmail(data?.email)}
                 </span>
               </div>
             </DropdownMenuLabel>
@@ -140,6 +145,11 @@ const HeaderPage = () => {
               icon={<Package size={18} />}
               title="Commandes"
               onClick={() => navigate("/account/orders")}
+            />
+            <DropdownItems
+              icon={<ShoppingCart size={18} />}
+              title="Panier"
+              onClick={() => navigate("/cart")}
             />
             <DropdownItems
               icon={<Package size={18} />}
