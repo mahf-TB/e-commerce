@@ -1,6 +1,6 @@
 // src/layouts/UserLayout.tsx
-import { AutoBreadcrumb } from "@/components/AutoBreadcrumb";
 import HeaderPage from "@/features/HeaderPage";
+import { NavbarMenu } from "@/features/NavbarMenu";
 import { cn } from "@/lib/utils";
 import { Outlet, useLocation } from "react-router-dom";
 // import Navbar from "../components/Navbar";
@@ -15,11 +15,18 @@ const UserLayout = () => {
       )}
     >
       <div className="w-full">
-        <HeaderPage />
+        <div className="sticky top-0 z-50">
+          <HeaderPage />
+          <div className="w-full bg-white z-50 border-b border-gray-300 ">
+            <div className="container mx-auto">
+              <NavbarMenu />
+            </div>
+          </div>
+        </div>
         <main className={cn("container mx-auto p-4")}>
-          {location.pathname !== "/" &&
+          {/* {location.pathname !== "/" &&
             location.pathname !== "/checkout" &&
-            location.pathname !== "/sign-in" && <AutoBreadcrumb />}
+            location.pathname !== "/sign-in" && <AutoBreadcrumb />} */}
 
           <Outlet />
         </main>

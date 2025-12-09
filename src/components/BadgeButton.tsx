@@ -6,7 +6,7 @@ import { cn } from "@/lib/utils";
 
 export type BadgeButtonProps = Omit<React.ComponentProps<typeof Button>, "children"> & {
   icon: LucideIcon;
-  count?: number;
+  count?: number | undefined;
   showBadge?: boolean;
   badgeClassName?: string;
 };
@@ -24,7 +24,7 @@ export const BadgeButton = React.forwardRef<HTMLButtonElement, BadgeButtonProps>
       >
         <Icon aria-hidden="true" size={20} />
 
-        {(showBadge && count && count > 0) && (
+        {showBadge && count && count > 0 && (
           <Badge variant={"destructive"} className={cn("-top-2 -translate-x-1/2 absolute left-full min-w-5 px-1", badgeClassName)}>
             {count > 99 ? "99+" : count}
           </Badge>

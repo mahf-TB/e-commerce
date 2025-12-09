@@ -1,14 +1,15 @@
 // store/useCartStore.ts
-import { create } from 'zustand';
-import { persist } from 'zustand/middleware';
+import { create } from "zustand";
+import { persist } from "zustand/middleware";
 
 export interface CartItem {
-  id: number | string; 
-  name: string;
-  price: number;
+  id: number | string; //Produit ID
+  name: string; //Produit nom + variante
+  price: number; //Prix unitaire du variant produit
   description?: string;
-  quantity: number;
-  image: string;
+  quantity: number; //Quantité ajoutée au panier
+  image: string; //URL de l'image du produit
+  variantId: number | string; //ID de la variante sélectionnée
 }
 
 interface CartStore {
@@ -18,10 +19,14 @@ interface CartStore {
 
   // ===== ACTIONS PRINCIPALES =====
   addItem: (item: CartItem) => void;
-  removeItem: (id: number | string) => void;
-  updateQuantity: (id: number | string, quantity: number) => void;
-  incrementQuantity: (id: number | string) => void;
-  decrementQuantity: (id: number | string) => void;
+  removeItem: (id: number | string, variantId: number | string) => void;
+  updateQuantity: (
+    id: number | string,
+    variantId: number | string,
+    quantity: number
+  ) => void;
+  incrementQuantity: (id: number | string, variantId: number | string) => void;
+  decrementQuantity: (id: number | string, variantId: number | string) => void;
   clearCart: () => void;
   removeAll: () => void;
 
@@ -34,7 +39,7 @@ interface CartStore {
   getTotalItems: () => number;
   getTotalPrice: () => number;
   getCartItems: () => CartItem[];
-  getItemCount: (id: number | string) => number;
+  getItemCount: (id: number | string, variantId: number | string) => number;
 }
 
 export const useCartStore = create<CartStore>()(
@@ -47,54 +52,62 @@ export const useCartStore = create<CartStore>()(
       // ===== AJOUTER UN ARTICLE AU PANIER =====
       addItem: (item: CartItem) =>
         set((state) => {
-          const existingItem = state.cartItems.find((i) => i.id === item.id);
-          
+          const existingItem = state.cartItems.find(
+            (i) => i.id === item.id && i.variantId === item.variantId
+          );
+
           // Si l'article existe déjà, incrémenter sa quantité
           if (existingItem) {
             return {
               cartItems: state.cartItems.map((i) =>
-                i.id === item.id
+                i.id === item.id && i.variantId === item.variantId
                   ? { ...i, quantity: i.quantity + item.quantity }
                   : i
               ),
             };
           }
-          
+
           // Sinon, ajouter le nouvel article
           return { cartItems: [...state.cartItems, item] };
         }),
 
       // ===== SUPPRIMER UN ARTICLE =====
-      removeItem: (id: number | string) =>
+      removeItem: (id: number | string, variantId: number | string) =>
         set((state) => ({
-          cartItems: state.cartItems.filter((item) => item.id !== id),
+          cartItems: state.cartItems.filter(
+            (item) => !(item.id === id && item.variantId === variantId)
+          ),
         })),
 
       // ===== METTRE À JOUR LA QUANTITÉ (DIRECT) =====
-      updateQuantity: (id: number | string, quantity: number) =>
+      updateQuantity: (
+        id: number | string,
+        variantId: number | string,
+        quantity: number
+      ) =>
         set((state) => ({
           cartItems: state.cartItems.map((item) =>
-            item.id === id && quantity > 0
+            item.id === id && item.variantId === variantId && quantity > 0
               ? { ...item, quantity }
               : item
           ),
         })),
 
       // ===== INCRÉMENTER LA QUANTITÉ +1 =====
-      incrementQuantity: (id: number | string) =>
+      incrementQuantity: (id: number | string, variantId: number | string) =>
         set((state) => ({
           cartItems: state.cartItems.map((item) =>
-            item.id === id
+            item.id === id && item.variantId === variantId
               ? { ...item, quantity: item.quantity + 1 }
               : item
           ),
         })),
 
       // ===== DÉCRÉMENTER LA QUANTITÉ -1 =====
-      decrementQuantity: (id: number | string) =>
+      decrementQuantity: (id: number | string, variantId: number | string) =>
         set((state) => ({
           cartItems: state.cartItems.map((item) =>
-            item.id === id && item.quantity > 1
+            item.id === id && item.variantId === variantId && item.quantity > 1
               ? { ...item, quantity: item.quantity - 1 }
               : item
           ),
@@ -130,8 +143,10 @@ export const useCartStore = create<CartStore>()(
       getCartItems: () => get().cartItems,
 
       // ===== OBTENIR LA QUANTITÉ D'UN ARTICLE SPÉCIFIQUE =====
-      getItemCount: (id: number | string) => {
-        const item = get().cartItems.find((i) => i.id === id);
+      getItemCount: (id: number | string, variantId: number | string) => {
+        const item = get().cartItems.find(
+          (i) => i.id === id && i.variantId === variantId
+        );
         return item ? item.quantity : 0;
       },
     }),

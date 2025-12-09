@@ -35,8 +35,8 @@ export function EmptyState({
 }: EmptyStateProps) {
   return (
     <Empty>
-      <EmptyHeader>
-        {media && <EmptyMedia variant="icon">{media}</EmptyMedia>}
+      <EmptyHeader className="text-gray-500">
+        {media && <EmptyMedia variant="icon" className="text-gray-500">{media}</EmptyMedia>}
         <EmptyTitle>{title}</EmptyTitle>
         {description && <EmptyDescription>{description}</EmptyDescription>}
       </EmptyHeader>

@@ -8,6 +8,7 @@ export type ProductListItem = {
   description?: string | null;
   imagePrincipale: string | null;
   variantsCount: number;
+  variantId: string | number;
   statut: "active" | "inactive" | "archived";
   stockTotal: number;
   minPrice: number;
@@ -19,7 +20,7 @@ export type ProductListItem = {
 
 
 export type Produit = {
-  id: string;
+  id: string | number;
   nom: string;
   description: string;
   statut: "active" | "inactive" | "archived";
@@ -35,7 +36,8 @@ export type Produit = {
 
 
 export type VariantProduct = {
-  id: string;
+  _id?: string | number;
+  id?: string;
   variant: string;
   code: string;
   prixUnitaire: number;
@@ -47,6 +49,7 @@ export type VariantProduct = {
 
 
 export type Image = {
+  _id:string;
   url: string;
   isPrincipale: boolean;
   alt: string;

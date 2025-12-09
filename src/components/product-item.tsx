@@ -4,6 +4,7 @@ import { cn } from "@/lib/utils";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Minus, Plus, X } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
 type ProductCheckoutItemProps = {
   id: string | number;
@@ -18,6 +19,7 @@ type ProductCheckoutItemProps = {
   showQuantityControl?: boolean;
   incrementQuantity?: () => void;
   decrementQuantity?: () => void;
+  updateQuantity?: (quantity: number) => void;
   removeItem?: () => void;
 };
 
@@ -34,11 +36,11 @@ export default function ProductItem({
   showQuantityControl = true,
   incrementQuantity,
   decrementQuantity,
+  updateQuantity,
   removeItem,
 }: ProductCheckoutItemProps) {
   const totalPrice = total ?? prix * quantite;
-
-
+  const navigate = useNavigate();
 
   return (
     <div
@@ -61,16 +63,15 @@ export default function ProductItem({
 
       {/* Contenu produit */}
       <div className="flex-1 min-w-0 space-y-1">
-        <h3 className="font-medium text-sm text-foreground hover:underline truncate cursor-pointer">
+        <p
+          onClick={() => navigate(`/products/${id}`)}
+          className="font-medium text-sm text-foreground hover:underline  cursor-pointer line-clamp-2"
+        >
           {nom}
-        </h3>
-        <p className="text-xs text-muted-foreground line-clamp-1">
-          {description}
         </p>
-
         {/* Quantité + Prix unitaire */}
         <div className="flex items-center gap-2 text-xs">
-          <span className="text-foreground">
+          <span className="text-muted-foreground">
             {quantite}* {prix.toLocaleString("fr-FR")} Ar
           </span>
         </div>
@@ -95,7 +96,7 @@ export default function ProductItem({
         </div>
 
         {showQuantityControl && (
-          <div className="flex items-center gap-0 bg-secondary rounded px-2 py-1">
+          <div className="flex items-center gap-0  rounded px-2 py-1">
             <Button
               type="button"
               size="sm"
@@ -108,9 +109,9 @@ export default function ProductItem({
             <input
               type="text"
               value={quantite}
-              // onChange={(e) =>
-              //   handleQuantityChange(e, parseInt(e.target.value) || 1)
-              // }
+              onChange={(e) =>
+                updateQuantity && updateQuantity(parseInt(e.target.value) || 1)
+              }
               className="w-8 text-center text-xs bg-transparent border-0 outline-none"
               min="1"
             />

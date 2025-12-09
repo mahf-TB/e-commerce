@@ -6,7 +6,6 @@ export function ProductCardSkeleton() {
     <Card className="flex flex-col rounded-sm shadow-none overflow-hidden p-0 gap-0">
       {/* Image */}
       <Skeleton className="h-52 w-full rounded-none rounded-t-sm" />
-
       <div className="px-4 py-4 space-y-3">
         {/* Titre */}
         <Skeleton className="h-4 w-2/3" />

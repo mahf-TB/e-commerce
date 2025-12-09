@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from "react";
+import React, { useCallback } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import { Expand, Shrink, X } from "lucide-react";
 import { cn } from "@/lib/utils";

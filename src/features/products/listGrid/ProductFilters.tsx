@@ -1,44 +1,55 @@
 "use client";
 
-import { useState } from "react";
 import { Checkbox } from "@/components/ui/checkbox"; // chemin généré par shadcn
-// import tes produits depuis ton API ou un hook
+import type { SelectOption } from "@/components/select-form";
+import { useState } from "react";
+import { Minus, Plus } from "lucide-react";
+import { Button } from "@/components/ui/button";
 
-type Brand = { value: number | string; label: string };
-type Category = { value: number | string; label: string };
+export type ProductFiltersProps = {
+  selectedBrands: (number | string)[];
+  selectedCategories: (number | string)[];
+  categoriesOptions: SelectOption[];
+  marquesOptions: SelectOption[];
+  onChange: (filters: {
+    brands: (number | string)[];
+    categories: (number | string)[];
+  }) => void;
+};
 
-const brands: Brand[] = [
-  { value: 1, label: "Samsung" },
-  { value: 2, label: "Apple" },
-  { value: 3, label: "Sony" },
-  { value: 4, label: "LG" },
-  { value: 5, label: "Xiaomi" },
-];
+export function ProductFilters({
+  selectedBrands,
+  selectedCategories,
+  categoriesOptions,
+  marquesOptions,
+  onChange,
+}: ProductFiltersProps) {
+  const [showAllBrands, setShowAllBrands] = useState(false);
+  const [showAllCategories, setShowAllCategories] = useState(false);
 
-const categories: Category[] = [
-  { value: 1, label: "Smartphones" },
-  { value: 2, label: "Ordinateurs portables" },
-  { value: 3, label: "Tablettes" },
-  { value: 4, label: "Télévisions" },
-  { value: 5, label: "Casques audio" },
-  { value: 6, label: "Enceintes" },
-  { value: 7, label: "Accessoires (câbles, chargeurs…)" },
-];
+  const BRAND_LIMIT = 6;
+  const CATEGORY_LIMIT = 6;
 
-export function ProductFilters() {
-  const [selectedBrands, setSelectedBrands] = useState<(number | string)[]>([]);
-  const [selectedCategories, setSelectedCategories] = useState<(number | string)[]>([]);
+  const displayedBrands = showAllBrands
+    ? marquesOptions
+    : marquesOptions.slice(0, BRAND_LIMIT);
+
+  const displayedCategories = showAllCategories
+    ? categoriesOptions
+    : categoriesOptions.slice(0, CATEGORY_LIMIT);
 
   const toggleBrand = (brand: number | string) => {
-    setSelectedBrands((prev) =>
-      prev.includes(brand) ? prev.filter((b) => b !== brand) : [...prev, brand]
-    );
+    const next = selectedBrands.includes(brand)
+      ? selectedBrands.filter((b) => b !== brand)
+      : [...selectedBrands, brand];
+    onChange({ brands: next, categories: selectedCategories });
   };
 
   const toggleCategory = (cat: number | string) => {
-    setSelectedCategories((prev) =>
-      prev.includes(cat) ? prev.filter((c) => c !== cat) : [...prev, cat]
-    );
+    const next = selectedCategories.includes(cat)
+      ? selectedCategories.filter((c) => c !== cat)
+      : [...selectedCategories, cat];
+    onChange({ brands: selectedBrands, categories: next });
   };
 
   return (
@@ -47,7 +58,7 @@ export function ProductFilters() {
       <div>
         <h3 className="font-semibold mb-2 font-poppins">Marques</h3>
         <div className="space-y-1">
-          {brands.map((brand) => (
+          {displayedBrands.map((brand) => (
             <label key={brand.value} className="flex items-center gap-2">
               <Checkbox
                 checked={selectedBrands.includes(brand.value)}
@@ -56,6 +67,27 @@ export function ProductFilters() {
               <span className="text-sm">{brand.label}</span>
             </label>
           ))}
+          
+          {marquesOptions.length > BRAND_LIMIT && (
+            <button
+              // variant={"link"}
+              type="button"
+              onClick={() => setShowAllBrands((v) => !v)}
+              className="text-xs text-blue-500 p-0 hover:underline"
+            >
+              {showAllBrands ? (
+                <span className="flex items-center gap-1">
+                  <Minus size={12} />
+                  Voir moins
+                </span>
+              ) : (
+                <span className="flex items-center gap-1">
+                  <Plus size={12} />
+                  Voir plus
+                </span>
+              )}
+            </button>
+          )}
         </div>
       </div>
 
@@ -63,7 +95,7 @@ export function ProductFilters() {
       <div>
         <h3 className="font-semibold mb-2 font-poppins">Catégories</h3>
         <div className="space-y-1">
-          {categories.map((cat) => (
+          {displayedCategories.map((cat) => (
             <label key={cat.value} className="flex items-center gap-2">
               <Checkbox
                 checked={selectedCategories.includes(cat.value)}
@@ -72,6 +104,25 @@ export function ProductFilters() {
               <span className="text-sm">{cat.label}</span>
             </label>
           ))}
+          {categoriesOptions.length > CATEGORY_LIMIT && (
+            <button
+              type="button"
+              onClick={() => setShowAllCategories((v) => !v)}
+              className="text-xs text-blue-500 p-0 hover:underline"
+            >
+              {showAllCategories ? (
+                <span className="flex items-center gap-1">
+                  <Minus size={12} />
+                  Voir moins
+                </span>
+              ) : (
+                <span className="flex items-center gap-1">
+                  <Plus size={12} />
+                  Voir plus
+                </span>
+              )}
+            </button>
+          )}
         </div>
       </div>
     </div>

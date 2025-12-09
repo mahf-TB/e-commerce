@@ -3,7 +3,7 @@ import type { CommandeDetail, StatutCommande } from "@/types";
 
 // Formater un prix en USD
 export const formatPrice = (price: number): string => {
-  return price.toLocaleString(undefined, {
+  return price.toLocaleString("fr-FR", {
     style: "currency",
     currency: "MGA",
     minimumFractionDigits: 0,

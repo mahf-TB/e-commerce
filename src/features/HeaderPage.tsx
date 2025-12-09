@@ -1,8 +1,20 @@
 import { BadgeButton } from "@/components/BadgeButton";
+import Dropdown, { DropdownItems } from "@/components/dropdown";
 import SearchInput from "@/components/search-input";
 import Tooltips from "@/components/tooltips";
 import { Button } from "@/components/ui/button";
+import {
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+} from "@/components/ui/dropdown-menu";
+import { Highlighter } from "@/components/ui/highlighter";
 import UserAvatar from "@/components/user-avatar";
+import CartPopover from "@/features/cart/PanierPopover";
+import { useAuthInvalidate } from "@/hooks/use-auth-invalidate";
+import useAuthUser from "@/hooks/use-auth-user";
+import { logout } from "@/services/authService";
+import { useCartStore } from "@/store/use-panier.store";
+import { fallbackAvatar, getFullName, maskEmail } from "@/utils/helpers";
 import {
   Bell,
   Heart,
@@ -14,29 +26,15 @@ import {
   ShoppingCartIcon,
   UserCircle,
 } from "lucide-react";
-import { useNavigate } from "react-router-dom";
-import useAuthUser from "@/hooks/use-auth-user";
-import { logout } from "@/services/authService";
-import Dropdown, { DropdownItems } from "@/components/dropdown";
 import { useState } from "react";
-import {
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-} from "@/components/ui/dropdown-menu";
-import { useAuthInvalidate } from "@/hooks/use-auth-invalidate";
-import { fallbackAvatar, getFullName, maskEmail } from "@/utils/helpers";
-import CartPopover from "@/features/cart/PanierPopover";
-import { useCartStore } from "@/store/use-panier.store";
+import { useNavigate } from "react-router-dom";
 
 const HeaderPage = () => {
   const navigate = useNavigate();
   const { removeAuthUser } = useAuthInvalidate();
   const { data, isAuthenticated, isLoading } = useAuthUser();
   const [dropdownOpen, setDropdownOpen] = useState(false);
-   const {
-      cartItems
-    } = useCartStore();
-console.log(cartItems);
+  const { cartItems } = useCartStore();
 
   const handleLogout = async () => {
     try {
@@ -49,14 +47,18 @@ console.log(cartItems);
   if (isLoading) return null; // ou un indicateur de chargement
 
   return (
-    <div className="w-full bg-white z-50 border-b border-gray-300  sticky top-0">
+    <div className="w-full bg-white z-50 ">
       <div className="container mx-auto p-4 flex items-center justify-between gap-5 ">
         <div
           onClick={() => navigate("/")}
           className="flex items-center gap-2 text-xl cursor-pointer"
         >
           <ShoppingBag className="" size={22} />
-          <h1 className="font-poppins font-black whitespace-nowrap">Mark-E</h1>
+          <h1 className="font-poppins font-black whitespace-nowrap">
+            <Highlighter action="underline" color="#000000">
+              Mark-E
+            </Highlighter>
+          </h1>
         </div>
         <div className="relative w-xl flex items-center">
           <SearchInput placeholder="Rechercher un produit..." />
@@ -72,7 +74,7 @@ console.log(cartItems);
             btnShow={
               <BadgeButton
                 icon={ShoppingCartIcon}
-                count={cartItems.length}
+                count={cartItems.length || undefined}
               />
             }
           />

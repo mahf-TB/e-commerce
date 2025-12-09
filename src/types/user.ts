@@ -3,7 +3,7 @@ export interface User {
   id: string;
   username: string;
   email: string;
-  role:Role;
+  role: Role;
   photo?: string;
   [key: string]: any;
 }
@@ -14,10 +14,18 @@ export interface AuthenticatedUser extends User {
   role: Role;
 }
 
-export type AuthData = { token?: string | null; user?: User | null } | null | undefined;
+export type AuthData =
+  | {
+      token?: string | null;
+      user?: User | null;
+    }
+  | null
+  | undefined;
 
-export type GoogleCredentialResponse = { credential?: string } | null | undefined;
-
+export type GoogleCredentialResponse =
+  | { credential?: string }
+  | null
+  | undefined;
 
 export type LoginCredentials = {
   email: string;
@@ -34,4 +42,3 @@ export type RegisterPayload = {
   telephone?: string;
   // ajoutez d'autres champs si votre backend l'exige
 };
-

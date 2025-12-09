@@ -1,26 +1,26 @@
 // src/routes/AppRoutes.tsx
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import UserLayout from "@/layouts/UserLayout";
+import AccountLayout from "@/layouts/AccountLayout";
 import AdminLayout from "@/layouts/AdminLayout";
-import HomePage from "@/pages/home/HomePage";
-import ProductPage from "@/pages/product/ProductPage";
+import UserLayout from "@/layouts/UserLayout";
+import AccountPage from "@/pages/account/AccountPage";
+import MyOrderPage from "@/pages/account/myOrders/MyOrderPage";
+import Commande from "@/pages/admin/commandes/Commande";
+import Customer from "@/pages/admin/Customer/Customer";
+import AdminDashboard from "@/pages/admin/dashboard/AdminDashboard";
+import AddProduct from "@/pages/admin/ProduitGerer/AddProduct";
+import Products from "@/pages/admin/ProduitGerer/Products";
 import CartPage from "@/pages/cart/CartPage";
 import CheckoutPage from "@/pages/checkout/CheckoutPage";
-import AdminDashboard from "@/pages/admin/dashboard/AdminDashboard";
-import Commande from "@/pages/admin/commandes/Commande";
-import PrivateRoutes from "./PrivateRoutes";
-import ProductItemsPage from "@/pages/product/ProductItemsPage";
-import AccountPage from "@/pages/account/AccountPage";
 import LoginPage from "@/pages/connexion/ConnexionPage";
 import LoginAdmin from "@/pages/connexion/LoginAdmin";
+import HomePage from "@/pages/home/HomePage";
 import NotFoundPage from "@/pages/NotFoundPage";
-import AccountLayout from "@/layouts/AccountLayout";
-import MyOrderPage from "@/pages/account/myOrders/MyOrderPage";
-import PublicRoutes from "./PublicRoutes";
+import ProductItemsPage from "@/pages/product/ProductItemsPage";
+import ProductPage from "@/pages/product/ProductPage";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import AdminRoutes from "./AdminRoutes";
-import Products from "@/pages/admin/ProduitGerer/Products";
-import Customer from "@/pages/admin/Customer/Customer";
-import AddProduct from "@/pages/admin/ProduitGerer/AddProduct";
+import PrivateRoutes from "./PrivateRoutes";
+import PublicRoutes from "./PublicRoutes";
 
 const router = createBrowserRouter([
   {
@@ -38,6 +38,8 @@ const router = createBrowserRouter([
       },
       { path: "products", element: <ProductPage /> },
       { path: "products/:id", element: <ProductItemsPage /> },
+      { path: "category", element: <HomePage /> },
+      { path: "category/:id", element: <HomePage /> },
       { path: "cart", element: <CartPage /> },
       {
         path: "account",

@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import {
   Breadcrumb,
@@ -7,14 +7,15 @@ import {
   BreadcrumbList,
   BreadcrumbPage,
   BreadcrumbSeparator,
-} from "@/components/ui/breadcrumb"
-import { useLocation, useParams } from "react-router-dom"
-import { useEffect, useState } from "react"
+} from "@/components/ui/breadcrumb";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { useProduct } from "@/hooks/use-product";
 
 type BreadcrumbRoute = {
-  label: string
-  href?: string
-}
+  label: string;
+  href?: string;
+};
 
 const routeLabels: Record<string, string> = {
   products: "Produits",
@@ -47,71 +48,72 @@ const routeLabels: Record<string, string> = {
   dashboard: "Tableau de bord",
   admin: "Admin",
   vendors: "Fournisseurs",
-}
+};
 
 export function AutoBreadcrumb() {
-  const location = useLocation()
-  const { id } = useParams<{ id: string }>()
-  const [productName, setProductName] = useState<string | null>(null)
-  const [loading, setLoading] = useState(false)
+  const navigate = useNavigate();
+  const location = useLocation();
+  const { id } = useParams<{ id: string }>();
+  const shouldFetchProduct = Boolean(
+    id && location.pathname.includes("/products/")
+  );
+  const { data, isLoading } = useProduct(shouldFetchProduct ? id : undefined);
+  const [productName, setProductName] = useState<string | null>(null);
 
-  // Récupérer le nom du produit
   useEffect(() => {
-    if (id && location.pathname.includes("/products/")) {
-      setLoading(true)
-      fetch(`/api/products/${id}`)
-        .then((res) => res.json())
-        .then((data) => {
-          setProductName(data.nom)
-        })
-        .catch(() => {
-          setProductName(null)
-        })
-        .finally(() => setLoading(false))
+    if (!shouldFetchProduct) {
+      setProductName(null);
+      return;
     }
-  }, [id, location.pathname])
+
+    if (data?.nom) {
+      setProductName(data.nom);
+    } else if (!isLoading) {
+      setProductName(null);
+    }
+  }, [shouldFetchProduct, data, isLoading]);
 
   // Générer les breadcrumbs à partir de l'URL
   const generateBreadcrumbs = (): BreadcrumbRoute[] => {
-    const pathnames = location.pathname.split("/").filter(Boolean)
+    const pathnames = location.pathname.split("/").filter(Boolean);
 
-    const breadcrumbs: BreadcrumbRoute[] = [
-      { label: "Accueil", href: "/" },
-    ]
+    const breadcrumbs: BreadcrumbRoute[] = [{ label: "Accueil", href: "/" }];
 
-    let currentPath = ""
+    let currentPath = "";
     pathnames.forEach((path, index) => {
-      currentPath += `/${path}`
-      const isLast = index === pathnames.length - 1
+      currentPath += `/${path}`;
+      const isLast = index === pathnames.length - 1;
 
       // Si c'est l'id du produit et qu'on a le nom, afficher le nom du produit
-      const isProductId = path !== "products" && location.pathname.includes("/products/")
-      
-      let label = ""
+      const isProductId =
+        path !== "products" && location.pathname.includes("/products/");
+
+      let label = "";
       if (isProductId && productName) {
-        label = productName
+        label = productName;
       } else if (isProductId && !productName) {
-        label = "Produit-"+path // Afficher l'id si on n'a pas le nom
+        label = path; // Afficher l'id si on n'a pas le nom
       } else {
-        label = routeLabels[path] || path.charAt(0).toUpperCase() + path.slice(1)
+        label =
+          routeLabels[path] || path.charAt(0).toUpperCase() + path.slice(1);
       }
 
       breadcrumbs.push({
         label,
         href: isLast ? undefined : currentPath,
-      })
-    })
+      });
+    });
 
-    return breadcrumbs
-  }
+    return breadcrumbs;
+  };
 
-  const breadcrumbs = generateBreadcrumbs()
+  const breadcrumbs = generateBreadcrumbs();
 
   return (
     <Breadcrumb>
       <BreadcrumbList>
         {breadcrumbs.map((item, index) => {
-          const isLast = index === breadcrumbs.length - 1
+          const isLast = index === breadcrumbs.length - 1;
 
           return (
             <div key={index} className="flex items-center gap-2">
@@ -122,7 +124,7 @@ export function AutoBreadcrumb() {
               ) : (
                 <>
                   <BreadcrumbItem>
-                    <BreadcrumbLink href={item.href || "#"}>
+                    <BreadcrumbLink onClick={()=> navigate(item.href || "#")} className="cursor-pointer">
                       {item.label}
                     </BreadcrumbLink>
                   </BreadcrumbItem>
@@ -130,9 +132,9 @@ export function AutoBreadcrumb() {
                 </>
               )}
             </div>
-          )
+          );
         })}
       </BreadcrumbList>
     </Breadcrumb>
-  )
+  );
 }

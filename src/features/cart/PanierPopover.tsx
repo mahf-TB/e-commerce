@@ -30,39 +30,16 @@ export default function CartPopover({
     removeItem,
     incrementQuantity,
     decrementQuantity,
+    updateQuantity,
     getTotalItems,
     getTotalPrice,
-    openCart,
     closeCart,
     removeAll,
+    toggleCart,
   } = useCartStore();
 
   const totalItems = getTotalItems();
   const totalPrice = getTotalPrice();
-
-  // ✅ Gérer l'ouverture/fermeture avec onOpenChange
-  const handleOpenChange = (open: boolean) => {
-    if (open) {
-      openCart();
-    } else {
-      closeCart();
-    }
-  };
-
-  // ✅ Supprimer un article
-  const handleRemoveItem = (id: number | string) => {
-    removeItem(id);
-  };
-
-  // ✅ Incrémenter la quantité (+1)
-  const handleIncreaseQuantity = (id: number | string) => {
-    incrementQuantity(id);
-  };
-
-  // ✅ Décrémenter la quantité (-1)
-  const handleDecreaseQuantity = (id: number | string) => {
-    decrementQuantity(id);
-  };
 
   const handleCheckout = () => {
     console.log("Proceeding to checkout...", cartItems);
@@ -71,14 +48,14 @@ export default function CartPopover({
   };
 
   return (
-    <Popover open={isOpen} onOpenChange={handleOpenChange}>
+    <Popover open={isOpen} onOpenChange={toggleCart}>
       <Tooltips text={tooltipLabel || ""}>
         <PopoverTrigger asChild>{btnShow && btnShow}</PopoverTrigger>
       </Tooltips>
 
       <PopoverContent className="w-[450px] p-0">
         {/* Header */}
-        <div className="flex items-center justify-between gap-4 px-4 py-3 border-b">
+        <div className="flex items-center justify-between gap-4 px-4 py-3 border-b border-gray-300">
           <div className="font-semibold text-base">
             Panier d’achats
             {totalItems > 0 && (
@@ -95,20 +72,11 @@ export default function CartPopover({
             <EmptyState
               media={<SaveOff size={32} />}
               title="Votre panier est vide"
-              actions={
-                [
-                  {
-                    variant: "default",
-                    href: "/products",
-                    label: "Continuer vos achats",
-                  },
-                ] /* Vous pouvez ajouter des actions ici si nécessaire */
-              }
             />
           ) : (
-            cartItems.map((item) => (
+            cartItems.map((item, i) => (
               <ProductItem
-                key={item.id}
+                key={i}
                 id={item.id}
                 nom={item.name}
                 image={item.image}
@@ -117,9 +85,10 @@ export default function CartPopover({
                 quantite={item.quantity}
                 showQuantityControl={true}
                 onClick={() => console.log("Clicked:", item.id)}
-                incrementQuantity={() => handleIncreaseQuantity(item.id)}
-                decrementQuantity={() => handleDecreaseQuantity(item.id)}
-                removeItem={() => handleRemoveItem(item.id)}
+                incrementQuantity={() => incrementQuantity(item.id , item.variantId)}
+                decrementQuantity={() => decrementQuantity(item.id, item.variantId)}
+                updateQuantity={(quantity) => updateQuantity(item.id, item.variantId, quantity)}
+                removeItem={() => removeItem(item.id, item.variantId)}
               />
             ))
           )}
@@ -127,30 +96,16 @@ export default function CartPopover({
 
         {/* Footer */}
         {cartItems.length > 0 && (
-          <div className="px-4 py-4 border-t space-y-3">
-            <div className="space-y-1 text-sm p-1">
-              {/* Subtotal */}
-              <div className="flex justify-between">
-                <span>Sous-total</span>
-                <span>{formatPrice(totalPrice)}</span>
-              </div>
+          <div className="px-4 py-4space-y-3">
+            {/* Subtotal */}
 
-              <div className="flex justify-between">
-                <span>Remise</span>
-                <span>0</span>
-              </div>
-              <div className="flex justify-between">
-                <span>Frais</span>
-                <span>calculés lors du paiement</span>
-              </div>
-              {/* total prix */}
-              <div className="flex justify-between font-semibold pt-2 border-t border-gray-300 mt-2">
-                <span>Total</span>
-                <span>{formatPrice(totalPrice)}</span>
-              </div>
+            {/* total prix */}
+            <div className="flex justify-between font-semibold pt-2 border-t border-gray-300 mt-2">
+              <span>Total</span>
+              <span>{formatPrice(totalPrice)}</span>
             </div>
             {/* Checkout Button */}
-            <div className="flex gap-2 mt-3">
+            <div className="flex gap-2 my-3">
               <Button
                 onClick={handleCheckout}
                 variant="default"
@@ -159,19 +114,6 @@ export default function CartPopover({
                 Procéder au paiement
               </Button>
             </div>
-
-            {/* Continue Shopping */}
-            {/* <Button variant="outline" className="w-full" onClick={closeCart}>
-              Continue Shopping
-            </Button> */}
-            {/* ✅ Clear/Remove All Cart */}
-            {/* <Button
-              variant="destructive"
-              className="w-full text-xs"
-              onClick={removeAll}
-            >
-              Clear Cart
-            </Button> */}
           </div>
         )}
       </PopoverContent>

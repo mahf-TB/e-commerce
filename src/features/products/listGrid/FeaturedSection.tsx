@@ -1,45 +1,69 @@
-import { ProductCard } from "./ProductCard";
-import { Filter, SortDesc } from "lucide-react";
-import { ProductCardSkeleton } from "../skeleton/ProductCardSkeleton";
-import { useEffect, useRef, useState } from "react";
-import { useProductList } from "@/hooks/use-product";
 import ReusableSelect from "@/components/select-form";
-import { sortOptions } from "@/utils/options";
+import { useProductList } from "@/hooks/use-product";
 import type { ProductListItem } from "@/types";
+import { sortOptions } from "@/utils/options";
+import { Filter, SortDesc } from "lucide-react";
+import { useEffect, useRef, useState } from "react";
+import { useSearchParams } from "react-router-dom";
+import { ProductCardSkeleton } from "../skeleton/ProductCardSkeleton";
+import { ProductCard } from "./ProductCard";
+
+type FeaturedSectionProps = {
+  setOpen: (value: boolean) => void;
+  selectedBrands: (number | string)[];
+  selectedCategories: (number | string)[];
+  priceRange: [number, number];
+};
 
 export function FeaturedSection({
   setOpen,
-}: {
-  setOpen: (value: boolean) => void;
-}) {
-  const [search, setSearch] = useState("");
-  const [sort, setSort] = useState("newest");
+  selectedBrands,
+  selectedCategories,
+  priceRange,
+}: FeaturedSectionProps) {
+  // const [search, setSearch] = useState("");
+
+  const [sort, setSort] = useState<string>();
   const [products, setProducts] = useState<ProductListItem[]>([]);
   const [hasMore, setHasMore] = useState(true);
   const [page, setPage] = useState(1);
   const loaderRef = useRef<HTMLDivElement | null>(null);
 
+  const [searchParams] = useSearchParams();
+
+  const currentSort = searchParams.get("sort") ?? "default";
+
   const { items, pagination, isLoading } = useProductList({
     page,
     limit: 10,
     sort,
-    q: search,
     statut: "active",
+    marque: selectedBrands.length ? selectedBrands.join(",") : undefined,
+    categorie: selectedCategories.length
+      ? selectedCategories.join(",")
+      : undefined,
+    minPrice: priceRange?.[0],
+    maxPrice: priceRange?.[1],
   });
-
-  console.log(items);
 
   // Reset quand on change de filtres
   useEffect(() => {
+    setSort(currentSort);
     setProducts([]);
     setPage(1);
     setHasMore(true);
-  }, [search, sort]);
+  }, [sort, selectedBrands, selectedCategories, priceRange, currentSort]);
 
   const MAX_PRODUCTS = 100;
   // Pousser les nouveaux items SANS page dans les dépendances
   useEffect(() => {
-    if (!items || items.length === 0) return;
+    // Si aucune donnée pour cette page, stopper le scroll et éviter les requêtes en boucle
+    if (!items || items.length === 0) {
+      if (!isLoading) {
+        setHasMore(false);
+      }
+      return;
+    }
 
     setProducts((prev) => {
       // Si déjà au maximum, arrête
@@ -64,11 +88,11 @@ export function FeaturedSection({
       return combined;
     });
 
-      // CAS 2: Vérifier si dernière page de l'API
+    // CAS 2: Vérifier si dernière page de l'API
     if (pagination) {
       setHasMore(page < pagination.totalPages);
     }
-  }, [items]); // ⚠️ SANS [page, pagination]
+  }, [items, isLoading]); // ⚠️ SANS [page, pagination]
 
   useEffect(() => {
     if (!hasMore || isLoading) return;
@@ -112,6 +136,7 @@ export function FeaturedSection({
         {products.map((product) => (
           <ProductCard
             key={product.id}
+            id={product.id}
             produit={product.nom}
             description={product.description}
             price={product.minPrice}
@@ -119,6 +144,7 @@ export function FeaturedSection({
             rating={product.noteMoyenne}
             reviewsCount={product.nombreAvis}
             status={product.statut}
+            variantId={product.variantId}
           />
         ))}
         {isLoading &&
@@ -133,6 +159,12 @@ export function FeaturedSection({
       {!hasMore && products.length > 0 && (
         <p className="text-center text-xs text-muted-foreground">
           Fin de la liste.
+        </p>
+      )}
+
+      {!isLoading && products.length === 0 && (
+        <p className="text-center text-xs text-muted-foreground">
+          Aucun produit trouvé avec ces filtres.
         </p>
       )}
     </section>

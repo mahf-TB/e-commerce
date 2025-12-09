@@ -20,7 +20,10 @@ import { cn } from "@/lib/utils";
 import LineChart7 from "@/components/line-chart-7";
 import { DropdownMenuLabel } from "@/components/ui/dropdown-menu";
 import Dropdown, { DropdownItems } from "@/components/dropdown";
-import { changeStatutProduct } from "@/services/produitService";
+import {
+  changeStatutProduct,
+  changeStatutVariant,
+} from "@/services/produitService";
 import ActionDetails from "./ActionDetails";
 
 type ProductDetailsProps = {
@@ -45,7 +48,7 @@ const ProductDetails = ({ product, isLoading }: ProductDetailsProps) => {
       0
     ) || 0;
 
-  if (isLoading) {
+  if (isLoading || !product) {
     return <ProductDetailsSkeleton />;
   }
   return (
@@ -123,7 +126,9 @@ const ProductDetails = ({ product, isLoading }: ProductDetailsProps) => {
                           />
                         }
                       >
-                        <DropdownMenuLabel>Actions</DropdownMenuLabel>
+                        <DropdownMenuLabel>
+                          Actions jkjkj {v._id}
+                        </DropdownMenuLabel>
                         <DropdownItems
                           icon={<PenBox size={18} />}
                           title="Modifier"
@@ -134,7 +139,9 @@ const ProductDetails = ({ product, isLoading }: ProductDetailsProps) => {
                             icon={<ShieldOff size={18} />}
                             title="Désactiver"
                             onClick={() =>
-                              changeStatutProduct(v.id, { statut: "inactive" })
+                              changeStatutVariant(product?.id, v._id, {
+                                statut: "inactive",
+                              })
                             }
                           />
                         ) : (
@@ -142,7 +149,9 @@ const ProductDetails = ({ product, isLoading }: ProductDetailsProps) => {
                             icon={<Shield size={18} />}
                             title="Activer"
                             onClick={() =>
-                              changeStatutProduct(v.id, { statut: "active" })
+                              changeStatutVariant(product?.id, v._id, {
+                                statut: "active",
+                              })
                             }
                           />
                         )}
@@ -152,7 +161,9 @@ const ProductDetails = ({ product, isLoading }: ProductDetailsProps) => {
                           title="Supprimer"
                           variant="destructive"
                           onClick={() =>
-                            changeStatutProduct(v.id, { statut: "archived" })
+                            changeStatutVariant(product?.id, v.id, {
+                              statut: "archived",
+                            })
                           }
                         />
                       </Dropdown>
@@ -174,7 +185,7 @@ const ProductDetails = ({ product, isLoading }: ProductDetailsProps) => {
               <ImageProductList
                 key={i}
                 id={i}
-                img={`${(import.meta as any).env?.VITE_BACKEND_URL}${img.url}`}
+                img={img.url}
               />
             ))}
           </div>

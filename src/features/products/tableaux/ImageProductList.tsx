@@ -1,4 +1,5 @@
 import React, { useState, useCallback } from "react";
+import { createPortal } from "react-dom";
 
 interface ImageProductListProps {
   id: string | number;
@@ -21,16 +22,17 @@ const Thumbnail: React.FC<{
   </button>
 );
 
-const Lightbox: React.FC<{
+export const Lightbox: React.FC<{
   img: string;
   alt: string;
   open: boolean;
   onClose: () => void;
 }> = ({ img, alt, open, onClose }) => {
   if (!open) return null;
-  return (
+  
+  const lightboxContent = (
     <div
-      className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-4"
+      className="fixed inset-0 z-9999 flex items-center justify-center bg-black/60 p-4"
       role="dialog"
       aria-modal="true"
       aria-label={alt}
@@ -44,6 +46,8 @@ const Lightbox: React.FC<{
       />
     </div>
   );
+
+  return createPortal(lightboxContent, document.body);
 };
 
 const ImageProductList: React.FC<ImageProductListProps> = ({ id, img }) => {

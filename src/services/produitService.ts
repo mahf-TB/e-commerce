@@ -8,7 +8,7 @@ const headers = {
 };
 
 export type StatutCredential = {
-  statut: 'active' | 'inactive' | 'archived';
+  statut: "active" | "inactive" | "archived";
 };
 
 export async function createNewProduct(credential: any) {
@@ -19,6 +19,22 @@ export async function createNewProduct(credential: any) {
     throw error;
   }
 }
+export async function changeStatutVariant(
+  id: string | number,
+  variantId: string | number,
+  credential: StatutCredential
+) {
+  try {
+    const res = await apiAuth.patch(
+      `/produits/${id}/variants/${variantId}/statut`,
+      credential
+    );
+    return res.data;
+  } catch (error) {
+    throw error;
+  }
+}
+
 export async function changeStatutProduct(
   id: string | number,
   credential: StatutCredential
@@ -70,12 +86,10 @@ export async function getProductById(id: string | number): Promise<Produit> {
   }
 }
 
-
-
-
 export default {
   createNewProduct,
   changeStatutProduct,
   getProductList,
   getProductById,
+  changeStatutVariant,
 };

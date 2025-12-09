@@ -9,7 +9,6 @@ import { useNavigate } from "react-router-dom";
 import {useProductList} from "@/hooks/use-product";
 import { ProductRow } from "@/features/products/tableaux/ProductRow";
 import { productStatusOptions, sortOptions } from "@/utils/options";
-import FeedbackPopover from "@/components/feedback-popover";
 
 const Products = () => {
   const navigate = useNavigate();
@@ -44,7 +43,6 @@ const Products = () => {
           {/* FILTRE */}
           <div className="flex items-center rounded gap-2">
             <SearchInput value={search} onChange={setSearch} />
-            <FeedbackPopover />
             <ReusableSelect
               labelTitle="Statut du produit"
               placeholder="Statut"
