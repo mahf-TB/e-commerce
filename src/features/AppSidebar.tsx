@@ -14,7 +14,6 @@ import {
 import {
   Home,
   Inbox,
-  ShoppingBag,
   Ellipsis,
   LogOut,
   Bell,
@@ -25,6 +24,7 @@ import {
   BellRing,
   ArrowLeftFromLine,
 } from "lucide-react";
+import { Logo } from "@/components/icon/logo";
 import { Avatar, AvatarFallback, AvatarImage } from "../components/ui/avatar";
 import Dropdown, { DropdownItems } from "../components/dropdown";
 import { DropdownMenuSeparator } from "../components/ui/dropdown-menu";
@@ -71,7 +71,7 @@ export function AppSidebar() {
             onClick={() => navigate("/")}
             className="flex items-center gap-2 text-xl cursor-pointer"
           >
-            <ShoppingBag className="" size={22} />
+            <Logo width={28} height={22} className="text-white" />
             <h1 className="font-poppins font-black">Mark-E</h1>
           </div>
           <div className="hover:text-gray-500 p-1 rounded-md cursor-pointer transition-colors">

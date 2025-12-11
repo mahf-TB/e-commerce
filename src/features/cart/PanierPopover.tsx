@@ -1,6 +1,9 @@
+import { SaveOff, Trash2 } from "lucide-react";
 import React from "react";
-import { ShoppingCart, Trash2, Plus, Minus, SaveOff } from "lucide-react";
 
+import BadgeButton from "@/components/BadgeButton";
+import { EmptyState } from "@/components/EmptyState";
+import ProductItem from "@/components/product-item";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
@@ -8,12 +11,10 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import Tooltips from "../../components/tooltips";
 import { useCartStore } from "@/store/use-panier.store";
-import ProductItem from "@/components/product-item";
 import { formatPrice } from "@/utils/helpers";
-import BadgeButton from "@/components/BadgeButton";
-import { EmptyState } from "@/components/EmptyState";
+import { useNavigate } from "react-router-dom";
+import Tooltips from "../../components/tooltips";
 
 export type CartPopoverProps = {
   btnShow?: React.ReactNode;
@@ -24,6 +25,7 @@ export default function CartPopover({
   btnShow,
   tooltipLabel,
 }: CartPopoverProps) {
+  const navigate = useNavigate();
   const {
     cartItems,
     isOpen,
@@ -40,12 +42,6 @@ export default function CartPopover({
 
   const totalItems = getTotalItems();
   const totalPrice = getTotalPrice();
-
-  const handleCheckout = () => {
-    console.log("Proceeding to checkout...", cartItems);
-    // Logique de paiement ici
-    closeCart();
-  };
 
   return (
     <Popover open={isOpen} onOpenChange={toggleCart}>
@@ -85,9 +81,15 @@ export default function CartPopover({
                 quantite={item.quantity}
                 showQuantityControl={true}
                 onClick={() => console.log("Clicked:", item.id)}
-                incrementQuantity={() => incrementQuantity(item.id , item.variantId)}
-                decrementQuantity={() => decrementQuantity(item.id, item.variantId)}
-                updateQuantity={(quantity) => updateQuantity(item.id, item.variantId, quantity)}
+                incrementQuantity={() =>
+                  incrementQuantity(item.id, item.variantId)
+                }
+                decrementQuantity={() =>
+                  decrementQuantity(item.id, item.variantId)
+                }
+                updateQuantity={(quantity) =>
+                  updateQuantity(item.id, item.variantId, quantity)
+                }
                 removeItem={() => removeItem(item.id, item.variantId)}
               />
             ))
@@ -107,7 +109,14 @@ export default function CartPopover({
             {/* Checkout Button */}
             <div className="flex gap-2 my-3">
               <Button
-                onClick={handleCheckout}
+                onClick={() => navigate("/cart") && closeCart()}
+                variant="outline"
+                className="rounded w-full"
+              >
+                Voir le panier
+              </Button>
+              <Button
+                onClick={() => navigate("/checkout") && closeCart()}
                 variant="default"
                 className="rounded w-full"
               >

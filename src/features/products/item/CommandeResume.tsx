@@ -1,17 +1,21 @@
 import { Button } from "@/components/ui/button";
 import { formatPrice } from "@/utils/helpers";
 import { Minus, Plus } from "lucide-react";
-import React, { useState } from "react";
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 interface CommandeResumeProps {
   prixUnitaire: number;
   produit: {
+    id: string;
+    variantId: string;
     produitName: string;
     image: string;
   };
 }
 
 const CommandeResume = ({ prixUnitaire, produit }: CommandeResumeProps) => {
+  const navigate = useNavigate();
   const [quantity, setQuantity] = useState<number>(1);
   return (
     <aside className="w-full lg:w-80 z-1 bg-white rounded p-4 max-md:pt-0 h-fit lg:sticky lg:top-25">
@@ -74,7 +78,15 @@ const CommandeResume = ({ prixUnitaire, produit }: CommandeResumeProps) => {
         <span className="font-medium">{formatPrice(5000)}</span>
       </div>
 
-      <Button variant="default" className="w-full mt-5">
+      <Button
+        variant="default"
+        className="w-full mt-5"
+        onClick={() =>
+          navigate(
+            `/checkout/${produit.id}/${produit.variantId}?qte=${quantity}`
+          )
+        }
+      >
         Acheter maintenant
       </Button>
     </aside>

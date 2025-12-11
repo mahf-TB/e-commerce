@@ -1,13 +1,13 @@
-import { Button } from "@/components/ui/button";
+import BadgeButton from "@/components/BadgeButton";
+import FeedbackPopover from "@/components/feedback-popover";
+import Tooltips from "@/components/tooltips";
 import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { useCartStore } from "@/store/use-panier.store";
+import type { Produit } from "@/types";
+import { formatPrice } from "@/utils/helpers";
 import { Brain, Heart, MessageSquareHeart, Star } from "lucide-react";
 import { useState } from "react";
-import { formatPrice } from "@/utils/helpers";
-import Tooltips from "@/components/tooltips";
-import type { Produit } from "@/types";
-import { useCartStore } from "@/store/use-panier.store";
-import FeedbackPopover from "@/components/feedback-popover";
-import BadgeButton from "@/components/BadgeButton";
 import CommandeResume from "./CommandeResume";
 
 type FeaturedProductProps = {
@@ -157,6 +157,8 @@ export function FeaturedProducts({ product }: FeaturedProductProps) {
       <CommandeResume
         prixUnitaire={prixUnitaire}
         produit={{
+          id: product?.id as string,
+          variantId: currentVariant?.id as string,
           produitName: productName,
           image:
             product.images.find((img) => img.isPrincipale)?.url ??

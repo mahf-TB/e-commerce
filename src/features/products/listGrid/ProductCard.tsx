@@ -1,9 +1,10 @@
 import Tooltips from "@/components/tooltips";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
+import { cn } from "@/lib/utils";
 import { useCartStore } from "@/store/use-panier.store";
 import { formatPrice } from "@/utils/helpers";
-import { Heart, ShoppingCart, Star } from "lucide-react";
+import { Heart, ShoppingCart } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
 type ProductCardProps = {
@@ -27,7 +28,7 @@ export function ProductCard({
   rating,
   reviewsCount,
   status,
-  variantId
+  variantId,
 }: ProductCardProps) {
   const navigate = useNavigate();
   const { addItem, openCart } = useCartStore();
@@ -49,7 +50,7 @@ export function ProductCard({
     <Card className="flex flex-col group rounded-sm shadow-none overflow-hidden p-0 gap-0 transition-all duration-200">
       {/* Image */}
       <div
-        className="relative h-52 w-full cursor-pointer"
+        className="relative h-52 w-full cursor-pointer z-0"
         onClick={() => navigate(`/products/${id}`)}
       >
         <img
@@ -57,12 +58,18 @@ export function ProductCard({
           alt={produit}
           className="w-full h-52 object-cover"
         />
-        <div className="absolute top-2 right-2 bg-white rounded-full p-2 hidden group-hover:block shadow-md cursor-pointer hover:bg-gray-100 transition-all duration-200">
-          <Heart size={16} className="text-red-500 fill-red-500" />
+        <div
+          onClick={() => console.log("mahefaaa")}
+          className="z-10 absolute bottom-2 right-2 bg-white rounded-full p-2 hidden group-hover:block shadow-md cursor-pointer hover:bg-gray-100 transition-all duration-200"
+        >
+          <Heart
+            size={16}
+            className={cn("text-red-500", id === "" ? "fill-red-500" : "")}
+          />
         </div>
-        <div className="absolute top-12 right-2 bg-white rounded-full p-2 hidden group-hover:block shadow-md cursor-pointer hover:bg-gray-100 transition-all duration-200">
+        {/* <div className="absolute top-12 right-2 bg-white rounded-full p-2 hidden group-hover:block shadow-md cursor-pointer hover:bg-gray-100 transition-all duration-200">
           <Star size={16} className="text-red-500 fill-red-500" />
-        </div>
+        </div> */}
       </div>
       {/* Contenu */}
       <div className="flex flex-col justify-between h-full gap-0 p-3">
@@ -94,7 +101,7 @@ export function ProductCard({
               className="flex-1 bg-green-600 hover:bg-green-600/90 text-slate-100 font-semibold rounded-sm"
               size="icon"
               disabled={status !== "active"}
-              onClick={() => navigate("/checkout")}
+              onClick={() => navigate(`/checkout/${id}/${variantId}`)}
             >
               Commander
             </Button>

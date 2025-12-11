@@ -11,6 +11,7 @@ import AddProduct from "@/pages/admin/ProduitGerer/AddProduct";
 import Products from "@/pages/admin/ProduitGerer/Products";
 import CartPage from "@/pages/cart/CartPage";
 import CheckoutPage from "@/pages/checkout/CheckoutPage";
+import CheckoutPageItem from "@/pages/checkout/CheckoutPageItem";
 import LoginPage from "@/pages/connexion/ConnexionPage";
 import LoginAdmin from "@/pages/connexion/LoginAdmin";
 import HomePage from "@/pages/home/HomePage";
@@ -62,7 +63,22 @@ const router = createBrowserRouter([
             <CheckoutPage />
           </PrivateRoutes>
         ),
-        children: [{ path: "success", element: <CartPage /> }],
+      },
+      {
+        path: "checkout/:produitId/:variantId",
+        element: (
+          <PrivateRoutes>
+            <CheckoutPageItem />
+          </PrivateRoutes>
+        ),
+      },
+      {
+        path: "checkout/success",
+        element: (
+          <PrivateRoutes>
+            <CartPage />
+          </PrivateRoutes>
+        ),
       },
     ],
   },

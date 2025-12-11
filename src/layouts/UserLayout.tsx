@@ -15,14 +15,16 @@ const UserLayout = () => {
       )}
     >
       <div className="w-full">
-        <div className="sticky top-0 z-50">
-          <HeaderPage />
-          <div className="w-full bg-white z-50 border-b border-gray-300 ">
-            <div className="container mx-auto">
-              <NavbarMenu />
+        {!location.pathname.startsWith("/checkout") && (
+          <div className="sticky top-0 z-50">
+            <HeaderPage />
+            <div className="w-full bg-white z-50 border-b border-gray-300 ">
+              <div className="container mx-auto">
+                <NavbarMenu />
+              </div>
             </div>
           </div>
-        </div>
+        )}
         <main className={cn("container mx-auto p-4")}>
           {/* {location.pathname !== "/" &&
             location.pathname !== "/checkout" &&

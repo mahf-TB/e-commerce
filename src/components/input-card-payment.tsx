@@ -1,28 +1,28 @@
-"use client"
+"use client";
 
-import { CreditCardIcon } from "lucide-react"
-import { useId, useState } from "react"
-import { usePaymentInputs } from "react-payment-inputs"
-import images, { type CardImages } from "react-payment-inputs/images"
+import { CreditCardIcon } from "lucide-react";
+import { useId, useState } from "react";
+import { usePaymentInputs } from "react-payment-inputs";
+import images, { type CardImages } from "react-payment-inputs/images";
 
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { cn } from "@/lib/utils"
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { cn } from "@/lib/utils";
 
 type CardPaymentInputsProps = {
   onCardDataChange?: (cardData: {
-    cardNumber: string
-    expiryDate: string
-    cvc: string
-    cardType: any
-    isTouched: boolean
-    error: string | null
-  }) => void
-  disabled?: boolean
-  containerClassName?: string
-  label?: string
-  hideLabel?: boolean
-}
+    cardNumber: string;
+    expiryDate: string;
+    cvc: string;
+    cardType: any;
+    isTouched: boolean;
+    error: string | null;
+  }) => void;
+  disabled?: boolean;
+  containerClassName?: string;
+  label?: string;
+  hideLabel?: boolean;
+};
 
 export default function InputCardPayment({
   onCardDataChange,
@@ -31,51 +31,47 @@ export default function InputCardPayment({
   label = "Détails de la carte",
   hideLabel = true,
 }: CardPaymentInputsProps) {
-  const id = useId()
+  const id = useId();
   const {
     meta,
     getCardNumberProps,
     getExpiryDateProps,
     getCVCProps,
     getCardImageProps,
-  } = usePaymentInputs()
+  } = usePaymentInputs();
 
-  const [cardNumber, setCardNumber] = useState("")
-  const [expiryDate, setExpiryDate] = useState("")
-  const [cvc, setCvc] = useState("")
+  const [cardNumber, setCardNumber] = useState("");
+  const [expiryDate, setExpiryDate] = useState("");
+  const [cvc, setCvc] = useState("");
 
   const handleChangeCardNumber = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = e.target.value
-    setCardNumber(value)
-    notifyChanges(value, expiryDate, cvc)
-  }
+    const value = e.target.value;
+    setCardNumber(value);
+    notifyChanges(value, expiryDate, cvc);
+  };
 
   const handleChangeExpiryDate = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = e.target.value
-    setExpiryDate(value)
-    notifyChanges(cardNumber, value, cvc)
-  }
+    const value = e.target.value;
+    setExpiryDate(value);
+    notifyChanges(cardNumber, value, cvc);
+  };
 
   const handleChangeCVC = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = e.target.value
-    setCvc(value)
-    notifyChanges(cardNumber, expiryDate, value)
-  }
+    const value = e.target.value;
+    setCvc(value);
+    notifyChanges(cardNumber, expiryDate, value);
+  };
 
-  const notifyChanges = (
-    cardNum: string,
-    expiry: string,
-    cvcVal: string
-  ) => {
+  const notifyChanges = (cardNum: string, expiry: string, cvcVal: string) => {
     onCardDataChange?.({
       cardNumber: cardNum,
       expiryDate: expiry,
       cvc: cvcVal,
-      cardType: meta.cardType ,
+      cardType: meta.cardType,
       isTouched: meta.isTouched,
       error: meta.error || null,
-    })
-  }
+    });
+  };
 
   return (
     <fieldset
@@ -141,9 +137,7 @@ export default function InputCardPayment({
       {/* Affichage des erreurs */}
       {meta.isTouched && meta.error && (
         <div className="p-3 bg-destructive/10 border border-destructive/30 rounded mx-3">
-          <p className="text-sm text-destructive">
-            {meta.error}
-          </p>
+          <p className="text-sm text-destructive">{meta.error}</p>
         </div>
       )}
 
@@ -152,5 +146,5 @@ export default function InputCardPayment({
         Vos informations sont sécurisées et ne seront jamais partagées.
       </p>
     </fieldset>
-  )
+  );
 }

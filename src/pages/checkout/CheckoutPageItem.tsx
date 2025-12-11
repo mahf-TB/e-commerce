@@ -5,15 +5,18 @@ import { OrderSummary } from "@/features/checkout/OrderSummary";
 import { PaymentMethods } from "@/features/checkout/PaymentMethods";
 import { ShippingMethod } from "@/features/checkout/ShippingMethod";
 import { showToast } from "@/lib/toast";
-import { createCommande } from "@/services/commandeService";
-import { useCartStore } from "@/store/use-panier.store";
+import { createCommande, type CommandeItem } from "@/services/commandeService";
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams, useSearchParams } from "react-router-dom";
 
-export default function CheckoutPage() {
+export default function CheckoutPageItem() {
   const navigate = useNavigate();
-  const { cartItems, clearCart } = useCartStore();
-
+  const [searchParams] = useSearchParams();
+  const { produitId, variantId } = useParams<{
+    variantId: string;
+    produitId: string;
+  }>();
+  const quantite = searchParams.get("qte") || 1;
   // États pour les informations de livraison
   const [prenom, setPrenom] = useState("");
   const [nom, setNom] = useState("");
@@ -47,21 +50,18 @@ export default function CheckoutPage() {
       return;
     }
 
-    if (cartItems.length === 0) {
-      showToast("error", "Votre panier est vide");
-      return;
-    }
-
     // Pas de validation nécessaire pour le paiement en espèce
     setIsSubmitting(true);
 
     try {
       // Préparer les items de la commande
-      const items = cartItems.map((item) => ({
-        produit: String(item.id),
-        variantId: String(item.variantId),
-        quantite: item.quantity,
-      }));
+      const items: CommandeItem[] = [
+        {
+          produit: String(produitId),
+          variantId: String(variantId),
+          quantite: Number(quantite) || 1,
+        },
+      ];
 
       // Calculer les frais de livraison
       const fraisLivraison =
@@ -105,7 +105,6 @@ export default function CheckoutPage() {
       await createCommande(payload);
       showToast("success", "Commande créée avec succès !");
       // Vider le panier
-      clearCart();
       // Rediriger vers la page de succès ou les commandes
       navigate("/checkout/success");
     } catch (error: any) {
@@ -149,7 +148,7 @@ export default function CheckoutPage() {
             <Button
               type="submit"
               className="w-full rounded flex items-center justify-center gap-2"
-              disabled={isSubmitting || cartItems.length === 0}
+              disabled={isSubmitting}
             >
               {isSubmitting && <Spinner size="md" />}
               <span>
@@ -159,6 +158,7 @@ export default function CheckoutPage() {
           </div>
           <div className="w-1/2 space-y-2 p-10 px-[7vw] md:sticky md:top-6">
             <OrderSummary
+              qte={Number(quantite)}
               fraisLivraison={
                 typeLivraison === "express"
                   ? 10000

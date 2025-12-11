@@ -1,6 +1,6 @@
+import type { ProductListParams } from "@/hooks/use-product";
 import type { Paginated, ProductListItem, Produit } from "@/types";
 import api, { apiAuth } from "../lib/axios";
-import type { ProductListParams } from "@/hooks/use-product";
 const headers = {
   headers: {
     "Content-Type": "multipart/form-data",
@@ -19,6 +19,16 @@ export async function createNewProduct(credential: any) {
     throw error;
   }
 }
+
+export async function getOneVariantProduit(id: string, variantId: string) {
+  try {
+    const res = await api.get(`/produits/${id}/variant/${variantId}`);
+    return res.data;
+  } catch (error) {
+    throw error;
+  }
+}
+
 export async function changeStatutVariant(
   id: string | number,
   variantId: string | number,

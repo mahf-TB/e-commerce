@@ -22,16 +22,15 @@ export function FeaturedSection({
   priceRange,
 }: FeaturedSectionProps) {
   // const [search, setSearch] = useState("");
-
-  const [sort, setSort] = useState<string>();
   const [products, setProducts] = useState<ProductListItem[]>([]);
   const [hasMore, setHasMore] = useState(true);
   const [page, setPage] = useState(1);
   const loaderRef = useRef<HTMLDivElement | null>(null);
 
-  const [searchParams] = useSearchParams();
+  const [searchParams, setSearchParams] = useSearchParams();
 
   const currentSort = searchParams.get("sort") ?? "default";
+  const sort = currentSort === "default" ? undefined : currentSort;
 
   const { items, pagination, isLoading } = useProductList({
     page,
@@ -46,13 +45,26 @@ export function FeaturedSection({
     maxPrice: priceRange?.[1],
   });
 
-  // Reset quand on change de filtres
-  useEffect(() => {
-    setSort(currentSort);
+  // Mettre à jour l'URL quand sort change manuellement
+  const handleSortChange = (newSort: string | undefined) => {
+    const params = new URLSearchParams(searchParams);
+    if (newSort && newSort !== "default") {
+      params.set("sort", newSort);
+    } else {
+      params.delete("sort");
+    }
+    setSearchParams(params, { replace: true });
     setProducts([]);
     setPage(1);
     setHasMore(true);
-  }, [sort, selectedBrands, selectedCategories, priceRange, currentSort]);
+  };
+
+  // Reset quand on change de filtres
+  useEffect(() => {
+    setProducts([]);
+    setPage(1);
+    setHasMore(true);
+  }, [selectedBrands, selectedCategories, priceRange, currentSort]);
 
   const MAX_PRODUCTS = 100;
   // Pousser les nouveaux items SANS page dans les dépendances
@@ -110,9 +122,8 @@ export function FeaturedSection({
   return (
     <section className="space-y-4">
       {/* Titre + tri */}
-      <div className="flex items-center justify-between">
+      <div className="flex items-end justify-between">
         <h2 className="text-2xl font-bold">Produits </h2>
-
         <div className="flex items-center gap-2 text-sm">
           <button
             className="relative hover:bg-gray-300 p-2 rounded-md cursor-pointer transition-colors md:hidden"
@@ -125,7 +136,7 @@ export function FeaturedSection({
             placeholder="Trier par"
             options={sortOptions}
             value={sort}
-            onChange={setSort}
+            onChange={handleSortChange}
             icon={SortDesc}
           />
         </div>

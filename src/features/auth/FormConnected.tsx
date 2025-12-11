@@ -1,21 +1,21 @@
-import React from "react";
-import { useState } from "react";
+import { Spinner } from "@/components/icon/spinner";
 import { Button } from "@/components/ui/button";
+import React, { useState } from "react";
 
 import InputForm from "@/components/input-form";
-import { Lock, Mail } from "lucide-react";
+import { useAuthInvalidate } from "@/hooks/use-auth-invalidate";
+import { setAuthToken } from "@/lib/axios";
+import authService from "@/services/authService";
 import useAuthStore from "@/store/use-auth.store";
 import { isValidEmail } from "@/utils/helpers";
-import FormRegister from "./FormRegister";
-import authService from "@/services/authService";
-import { useAuthInvalidate } from "@/hooks/use-auth-invalidate";
+import { Lock, Mail } from "lucide-react";
 import { useNavigate } from "react-router-dom";
-import { setAuthToken } from "@/lib/axios";
+import FormRegister from "./FormRegister";
 
 const FormConnected = () => {
   const navigate = useNavigate();
   const { invalidateAuthUser } = useAuthInvalidate();
-  const { pending,setPending, step, setStep } = useAuthStore();
+  const { pending, setPending, step, setStep } = useAuthStore();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [userInfo, setUserInfo] = useState({
@@ -82,8 +82,6 @@ const FormConnected = () => {
     }
   }
 
-
-
   return (
     <div>
       <form onSubmit={handleSubmit} className="space-y-2">
@@ -128,28 +126,7 @@ const FormConnected = () => {
           className="w-full rounded flex items-center justify-center gap-2 mt-5"
           disabled={pending}
         >
-          {(pending) && (
-            <svg
-              className="w-4 h-4 animate-spin"
-              viewBox="0 0 24 24"
-              aria-hidden="true"
-            >
-              <circle
-                className="opacity-25"
-                cx="12"
-                cy="12"
-                r="10"
-                stroke="currentColor"
-                strokeWidth="4"
-                fill="none"
-              />
-              <path
-                className="opacity-75"
-                fill="currentColor"
-                d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"
-              />
-            </svg>
-          )}
+          {pending && <Spinner size="md" />}
           <span>{pending ? "Connexion..." : "Se connecter"}</span>
         </Button>
       </form>

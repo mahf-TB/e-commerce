@@ -8,9 +8,9 @@ import {
   BreadcrumbPage,
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
-import { useLocation, useNavigate, useParams } from "react-router-dom";
-import { useEffect, useState } from "react";
 import { useProduct } from "@/hooks/use-product";
+import { useEffect, useState } from "react";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 
 type BreadcrumbRoute = {
   label: string;
@@ -124,7 +124,10 @@ export function AutoBreadcrumb() {
               ) : (
                 <>
                   <BreadcrumbItem>
-                    <BreadcrumbLink onClick={()=> navigate(item.href || "#")} className="cursor-pointer">
+                    <BreadcrumbLink
+                      onClick={() => navigate(item.href || "#")}
+                      className="cursor-pointer"
+                    >
                       {item.label}
                     </BreadcrumbLink>
                   </BreadcrumbItem>

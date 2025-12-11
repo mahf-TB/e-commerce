@@ -1,10 +1,11 @@
 "use client";
 
-import { useId } from "react";
 import { Badge } from "@/components/ui/badge";
 import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { cn } from "@/lib/utils";
+import { formatPrice } from "@/utils/helpers";
+import { useId } from "react";
 
 type PlanOption = {
   label: string;
@@ -35,7 +36,6 @@ export function PricingRadio({
 }: PricingRadioProps) {
   const id = useId();
 
-  
   return (
     <fieldset className={cn("space-y-4")}>
       <legend className="font-semibold text-foreground text-sm leading-none font-poppins">
@@ -78,7 +78,7 @@ export function PricingRadio({
                 id={`${id}-${item.value}-price`}
               >
                 {typeof item.price === "number"
-                  ? `${item.price.toFixed(2)} Ar`
+                  ? formatPrice(item.price)
                   : item.price}
               </div>
             </div>

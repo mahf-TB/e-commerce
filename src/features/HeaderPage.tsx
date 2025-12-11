@@ -1,5 +1,6 @@
 import { BadgeButton } from "@/components/BadgeButton";
 import Dropdown, { DropdownItems } from "@/components/dropdown";
+import { Logo } from "@/components/icon/logo";
 import SearchInput from "@/components/search-input";
 import Tooltips from "@/components/tooltips";
 import { Button } from "@/components/ui/button";
@@ -21,7 +22,6 @@ import {
   LogOut,
   Package,
   ShieldUser,
-  ShoppingBag,
   ShoppingCart,
   ShoppingCartIcon,
   UserCircle,
@@ -53,7 +53,7 @@ const HeaderPage = () => {
           onClick={() => navigate("/")}
           className="flex items-center gap-2 text-xl cursor-pointer"
         >
-          <ShoppingBag className="" size={22} />
+          <Logo width={28} height={22} />
           <h1 className="font-poppins font-black whitespace-nowrap">
             <Highlighter action="underline" color="#000000">
               Mark-E
@@ -79,9 +79,9 @@ const HeaderPage = () => {
             }
           />
           {/* Button Notification */}
-          <Tooltips text="Notifications">
+          <Tooltips text="Favoris">
             <BadgeButton
-              icon={Bell}
+              icon={Heart}
               count={197}
               onClick={() => console.log("Notifications")}
             />

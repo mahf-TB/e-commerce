@@ -11,18 +11,17 @@ import useCategories from "@/hooks/use-categories";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { cn } from "@/lib/utils";
 import { ListCollapse } from "lucide-react";
-import * as React from "react";
 import { Link, useLocation, useSearchParams } from "react-router-dom";
 
 const menuLinks = [
   {
     to: "/products?sort=popular",
-    label: "Populaires",
+    label: "Tendances du moment",
     sort: "popular",
   },
   {
     to: "/products?sort=newest",
-    label: "Nouveautés",
+    label: "Dernières nouveautés",
     sort: "newest",
   },
   {
@@ -35,6 +34,12 @@ const menuLinks = [
     label: "Meilleurs produits",
     sort: "rating_desc",
   },
+  {
+    to: "/products?sort=price_desc",
+    label: "Haut de gamme",
+    sort: "price_desc",
+  },
+  { to: "/products?sort=rating_asc", label: "À découvrir", sort: "rating_asc" },
 ];
 
 export function NavbarMenu() {
@@ -99,7 +104,7 @@ export function NavbarMenu() {
               className={cn(
                 navigationMenuTriggerStyle(),
                 currentSort === sort
-                  ? "border-b-2 border-primary text-primary font-semibold"
+                  ? "border-b-3 border-primary -mb-6 text-primary font-semibold"
                   : "border-b-2 border-transparent",
                 "rounded-none"
               )}
@@ -110,25 +115,5 @@ export function NavbarMenu() {
         </NavigationMenuItem>
       </NavigationMenuList>
     </NavigationMenu>
-  );
-}
-
-function ListItem({
-  title,
-  children,
-  to,
-  ...props
-}: React.ComponentPropsWithoutRef<"li"> & { to: string }) {
-  return (
-    <li {...props}>
-      <NavigationMenuLink asChild>
-        <Link to={to}>
-          <div className="text-sm leading-none font-medium">{title}</div>
-          <p className="text-muted-foreground line-clamp-2 text-sm leading-snug">
-            {children}
-          </p>
-        </Link>
-      </NavigationMenuLink>
-    </li>
   );
 }
