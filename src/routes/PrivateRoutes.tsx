@@ -8,11 +8,11 @@ interface Props {
 
 const PrivateRoutes: React.FC<Props> = ({ children }) => {
   const location = useLocation();
-  const { data: user, isLoading, error } = useAuthUser();
+  const { isLoading, isAuthenticated } = useAuthUser();
 
   if (isLoading) return null; // or a spinner component
 
-  if (!user || error) {
+  if (!isAuthenticated) {
     return <Navigate to="/connexion" state={{ from: location }} replace />;
   }
 

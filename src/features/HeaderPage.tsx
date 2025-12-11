@@ -21,6 +21,7 @@ import {
   Heart,
   LogOut,
   Package,
+  Settings,
   ShieldUser,
   ShoppingCart,
   ShoppingCartIcon,
@@ -82,7 +83,7 @@ const HeaderPage = () => {
           <Tooltips text="Favoris">
             <BadgeButton
               icon={Heart}
-              count={197}
+              count={17}
               onClick={() => console.log("Notifications")}
             />
           </Tooltips>
@@ -135,39 +136,51 @@ const HeaderPage = () => {
               title="Mon compte"
               onClick={() => navigate("/account")}
             />
-            {data?.role === "admin" && (
-              <DropdownItems
-                icon={<ShieldUser size={18} />}
-                title="Espace Administrateur"
-                onClick={() => navigate("/admin/dashboard")}
-              />
-            )}
-
-            <DropdownItems
-              icon={<Package size={18} />}
-              title="Commandes"
-              onClick={() => navigate("/account/orders")}
-            />
             <DropdownItems
               icon={<ShoppingCart size={18} />}
               title="Panier"
               onClick={() => navigate("/cart")}
             />
-            <DropdownItems
-              icon={<Package size={18} />}
-              title="Produits"
-              onClick={() => navigate("/products")}
-            />
-            <DropdownItems
-              icon={<Heart size={18} />}
-              title="Favoris"
-              onClick={() => navigate("/account/wishlist")}
-            />
-            <DropdownItems
-              icon={<Bell size={18} />}
-              title="Notifications"
-              onClick={() => navigate("/account/notifications")}
-            />
+            {data?.role === "admin" && (
+              <>
+                <DropdownItems
+                  icon={<ShieldUser size={18} />}
+                  title="Espace Administrateur"
+                  onClick={() => navigate("/admin/dashboard")}
+                />
+                <DropdownItems
+                  icon={<Settings size={18} />}
+                  title="Paramètres"
+                  onClick={() => navigate("/admin/settings")}
+                />
+              </>
+            )}
+
+            {data?.role === "customer" && (
+              <>
+                <DropdownItems
+                  icon={<Package size={18} />}
+                  title="Commandes"
+                  onClick={() => navigate("/account/orders")}
+                />
+                <DropdownItems
+                  icon={<Settings size={18} />}
+                  title="Paramètres"
+                  onClick={() => navigate("/admin/settings")}
+                />
+                <DropdownItems
+                  icon={<Heart size={18} />}
+                  title="Favoris"
+                  onClick={() => navigate("/account/wishlist")}
+                />
+                <DropdownItems
+                  icon={<Bell size={18} />}
+                  title="Notifications"
+                  onClick={() => navigate("/account/notifications")}
+                />
+              </>
+            )}
+
             <DropdownMenuSeparator className="bg-muted-foreground" />
             <DropdownItems
               icon={<LogOut size={18} />}

@@ -1,4 +1,5 @@
 import { apiAuth } from "@/lib/axios";
+import type { CommandeClient, CommandeRaw, Paginated } from "@/types";
 
 export interface CommandeItem {
   produit: string;
@@ -31,9 +32,33 @@ export interface CommandeResponse {
 
 export async function createCommande(
   payload: CreateCommandePayload
-): Promise<CommandeResponse> {
+): Promise<Paginated<CommandeResponse>> {
   try {
     const res = await apiAuth.post("/commandes", payload);
+    return res.data;
+  } catch (error: any) {
+    throw error;
+  }
+}
+
+export type OrderClientParams = {
+  page?: number;
+  limit?: number;
+  search?: string;
+  statutCommande?: string;
+};
+
+export async function listMesCommande(
+  { page, limit, search, statutCommande }: OrderClientParams = { page: 1, limit: 20 }
+): Promise<Paginated<CommandeClient>> {
+  try {
+    const params = {
+      page,
+      limit,
+      search,
+      statutCommande,
+    };
+    const res = await apiAuth.get("/commandes/mes", { params });
     return res.data;
   } catch (error: any) {
     throw error;

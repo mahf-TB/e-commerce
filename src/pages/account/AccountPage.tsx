@@ -1,6 +1,5 @@
 import StatisticGrid from '@/components/statistic-grid';
-import CommandeRecentes from '@/features/orders/CommandeRecents';
-import React from 'react'
+import CommandeRecentes from '@/features/orders/myOrder/CommandeRecents';
 
 const AccountPage = () => {
   const myStats = [  ];

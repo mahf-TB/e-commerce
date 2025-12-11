@@ -3,7 +3,7 @@ import useAuthUser from "@/hooks/use-auth-user";
 import { cn } from "@/lib/utils";
 import { getFullName, maskEmail } from "@/utils/helpers";
 import { Bell, Heart, LayoutDashboard, Package } from "lucide-react";
-import { NavLink, Outlet, useLocation } from "react-router-dom";
+import { Navigate, NavLink, Outlet, useLocation } from "react-router-dom";
 
 const AccountLayout = () => {
    const { data, isAuthenticated, isLoading } = useAuthUser();
@@ -19,6 +19,13 @@ const AccountLayout = () => {
     },
   ];
   
+  // Protect account space: only customers can access
+  if (!isLoading && data?.role !== "customer") {
+    return <Navigate to="/" replace />;
+  }
+  
+  if (isLoading) return null; // or a spinner component
+
   return (
     <div className={cn(" w-full")}>
       <div className="w-full flex py-4 gap-5 mt-5">

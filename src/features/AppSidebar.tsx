@@ -71,7 +71,7 @@ export function AppSidebar() {
             onClick={() => navigate("/")}
             className="flex items-center gap-2 text-xl cursor-pointer"
           >
-            <Logo width={28} height={22} className="text-white" />
+          <Logo width={28} height={22} className="text-white" color="#FFFFFF" />
             <h1 className="font-poppins font-black">Mark-E</h1>
           </div>
           <div className="hover:text-gray-500 p-1 rounded-md cursor-pointer transition-colors">

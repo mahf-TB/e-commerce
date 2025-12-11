@@ -22,6 +22,7 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import AdminRoutes from "./AdminRoutes";
 import PrivateRoutes from "./PrivateRoutes";
 import PublicRoutes from "./PublicRoutes";
+import AdminLoginRoutes from "./AdminLoginRoutes";
 
 const router = createBrowserRouter([
   {
@@ -100,9 +101,9 @@ const router = createBrowserRouter([
   {
     path: "/admin-login",
     element: (
-      <PublicRoutes>
+      <AdminLoginRoutes redirectTo="/admin/dashboard">
         <LoginAdmin />
-      </PublicRoutes>
+      </AdminLoginRoutes>
     ),
   },
   {

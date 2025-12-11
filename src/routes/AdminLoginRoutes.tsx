@@ -8,23 +8,24 @@ interface Props {
   redirectTo?: string;
 }
 
-const PublicRoutes: React.FC<Props> = ({ children, redirectTo = "/" }) => {
+const AdminLoginRoutes: React.FC<Props> = ({ children, redirectTo = "/admin/dashboard" }) => {
   const token = authService.getToken();
   const location = useLocation();
   const { data: user, isLoading } = useAuthUser();
 
   if (isLoading) return null; // ou afficher un spinner
 
-  if (token) {
-    // If on admin-login, redirect based on role
-    if (location.pathname === "/admin-login") {
-      const defaultRedirect = user?.role !== "customer" ? "/admin/dashboard" : "/";
-      return <Navigate to={redirectTo || defaultRedirect} state={{ from: location }} replace />;
-    }
+  // If authenticated and non-customer, redirect to admin dashboard
+  if (token && user?.role !== "customer") {
     return <Navigate to={redirectTo} state={{ from: location }} replace />;
+  }
+
+  // If authenticated as customer, redirect to home (they can't use admin login)
+  if (token && user?.role === "customer") {
+    return <Navigate to="/" state={{ from: location }} replace />;
   }
 
   return children;
 };
 
-export default PublicRoutes;
+export default AdminLoginRoutes;

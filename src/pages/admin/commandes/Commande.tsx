@@ -1,6 +1,6 @@
 import PaginationPage from "@/components/pagination-page";
 import { Button } from "@/components/ui/button";
-import SemiCircleChart from "@/features/orders/GrapheStatus";
+import SemiCircleChart from "@/features/orders/myOrder/GrapheStatus";
 import OrderStatusFilter from "@/features/orders/OrderStatusFilter";
 import TableListe from "@/features/orders/TableListe";
 import { ArrowUp, Filter } from "lucide-react";

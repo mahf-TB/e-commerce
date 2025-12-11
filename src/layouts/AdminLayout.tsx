@@ -1,9 +1,18 @@
 // src/layouts/AdminLayout.tsx
 import { AppSidebar } from "@/features/AppSidebar";
 import { SidebarProvider } from "@/components/ui/sidebar";
-import { Outlet } from "react-router-dom";
+import useAuthUser from "@/hooks/use-auth-user";
+import { Navigate, Outlet } from "react-router-dom";
 
 const AdminLayout = () => {
+  const { data, isLoading } = useAuthUser();
+
+  // Protect admin space: only admin/manager/support can access
+  if (!isLoading && (data?.role === "customer" || data?.role === "guest")) {
+    return <Navigate to="/" replace />;
+  }
+
+  if (isLoading) return null; // or a spinner component
   return (
     <SidebarProvider>
       <AppSidebar />

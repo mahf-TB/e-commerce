@@ -30,7 +30,7 @@ const ConnexionPage = () => {
             <span className="text-xs text-gray-400">ou</span>
             <span className="flex-1 h-px bg-gray-200" />
           </div>
-          <GoogleOneTap route="connexion"/>
+          <GoogleOneTap />
           <p className="text-xs text-gray-400 mt-2">
             Nous respectons votre vie privée — vos données ne seront pas
             partagées.

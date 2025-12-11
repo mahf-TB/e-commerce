@@ -1,34 +1,11 @@
-import { cn } from "@/lib/utils";
+<svg version="1.0" xmlns="http://www.w3.org/2000/svg"
+      width="562.000000pt" height="444.000000pt" viewBox="0 0 562.000000 444.000000"
+      preserveAspectRatio="xMidYMid meet">
 
-interface LogoProps {
-  className?: string;
-  width?: number | string;
-  height?: number | string;
-  color?: string;
-}
-
-export function Logo({
-  className,
-  width = 56.2,
-  height = 44.4,
-  color = "currentColor",
-}: LogoProps) {
-  return (
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      width={width}
-      height={height}
-      viewBox="0 0 562 444"
-      className={cn("shrink-0", className)}
-      aria-label="Logo"
-    >
-      <g
-        transform="translate(0, 444) scale(0.1, -0.1)"
-        fill={color}
-        stroke="none"
-      >
-        <path
-          d="M1800 4302 c-184 -139 -936 -707 -1420 -1072 -190 -144 -351 -267
+      <g transform="translate(0.000000,444.000000) scale(0.100000,-0.100000)"
+            fill="#FFFFFF" stroke="none">
+            <path
+                  d="M1800 4302 c-184 -139 -936 -707 -1420 -1072 -190 -144 -351 -267
 -358 -274 -12 -11 30 -47 250 -218 338 -262 483 -373 536 -411 l42 -31 0 -516
 c0 -398 3 -520 13 -532 6 -8 73 -54 147 -100 74 -47 241 -152 370 -233 257
 -162 369 -233 745 -470 600 -379 675 -425 689 -425 8 0 79 41 158 91 79 50
@@ -42,9 +19,6 @@ c0 -398 3 -520 13 -532 6 -8 73 -54 147 -100 74 -47 241 -152 370 -233 257
 77 -14 148 -105 371 -216 528 -74 106 -285 313 -394 387 -340 229 -724 359
 -1148 389 -98 7 -145 24 -67 24 73 0 291 30 410 56 614 136 1096 475 1306 919
 69 144 114 322 114 446 l0 57 -57 43 c-32 24 -119 92 -193 150 -310 242 -581
-449 -588 449 -4 -1 -77 -54 -162 -118z"
-        />
+449 -588 449 -4 -1 -77 -54 -162 -118z" />
       </g>
-    </svg>
-  );
-}
+</svg>

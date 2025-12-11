@@ -4,12 +4,14 @@ import { GoogleLogin } from "@react-oauth/google";
 import { useRef } from "react";
 import useAuthStore from "@/store/use-auth.store";
 import authService from "@/services/authService";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { useAuthInvalidate } from "@/hooks/use-auth-invalidate";
-const GoogleOneTap = ({ route }: { route?: string }) => {
+const GoogleOneTap = () => {
   const { invalidateAuthUser } = useAuthInvalidate();
   const { pending, setPending } = useAuthStore();
   const navigate = useNavigate();
+  const location = useLocation();
+  const from = location.state?.from?.pathname ?? null;
 
   const googleBtnRef = useRef<HTMLDivElement | null>(null);
   const handleCustomClick = () => {
@@ -24,19 +26,18 @@ const GoogleOneTap = ({ route }: { route?: string }) => {
       const result = await authService.processGoogleCredential(
         {
           credential: idToken,
-        },
-        route
+        }
       );
-      
+
       if (result) {
         await invalidateAuthUser();
-        // If a route was explicitly provided, go there. Otherwise use role-based default.
-        if (route) {
-          navigate(`/${route}`);
+        // Priorité: retourner à la route d'origine si disponible
+        if (from) {
+          navigate(from, { replace: true });
         } else if (result.user?.role !== "customer") {
-          navigate("/admin");
+          navigate("/admin", { replace: true });
         } else {
-          navigate("/account");
+          navigate("/account", { replace: true });
         }
       }
     } catch (e) {

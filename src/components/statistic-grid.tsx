@@ -1,7 +1,7 @@
 import * as React from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
-import { Package } from "lucide-react";
+import { Bell, Package, PackageCheck, PackageSearch } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { formatCompactNumber } from "@/utils/helpers";
 
@@ -25,21 +25,21 @@ const defaultStats: Stat[] = [
     title: "Commandes en cours",
     value: 5000,
     subtitle: "En préparation / expédiées",
-    icon: <Package size={18} />,
+    icon: <PackageSearch size={18} />,
     color:"text-yellow-600"
   },
   {
     title: "Commandes livrées",
     value: 98100000,
     subtitle: "Livrées avec succès",
-    icon: <Package size={18} />,
+    icon: <PackageCheck size={18} />,
     color:"text-blue-600"
   },
   {
     title: "Notifications non lues",
     value: 410,
     subtitle: "Nouvelles notifications",
-    icon: <Package size={18} />,
+    icon: <Bell size={18} />,
     color:"text-violet-600"
   },
 ];

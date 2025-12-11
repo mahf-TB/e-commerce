@@ -1,70 +1,55 @@
-import { OrderProgressBar } from "@/components/OrderProgressBar";
-import Tooltips from "@/components/tooltips";
-import { Badge } from "@/components/ui/badge";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Separator } from "@/components/ui/separator";
+"use client";
+
+import { Button } from "@/components/ui/button";
+import { Card, CardContent } from "@/components/ui/card";
+import {
+  MoreHorizontal,
+  Download,
+  Info,
+  MapPin,
+  Calendar,
+  User,
+} from "lucide-react";
+import { cn } from "@/lib/utils";
+import type { Commande, CommandeClient } from "@/types/order";
+import {
+  formatDate,
+  formatPrice,
+  getLibelleStatut,
+  getStatusColorClass,
+} from "@/utils/helpers";
 import {
   Tooltip,
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
-import { cn } from "@/lib/utils";
-import type { CommandeDetail } from "@/types";
-import { getLibelleStatut, getStatusColorClass } from "@/utils/helpers";
-import { Calendar, Info, MapPin, User } from "lucide-react";
+import Tooltips from "@/components/tooltips";
+import { OrderProgressBar } from "@/components/OrderProgressBar";
+import { Badge } from "@/components/ui/badge";
+import { Separator } from "@/components/ui/separator";
 import { Link } from "react-router-dom";
 
-// MOCK pour l’exemple
-const lastOrderMock: CommandeDetail = {
-  id: "1",
-  numeroCommande: "73262",
-  nombreProduits: 4,
-  nomClient: "Alex John",
-  dateCreation: "13:45, 10 nov. 20255",
-  statut: "en_attente",
-  dateLivraison: "Fri, 13 Nov, 2025",
-  adresseLivraison: "Great street, New York Brooklyn 5A, PO: 212891",
-  total: 340,
-  lignes: [
-    {
-      id: "i1",
-      nomProduit: "Great product name goes here",
-      image: "/images/article1.jpg",
-      quantite: 1,
-      prixUnitaire: 340,
-    },
-    {
-      id: "i2",
-      nomProduit: "Table lamp for office or bedroom",
-      image: "/images/article1.jpg",
-      quantite: 1,
-      prixUnitaire: 340,
-    },
-    {
-      id: "i3",
-      nomProduit: "Great product name goes here",
-      image: "/images/article1.jpg",
-      quantite: 2,
-      prixUnitaire: 87,
-    },
-  ],
+type OrderCardProps = {
+  order: CommandeClient;
 };
 
-export default function CommandeRecentes() {
-  const order = lastOrderMock;
-
+export function OrderCard({ order }: OrderCardProps) {
   return (
     <Card className="w-full p-5 rounded-sm shadow-none gap-3">
-      <CardHeader className="p-0">
-        <CardTitle className="font-poppins">Dernière commande</CardTitle>
-      </CardHeader>
-      <CardContent className="p-0 pt-3 border-t border-gray-300">
+      <CardContent className="p-0  border-gray-300">
         {/* En-tête infos principales */}
         <div className="flex items-start justify-between mb-4 ">
           <div className="flex flex-col gap-3 w-full">
-            <div className="text-base text-gray-600 font-semibold font-poppins tracking-wide uppercase">
-              Commande N°: {order.numeroCommande}
+            <div className="flex items-center justify-between ">
+              <div className="text-base text-gray-600 font-semibold font-poppins tracking-wide uppercase">
+                N°: {order.reference}
+              </div>
+              <div className="flex items-center gap-2">
+                <Button variant="ghost" size="icon" className="rounded-md">
+                  <MoreHorizontal className="h-5 w-5" />
+                </Button>
+              </div>
             </div>
             <Tooltips text={getLibelleStatut(order.statut)}>
               <OrderProgressBar statut={order.statut} />
@@ -72,7 +57,7 @@ export default function CommandeRecentes() {
             <div className="text-xs text-foreground flex items-center gap-2">
               <Calendar className="size-3.5 inline-block" />
               <div className="text-xs text-foreground">
-                {order.dateCreation}
+                {formatDate(order.creeLe)}
               </div>
               <Badge
                 className={cn(getStatusColorClass(order.statut))}
@@ -83,9 +68,10 @@ export default function CommandeRecentes() {
             </div>
             <div className="text-xs text-foreground flex items-center gap-2">
               <User className="size-3.5  inline-block" />
-              <div className="text-xs text-foreground">{order.nomClient}</div>
+              <div className="text-xs text-foreground">
+                {order.nomDestinataire}
+              </div>
             </div>
-            
           </div>
         </div>
 
@@ -117,24 +103,24 @@ export default function CommandeRecentes() {
           </div>
           <Link
             to={`/mes-commandes/${order.id}`}
-            className="text-sm text-primary font-medium hover:underline"
+            className="text-xs text-blue-500 font-medium hover:underline"
           >
             Voir le détail
           </Link>
         </div>
 
         {/* Liste des lignes */}
-        {order.lignes.map((ligne) => (
+        {order.items.slice(0, 1).map((ligne) => (
           <div
             key={ligne.id}
-            className="flex items-center justify-between bg-muted/70 rounded-md px-3 py-2.5 mb-2 last:mb-0"
+            className="flex items-end justify-between bg-muted/70 rounded-md px-3 py-2.5 mb-2 last:mb-0"
           >
             <div className="flex items-center gap-3">
-              <div className="relative h-10 w-10 rounded-md overflow-hidden bg-muted">
+              <div className="relative h-10 min-w-10 rounded-md overflow-hidden bg-muted">
                 <img
-                  src={ligne?.image}
+                  src={ligne.image ?? "/images/default-product.jpg"}
                   alt={ligne.nomProduit}
-                  className="object-cover"
+                  className="object-cover h-10 w-10"
                 />
               </div>
               <div className="flex flex-col gap-0.5">
@@ -146,36 +132,27 @@ export default function CommandeRecentes() {
                 </span>
               </div>
             </div>
-
             <div className="flex items-center gap-2.5">
-              <span className="text-xs text-muted-foreground"></span>
-              <Separator
-                orientation="vertical"
-                className="h-3 bg-accent-foreground/20"
-              />
               <span className="text-xs font-semibold text-foreground">
-                {(ligne.prixUnitaire * ligne.quantite).toLocaleString("fr-FR")}{" "}
-                Ar
+                {formatPrice(ligne.prixUnitaire * ligne.quantite)}
               </span>
             </div>
           </div>
         ))}
         {/* Ligne stats */}
-        <div className="flex items-center gap-2.5 mb-4">
-          <div className="flex flex-col gap-1.5 flex-1">
-            <div className="text-xs text-muted-foreground font-medium tracking-wide uppercase">
-              Total
-            </div>
-            <div className="text-2xl font-bold text-foreground">
-              {order.total.toLocaleString("fr-FR")} Ar
-            </div>
+        <div className="flex items-end justify-between mt-5">
+          <div className="flex items-center gap-2">
+            <Button variant="outline" size="sm" className="rounded text-xs">
+              <Download className="mr-1 h-4 w-4" />
+              Télécharger la facture
+            </Button>
           </div>
-          <div className="flex flex-col gap-1.5 flex-1">
-            <div className="text-xs text-muted-foreground font-medium tracking-wide uppercase">
-              Produits
+          <div className="flex flex-col items-end">
+            <div className="text-xs text-muted-foreground font-medium tracking-wide">
+              {order.items.length} article(s)
             </div>
-            <div className="text-2xl font-bold text-foreground">
-              {order.nombreProduits}
+            <div className="text-lg font-bold text-foreground">
+              {order.total && formatPrice(order.total)}
             </div>
           </div>
         </div>

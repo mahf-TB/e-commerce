@@ -1,98 +1,90 @@
 import InputForm from "@/components/input-form";
 import SegmentedControl from "@/components/segmented-control";
 import { Search } from "lucide-react";
-import React, { useState } from "react";
-import { OrderCard } from "@/features/orders/OrderCard";
-import type { Commande, CommandeDetail } from "@/types/order";
+import  { useState } from "react";
+import { OrderCard } from "@/features/orders/myOrder/OrderCard";
+import { OrderCardSkeleton } from "@/features/orders/skeleton/OrderCardSkeleton";
+import type { CommandeClient } from "@/types/order";
+import { useQuery } from "@tanstack/react-query";
+import { listMesCommande } from "@/services/commandeService";
+import type { Paginated } from "@/types";
+
+const options = [
+  { value: "all", label: "Tous" },
+  { value: "en_attente", label: "En attente" },
+  { value: "en_preparation", label: "En préparation" },
+  { value: "expediee", label: "Expédiée" },
+  { value: "livree", label: "Livrée" },
+];
 
 const MyOrderPage = () => {
-  const [billing, setBilling] = useState("new");
+  const [statusFilter, setStatusFilter] = useState("all");
+  const [searchQuery, setSearchQuery] = useState("");
 
-  const options = [
-    { value: "all", label: "Tous" },
-    { value: "new", label: "Nouveaux" },
-    { value: "pending", label: "En attente" },
-  ];
+  const { data, isLoading, isError } = useQuery({
+    queryKey: ["orders", statusFilter, searchQuery],
+    queryFn: () =>
+      listMesCommande({
+        page: 1,
+        limit: 20,
+        search: searchQuery || undefined,
+        statutCommande: statusFilter !== "all" ? statusFilter : undefined,
+      }),
+    keepPreviousData: true,
+    staleTime: 1000 * 60 * 2,
+  } as any);
+
+  const commandes = (data as Paginated<CommandeClient>)?.items || [];
 
   return (
     <div>
-      <div className="mb-4 flex gap-4 items-center justify-end">
-        <SegmentedControl
-          options={options}
-          value={billing}
-          onValueChange={setBilling}
-        />
+      {/* Filtres et recherche */}
+      <div className="mb-4 flex gap-4 items-center justify-between flex-wrap">
+        
         <InputForm
           placeholder="Recherche commande..."
+          className="bg-white"
           iconLeft={<Search size={16} />}
+          value={searchQuery}
+          onChange={(e) => setSearchQuery(e.target.value)}
+        />
+        <SegmentedControl
+          options={options}
+          value={statusFilter}
+          onValueChange={setStatusFilter}
         />
       </div>
-      <section className="space-y-4">
-        {mockOrders.map((order) => (
-          <OrderCard key={order.id} order={order} />
-        ))}
-      </section>
+
+      {/* État de chargement */}
+      {isLoading && (
+        <section className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-2">
+          {Array.from({ length: 2 }).map((_, i) => (
+            <OrderCardSkeleton key={i} />
+          ))}
+        </section>
+      )}
+
+      {/* Erreur */}
+      {isError && (
+        <div className="text-center text-red-500 py-8">
+          Une erreur est survenue lors du chargement des commandes.
+        </div>
+      )}
+
+      {/* Liste des commandes */}
+      {!isLoading && !isError && (
+        <section className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+          {commandes.length > 0 ? (
+            commandes.map((order) => <OrderCard key={order.id} order={order} />)
+          ) : (
+            <div className="text-center text-gray-500 py-8 col-span-full">
+              Aucune commande trouvée.
+            </div>
+          )}
+        </section>
+      )}
     </div>
   );
 };
 
 export default MyOrderPage;
-
-const mockOrders: CommandeDetail[] = [
-  {
-    id: "1",
-    numeroCommande: "73262",
-    nombreProduits: 4,
-    nomClient: "Alex John",
-    dateCreation: "13:45, 10 nov. 20255",
-    statut: "en_attente",
-    dateLivraison: "Fri, 13 Nov, 2025",
-    adresseLivraison: "Great street, New York Brooklyn 5A, PO: 212891",
-    total: 340,
-    lignes: [
-      {
-        id: "i1",
-        nomProduit: "Great product name goes here",
-        image: "/images/article1.jpg",
-        quantite: 1,
-        prixUnitaire: 340,
-      },
-      {
-        id: "i2",
-        nomProduit: "Table lamp for office or bedroom",
-        image: "/images/article1.jpg",
-        quantite: 1,
-        prixUnitaire: 340,
-      },
-      {
-        id: "i3",
-        nomProduit: "Great product name goes here",
-        image: "/images/article1.jpg",
-        quantite: 2,
-        prixUnitaire: 87,
-      },
-
-    ],
-  },
-  {
-    id: "2",
-    numeroCommande: "09177",
-    nombreProduits: 4,
-    nomClient: "Alex John",
-    dateCreation: "13:45, 10 nov. 2025",
-    statut: "expediee",
-    dateLivraison: "Fri, 13 Nov, 2025",
-    adresseLivraison: "Great street, New York Brooklyn 5A, PO: 212891",
-    total: 280,
-    lignes: [
-      // autres items...
-      {
-        id: "i4",
-        nomProduit: "Great cup white minimalist style",
-        image: "/images/article1.jpg",
-        quantite: 1,
-        prixUnitaire: 340,
-      },
-    ],
-  },
-];

@@ -9,11 +9,13 @@ import authService from "@/services/authService";
 import useAuthStore from "@/store/use-auth.store";
 import { isValidEmail } from "@/utils/helpers";
 import { Lock, Mail } from "lucide-react";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import FormRegister from "./FormRegister";
 
 const FormConnected = () => {
   const navigate = useNavigate();
+  const location = useLocation();
+  const from = location.state?.from?.pathname ?? "/account";
   const { invalidateAuthUser } = useAuthInvalidate();
   const { pending, setPending, step, setStep } = useAuthStore();
   const [email, setEmail] = useState("");
@@ -32,17 +34,15 @@ const FormConnected = () => {
     if (result) {
       await invalidateAuthUser();
       setAuthToken(result.token ?? null);
-      navigate("/account");
+      navigate(from, { replace: true });
     }
   };
   const registerUser = async () => {
-    console.log();
-
     const result = await authService.registerUser({ ...userInfo, email });
     if (result) {
       await invalidateAuthUser();
       setAuthToken(result.token ?? null);
-      navigate("/account");
+      navigate(from, { replace: true });
     }
   };
 

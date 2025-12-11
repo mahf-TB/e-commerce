@@ -6,7 +6,7 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 interface PaymentMethodsProps {
   modePaye?: string;
   phone?: string;
-  onModePayeChange?: (value: string) => void;
+  onModePayeChange?: (value: "card" | "espece" | "mvola") => void;
   onPhoneChange?: (value: string) => void;
   onCardDataChange?: (data: any) => void;
 }

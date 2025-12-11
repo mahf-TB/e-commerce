@@ -8,11 +8,12 @@ interface Props {
 
 const AdminRoutes: React.FC<Props> = ({ children }) => {
   const location = useLocation();
-  const { data: user, isLoading, error } = useAuthUser();
+  const { data: user, isLoading, isAuthenticated } = useAuthUser();
 
   if (isLoading) return null; // or a spinner component
 
-  if (!user || error || user.role !== "admin") {
+  // Only non-customer roles (admin, manager, support) can access admin space
+  if (!isAuthenticated || user?.role === "customer") {
     return <Navigate to="/admin-login" state={{ from: location }} replace />;
   }
 

@@ -34,7 +34,7 @@ const UserAvatar: React.FC<UserAvatarProps> = ({
           onError={() => setImgSrc(undefined)}
         />
       )}
-      <AvatarFallback className={`bg-gray-950 text-white ${fallbackClassName}`}>{fallback}</AvatarFallback>
+      <AvatarFallback className={`bg-blue-950 text-white ${fallbackClassName}`}>{fallback}</AvatarFallback>
     </Avatar>
   );
 };

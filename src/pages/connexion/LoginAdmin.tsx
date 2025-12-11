@@ -1,18 +1,15 @@
+import InputForm from "@/components/input-form";
+import authService from "@/services/authService";
+import useAuthStore from "@/store/use-auth.store";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Spinner } from "@/components/icon/spinner";
-import useGoogleAuth from "@/hooks/use-google-auth";
-import googleIcon from "@/assets/google-icon.svg";
-import InputForm from "@/components/input-form";
 import { Lock, Mail } from "lucide-react";
 import { isValidEmail } from "@/utils/helpers";
 import { AnimatedBackground } from "@/components/AnimatedBackground";
-import authService from "@/services/authService";
 import { setAuthToken } from "@/lib/axios";
 import { useAuthInvalidate } from "@/hooks/use-auth-invalidate";
-import useAuthStore from "@/store/use-auth.store";
 import { useNavigate } from "react-router-dom";
-import GoogleOneTap from "@/features/auth/GoogleOneTap";
 
 const LoginAdmin = () => {
   const { invalidateAuthUser } = useAuthInvalidate();
@@ -37,7 +34,7 @@ const LoginAdmin = () => {
     try {
       await loginUser();
     } catch (error) {
-      console.error("Erreur de connexion :", error || error);
+      console.error("Erreur de connexion : ", error || error);
       setError("Échec de la connexion. Veuillez vérifier vos identifiants.");
       setLoading(false);
     } finally {
@@ -50,13 +47,18 @@ const LoginAdmin = () => {
     if (result) {
       await invalidateAuthUser();
       setAuthToken(result.token ?? null);
-      navigate("/account");
+      // Redirect based on user role
+      if (result.user?.role === "customer") {
+        navigate("/account", { replace: true });
+      } else {
+        navigate("/admin/dashboard", { replace: true });
+      }
     }
   };
 
   return (
     <AnimatedBackground className="h-svh">
-      <div className="flex items-center justify-center h-full w-full ">
+      <div className="flex items-center justify-between h-full w-full flex-col">
         <div className="p-8 rounded w-full max-w-lg">
           <div className="mb-6 text-start">
             <h2 className="text-2xl font-bold mb-2 font-poppins">
@@ -64,7 +66,7 @@ const LoginAdmin = () => {
             </h2>
             <p className="text-sm text-gray-600">
               Connectez-vous pour gérer vos commandes, produits et paramètres.
-              Utilisez votre adresse e-mail ou la connexion Google.
+              Veuillez utiliser votre adresse e-mail et mot de passe.
             </p>
           </div>
 
@@ -113,19 +115,11 @@ const LoginAdmin = () => {
               <span>{loading ? "Connexion..." : "Se connecter"}</span>
             </Button>
           </form>
-
-          <div className="my-4 flex items-center gap-3">
-            <span className="flex-1 h-px bg-gray-200" />
-            <span className="text-xs text-gray-400">ou</span>
-            <span className="flex-1 h-px bg-gray-200" />
-          </div>
-
-          <GoogleOneTap route="admin" />
-          <p className="text-xs text-gray-400 mt-2">
-            Nous respectons votre vie privée — vos données ne seront pas
-            partagées.
-          </p>
         </div>
+        <p className="text-xs text-gray-400 ">
+          Nous respectons votre vie privée — vos données ne seront pas
+          partagées.
+        </p>
       </div>
     </AnimatedBackground>
   );

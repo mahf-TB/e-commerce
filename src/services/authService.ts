@@ -9,13 +9,9 @@ import type {
 
 // Envoie l'idToken au backend pour obtenir le token d'auth
 export async function connectedGoogleToken(
-  id_token: string,
-  route?: string
+  id_token: string
 ): Promise<AuthData> {
-  const { data } = await api.post(
-    `/auth/google?route=${encodeURIComponent(route ?? "")}`,
-    { id_token }
-  );
+  const { data } = await api.post("/auth/google", { id_token });
   return data as AuthData;
 }
 
@@ -46,13 +42,12 @@ export async function registerUser(
 }
 
 export async function processGoogleCredential(
-  credentialResponse: GoogleCredentialResponse,
-  route?: string
+  credentialResponse: GoogleCredentialResponse
 ): Promise<AuthData> {
   const idToken = credentialResponse?.credential;
   if (!idToken) throw new Error("Aucun credential reçu");
   try {
-    const data = await connectedGoogleToken(idToken, route);
+    const data = await connectedGoogleToken(idToken);
     if (data && data.token) {
       setAuthToken(data.token ?? null);
     }

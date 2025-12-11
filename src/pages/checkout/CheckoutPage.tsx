@@ -24,7 +24,7 @@ export default function CheckoutPage() {
   const [typeLivraison, setTypeLivraison] = useState("standard");
 
   // États pour le paiement
-  const [modePaye, setModePaye] = useState("card");
+  const [modePaye, setModePaye] = useState<"card" | "espece" | "mvola">("card");
   const [phoneMvola, setPhoneMvola] = useState("");
   const [cardData, setCardData] = useState<any>(null);
 
@@ -94,7 +94,7 @@ export default function CheckoutPage() {
         adresseLivraison: adresse || null,
         typeLivraison: typeLivraisonValue,
         etatPaiement: etatPaiementValue,
-        statutCommande: "en_attente" as const,
+        modePaiement: modePaye,
         frais: fraisLivraison,
         items,
       };
