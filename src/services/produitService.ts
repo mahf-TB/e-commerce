@@ -19,6 +19,14 @@ export async function createNewProduct(credential: any) {
     throw error;
   }
 }
+export async function updateProduct(id: string | number, credential: any) {
+  try {
+    const res = await apiAuth.put(`/produits/${id}`, credential);
+    return res.data;
+  } catch (error) {
+    throw error;
+  }
+}
 
 export async function getOneVariantProduit(id: string, variantId: string) {
   try {
@@ -98,8 +106,10 @@ export async function getProductById(id: string | number): Promise<Produit> {
 
 export default {
   createNewProduct,
+  updateProduct,
   changeStatutProduct,
   getProductList,
   getProductById,
   changeStatutVariant,
+  getOneVariantProduit
 };

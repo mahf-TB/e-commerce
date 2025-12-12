@@ -15,7 +15,13 @@ import { useAuthInvalidate } from "@/hooks/use-auth-invalidate";
 import useAuthUser from "@/hooks/use-auth-user";
 import { logout } from "@/services/authService";
 import { useCartStore } from "@/store/use-panier.store";
-import { fallbackAvatar, getFullName, maskEmail } from "@/utils/helpers";
+import {
+  fallbackAvatar,
+  getFullName,
+  hasAdminAccess,
+  isClient,
+  maskEmail,
+} from "@/utils/helpers";
 import {
   Bell,
   Heart,
@@ -141,7 +147,7 @@ const HeaderPage = () => {
               title="Panier"
               onClick={() => navigate("/cart")}
             />
-            {data?.role === "admin" && (
+            {hasAdminAccess(data?.role) && (
               <>
                 <DropdownItems
                   icon={<ShieldUser size={18} />}
@@ -156,7 +162,7 @@ const HeaderPage = () => {
               </>
             )}
 
-            {data?.role === "customer" && (
+            {isClient(data?.role) && (
               <>
                 <DropdownItems
                   icon={<Package size={18} />}

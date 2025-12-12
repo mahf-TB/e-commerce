@@ -7,6 +7,7 @@ import {
   ShieldOff,
   Shield,
   ReceiptText,
+  ImagePlusIcon,
 } from "lucide-react";
 import Dropdown, { DropdownItems } from "@/components/dropdown";
 import {
@@ -19,6 +20,7 @@ import { changeStatutProduct } from "@/services/produitService";
 import CardSheetModal from "@/components/CardSheetModal";
 import ProductDetails from "./ProductDetails";
 import { useProduct } from "@/hooks/use-product";
+import { useNavigate } from "react-router-dom";
 
 export interface ProductRowProps {
   id: string | number;
@@ -51,11 +53,9 @@ export const ProductRow: React.FC<ProductRowProps> = ({
   nombreAvis,
   noteMoyenne = 0,
   date,
-  statut,
-  onView,
-  onEdit,
-  onDelete,
+  statut
 }) => {
+  const navigate = useNavigate();
   const [openModal, setOpenModal] = React.useState(false);
   const [selectedId, setSelectedId] = React.useState<string | number | null>(
     null
@@ -168,7 +168,12 @@ export const ProductRow: React.FC<ProductRowProps> = ({
           <DropdownItems
             icon={<PenBox size={18} />}
             title="Modifier"
-            onClick={() => onEdit && onEdit(id)}
+            onClick={() => navigate(`${id}`)}
+          />
+          <DropdownItems
+            icon={<ImagePlusIcon size={18} />}
+            title="Gérer les images"
+            onClick={() => navigate(`${id}/images`)}
           />
           {statut === "active" ? (
             <DropdownItems

@@ -1,5 +1,5 @@
 import { apiAuth } from "@/lib/axios";
-import type { CommandeClient, CommandeRaw, Paginated } from "@/types";
+import type { CommandeClient, Paginated } from "@/types";
 
 export interface CommandeItem {
   produit: string;

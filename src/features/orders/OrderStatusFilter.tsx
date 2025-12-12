@@ -25,7 +25,6 @@ const OrderStatusFilter: React.FC<OrderStatusFilterProps> = ({
     <div className="flex items-center rounded gap-2">
       <SearchInput />
       <ReusableSelect
-        label="Status"
         placeholder="Statut commande"
         options={orderStatusOptions}
         value={value}

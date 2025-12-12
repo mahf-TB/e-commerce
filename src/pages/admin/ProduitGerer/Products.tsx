@@ -83,7 +83,7 @@ const Products = () => {
                 key={p.id}
                 id={p.id}
                 code={String(p.code)}
-                image={p.imagePrincipale ?? "/images/article1.jpg"}
+                image={p.imagePrincipale ?? "/images/default-product.jpg"}
                 produit={p.nom}
                 category={p.categorieNom ?? "-"}
                 description={p.marqueNom ?? ""}
@@ -95,7 +95,7 @@ const Products = () => {
                 noteMoyenne={p.noteMoyenne}
                 date={p.createdAt}
                 onView={(id) => console.log("Voir produit", id)}
-                onEdit={(id) => console.log("Modifier produit", id)}
+                onEdit={(id) => navigate(`${id}`)}
                 onDelete={(id) => console.log("Supprimer produit", id)}
               />
             ))}

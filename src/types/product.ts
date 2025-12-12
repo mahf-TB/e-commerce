@@ -25,8 +25,8 @@ export type Produit = {
   description: string;
   statut: "active" | "inactive" | "archived";
   garantie: string;
-  marque?: { nom: string };
-  categorie?: { nom: string };
+  marque?: {id: string; nom: string };
+  categorie?: { id: string; nom: string };
   images: Image[];
   variants: VariantProduct[];
   nombreAvis: number;

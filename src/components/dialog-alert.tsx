@@ -48,7 +48,7 @@ const variantConfig = {
   },
 };
 
-export default function AlertComponent({
+export default function DialogAlert({
   trigger,
   title,
   description,

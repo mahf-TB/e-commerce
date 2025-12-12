@@ -4,7 +4,7 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import TextareaForm from "./TextareaForm";
+import TextareaForm from "./textarea-form";
 import StarRating from "./star-rating";
 import { useState } from "react";
 import Tooltips from "./tooltips";

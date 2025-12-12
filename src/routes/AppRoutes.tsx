@@ -23,6 +23,9 @@ import AdminRoutes from "./AdminRoutes";
 import PrivateRoutes from "./PrivateRoutes";
 import PublicRoutes from "./PublicRoutes";
 import AdminLoginRoutes from "./AdminLoginRoutes";
+import EditProduct from "@/pages/admin/ProduitGerer/EditProduct";
+import EditProductImages from "@/pages/admin/ProduitGerer/EditProductImages_new";
+
 
 const router = createBrowserRouter([
   {
@@ -95,6 +98,8 @@ const router = createBrowserRouter([
       { path: "commande", element: <Commande /> },
       { path: "produits", element: <Products /> },
       { path: "produits/ajouter", element: <AddProduct /> },
+      { path: "produits/:id", element: <EditProduct /> },
+      { path: "produits/:id/images", element: <EditProductImages /> },
       { path: "clients", element: <Customer /> },
     ],
   },

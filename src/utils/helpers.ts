@@ -19,11 +19,12 @@ export const formatDate = (dateStr: string): string => {
     month: "short",
     year: "numeric",
   });
-}
+};
 
 // Formater un nombre en format compact (1.2K, 3.4M, etc.)
 export function formatCompactNumber(n: number): string {
-  if (n >= 1_000_000) return (n / 1_000_000).toFixed(1).replace(/\.0$/, "") + "M";
+  if (n >= 1_000_000)
+    return (n / 1_000_000).toFixed(1).replace(/\.0$/, "") + "M";
   if (n >= 1_000) return (n / 1_000).toFixed(1).replace(/\.0$/, "") + "K";
   return n.toString();
 }
@@ -40,29 +41,27 @@ export const isValidEmail = (email: string): boolean => {
   return regex.test(email);
 };
 
-
 export function getLibelleStatut(statut: StatutCommande): string {
   switch (statut) {
-    case 'en_attente':
-      return 'En attente';
-    case 'en_preparation':
-      return 'En préparation';
-    case 'expediee':
-      return 'Expédiée';
-    case 'livree':
-      return 'Livrée';
-    case 'annulee':
-      return 'Annulée';
+    case "en_attente":
+      return "En attente";
+    case "en_preparation":
+      return "En préparation";
+    case "expediee":
+      return "Expédiée";
+    case "livree":
+      return "Livrée";
+    case "annulee":
+      return "Annulée";
     default:
-      return '';
+      return "";
   }
 }
-
 
 export function getStatusColorClass(statut: CommandeDetail["statut"]) {
   switch (statut) {
     case "en_attente":
-        return "bg-amber-100 text-amber-800";
+      return "bg-amber-100 text-amber-800";
     case "en_preparation":
       return "bg-blue-100 text-blue-800";
     case "expediee":
@@ -74,27 +73,50 @@ export function getStatusColorClass(statut: CommandeDetail["statut"]) {
     default:
       return "bg-gray-100 text-gray-800";
   }
-
 }
 
-
-  // Fonction pour masquer une partie de l'email
+// Fonction pour masquer une partie de l'email
 export const maskEmail = (email: string): string => {
-  return email ? `${email.substring(0, 1)}${'*'.repeat(8)}@${email.split('@')[1]}` : '';
+  return email
+    ? `${email.substring(0, 1)}${"*".repeat(8)}@${email.split("@")[1]}`
+    : "";
+};
+
+export const getFullName = (data: {
+  prenom?: string;
+  nom?: string;
+  username?: string;
+}): string => {
+  return (
+    `${data?.prenom || ""} ${data?.nom || ""}`.trim() ||
+    data?.username ||
+    "Utilisateur"
+  );
+};
+
+export const fallbackAvatar = (data: {
+  prenom?: string;
+  nom?: string;
+  username?: string;
+  email?: string;
+}) => {
+  if (!data) return "";
+  if (data.username) return data.username.slice(0, 2).toUpperCase();
+  const first = (data.prenom || "").trim().charAt(0);
+  const last = (data.nom || "").trim().charAt(0);
+  const initials = (first + last).toUpperCase();
+  return initials || (data.email?.charAt(0).toUpperCase() ?? "");
+};
+
+export const isAdmin = (userRole: string): boolean => {
+  return userRole === "admin";
 };
 
 
-export const getFullName = (data: { prenom?: string; nom?: string; username?: string }): string => {
-  return data?.username || `${data?.prenom || ""} ${data?.nom || ""}`.trim() || "Utilisateur";
+export const isClient = (userRole: string): boolean => {
+  return userRole === "customer";
 };
 
-
-
-export  const fallbackAvatar = (data: { prenom?: string; nom?: string; username?: string; email?: string }) => {
-    if (!data) return "";
-    if (data.username) return data.username.slice(0, 2).toUpperCase();
-    const first = (data.prenom || "").trim().charAt(0);
-    const last = (data.nom || "").trim().charAt(0);
-    const initials = (first + last).toUpperCase();
-    return initials || (data.email?.charAt(0).toUpperCase() ?? "");
-  };
+export const hasAdminAccess = (userRole: string): boolean => {
+  return ["admin", "manager", "support"].includes(userRole);
+};

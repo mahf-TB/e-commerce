@@ -48,7 +48,7 @@ function Button({
 
   return (
     <Comp
-      className={cn(buttonVariants({ className, size, variant }))}
+      className={cn(buttonVariants({ className, size, variant }) , 'rounded')}
       data-slot="button"
       {...props}
     />

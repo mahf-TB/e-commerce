@@ -1,9 +1,7 @@
 import BadgeButton from "@/components/BadgeButton";
-import { Button } from "@/components/ui/button";
 import {
   EllipsisIcon,
   PenBox,
-  Printer,
   Shield,
   ShieldOff,
   Trash,
@@ -17,13 +15,9 @@ import BadgeItem from "@/components/BadgeItem";
 import LineChart5 from "@/components/line-chart-5";
 import useSystemStore from "@/store/use-system.store";
 import { cn } from "@/lib/utils";
-import LineChart7 from "@/components/line-chart-7";
 import { DropdownMenuLabel } from "@/components/ui/dropdown-menu";
 import Dropdown, { DropdownItems } from "@/components/dropdown";
-import {
-  changeStatutProduct,
-  changeStatutVariant,
-} from "@/services/produitService";
+import { changeStatutVariant } from "@/services/produitService";
 import ActionDetails from "./ActionDetails";
 
 type ProductDetailsProps = {
@@ -79,14 +73,14 @@ const ProductDetails = ({ product, isLoading }: ProductDetailsProps) => {
             <span className="text-muted-foreground">Stock actuel</span>
             <span className="font-medium">{stoctActuel} </span>
             {/* Stock minimum */}
-            <span className="text-muted-foreground">Stock minimum</span>
-            <span className="font-medium">{stockMinimum} </span>
+            {/* <span className="text-muted-foreground">Stock minimum</span>
+            <span className="font-medium">{stockMinimum} </span> */}
             {/* Quantité vendue */}
             <span className="text-muted-foreground">Quantité vendue</span>
             <span className="font-medium">45</span>
             {/* Valeur totale */}
-            <span className="text-muted-foreground">Total</span>
-            <span className="font-medium">{formatPrice(totalValue)}</span>
+            {/* <span className="text-muted-foreground">Total</span>
+            <span className="font-medium">{formatPrice(totalValue)}</span> */}
           </div>
           {variants.length > 0 && (
             <>
@@ -126,9 +120,7 @@ const ProductDetails = ({ product, isLoading }: ProductDetailsProps) => {
                           />
                         }
                       >
-                        <DropdownMenuLabel>
-                          Actions jkjkj {v._id}
-                        </DropdownMenuLabel>
+                        <DropdownMenuLabel>Actions</DropdownMenuLabel>
                         <DropdownItems
                           icon={<PenBox size={18} />}
                           title="Modifier"
@@ -138,21 +130,25 @@ const ProductDetails = ({ product, isLoading }: ProductDetailsProps) => {
                           <DropdownItems
                             icon={<ShieldOff size={18} />}
                             title="Désactiver"
-                            onClick={() =>
-                              changeStatutVariant(product?.id, v._id, {
-                                statut: "inactive",
-                              })
-                            }
+                            onClick={() => {
+                              if (product?.id && v?.id) {
+                                changeStatutVariant(product.id, v.id, {
+                                  statut: "inactive",
+                                })
+                              }
+                            }}
                           />
                         ) : (
                           <DropdownItems
                             icon={<Shield size={18} />}
                             title="Activer"
-                            onClick={() =>
-                              changeStatutVariant(product?.id, v._id, {
-                                statut: "active",
-                              })
-                            }
+                            onClick={() => {
+                              if (product?.id && v?.id) {
+                                changeStatutVariant(product.id, v.id, {
+                                  statut: "active",
+                                })
+                              }
+                            }}
                           />
                         )}
 
@@ -160,11 +156,13 @@ const ProductDetails = ({ product, isLoading }: ProductDetailsProps) => {
                           icon={<Trash size={18} />}
                           title="Supprimer"
                           variant="destructive"
-                          onClick={() =>
-                            changeStatutVariant(product?.id, v.id, {
-                              statut: "archived",
-                            })
-                          }
+                          onClick={() => {
+                            if (product?.id && v.id) {
+                              changeStatutVariant(product.id, v.id, {
+                                statut: "archived",
+                              })
+                            }
+                          }}
                         />
                       </Dropdown>
                     </div>
@@ -182,11 +180,7 @@ const ProductDetails = ({ product, isLoading }: ProductDetailsProps) => {
             aria-label="Images du produit"
           >
             {product?.images.map((img, i) => (
-              <ImageProductList
-                key={i}
-                id={i}
-                img={img.url}
-              />
+              <ImageProductList key={i} id={i} img={img.url} />
             ))}
           </div>
         </div>

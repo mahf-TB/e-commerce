@@ -6,13 +6,14 @@ import { changeStatutProduct } from "@/services/produitService";
 import {
   EllipsisIcon,
   HardDriveUploadIcon,
+  ImagePlus,
   PenBox,
   Printer,
   Shield,
   ShieldOff,
   Trash,
 } from "lucide-react";
-import React from "react";
+import { useNavigate } from "react-router-dom";
 
 type ActionDetailsProps = {
   id: string | number;
@@ -20,10 +21,12 @@ type ActionDetailsProps = {
 };
 
 const ActionDetails = ({ id, statut }: ActionDetailsProps) => {
+  const navigate = useNavigate();
   return (
     <div className="flex gap-4 font-poppins">
       <Button
         variant={"outline"}
+        onClick={()=>navigate(`${id}`)}
         className="flex items-center gap-1 rounded bg-gray-950 hover:bg-gray-950/80 hover:text-white  text-white px-2 py-2"
       >
         <PenBox size={18} />
@@ -44,9 +47,9 @@ const ActionDetails = ({ id, statut }: ActionDetailsProps) => {
         <DropdownMenuLabel>Actions</DropdownMenuLabel>
 
         <DropdownItems
-          icon={<HardDriveUploadIcon size={18} />}
+          icon={<ImagePlus size={18} />}
           title="Modifier l'image"
-          // onClick={() =>  onEdit(id)}
+          onClick={() => navigate(`${id}/images`)}
         />
         {statut === "active" ? (
           <DropdownItems
@@ -64,7 +67,7 @@ const ActionDetails = ({ id, statut }: ActionDetailsProps) => {
 
         <DropdownItems
           icon={<Trash size={18} />}
-          title="Supprimer"
+          title="Archiver"
           variant="destructive"
           onClick={() => changeStatutProduct(id, { statut: "archived" })}
         />

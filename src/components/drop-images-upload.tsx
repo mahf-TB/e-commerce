@@ -9,6 +9,7 @@ import {
   ImageIcon,
   Scan,
   ScanHeart,
+  Star,
   Trash2Icon,
   UploadIcon,
   XIcon,
@@ -180,13 +181,13 @@ export default function DropImageUpload({
                   {img.isPrincipale ? (
                     <Tooltips text={"Image principale"}>
                       <span>
-                        <ScanHeart className="size-4 fill-green-500" />
+                        <Star className="size-4 fill-yellow-500 text-yellow-500" />
                       </span>
                     </Tooltips>
                   ) : (
                     <Tooltips text={"Definir comme principale"}>
                       <span>
-                        <Scan className="size-4" />
+                        <Star className="size-4" />
                       </span>
                     </Tooltips>
                   )}
