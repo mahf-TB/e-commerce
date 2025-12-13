@@ -1,26 +1,22 @@
-import React, { useCallback } from "react";
+import BadgeItem from "@/components/BadgeItem";
+import CardSheetModal from "@/components/CardSheetModal";
+import Dropdown, { DropdownItems } from "@/components/dropdown";
+import { DropdownMenuLabel } from "@/components/ui/dropdown-menu";
+import { useProduct } from "@/hooks/use-product";
+import { changeStatutProduct } from "@/services/produitService";
+import { formatDate, formatPrice } from "@/utils/helpers";
 import {
   EllipsisVertical,
-  Trash,
-  Eye,
-  PenBox,
-  ShieldOff,
-  Shield,
-  ReceiptText,
   ImagePlusIcon,
+  PenBox,
+  ReceiptText,
+  Shield,
+  ShieldOff,
+  Trash
 } from "lucide-react";
-import Dropdown, { DropdownItems } from "@/components/dropdown";
-import {
-  DropdownMenuGroup,
-  DropdownMenuLabel,
-} from "@/components/ui/dropdown-menu";
-import { formatDate, formatPrice } from "@/utils/helpers";
-import BadgeItem from "@/components/BadgeItem";
-import { changeStatutProduct } from "@/services/produitService";
-import CardSheetModal from "@/components/CardSheetModal";
-import ProductDetails from "./ProductDetails";
-import { useProduct } from "@/hooks/use-product";
+import React, { useCallback } from "react";
 import { useNavigate } from "react-router-dom";
+import ProductDetails from "./ProductDetails";
 
 export interface ProductRowProps {
   id: string | number;
@@ -53,7 +49,7 @@ export const ProductRow: React.FC<ProductRowProps> = ({
   nombreAvis,
   noteMoyenne = 0,
   date,
-  statut
+  statut,
 }) => {
   const navigate = useNavigate();
   const [openModal, setOpenModal] = React.useState(false);
@@ -64,7 +60,6 @@ export const ProductRow: React.FC<ProductRowProps> = ({
   const { data: productDetail, isLoading: isProductLoading } = useProduct(
     selectedId ?? undefined
   );
-  
 
   const handleView = useCallback((id: string | number) => {
     setSelectedId(id);

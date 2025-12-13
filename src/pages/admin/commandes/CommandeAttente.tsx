@@ -1,16 +1,16 @@
 import InputForm from "@/components/input-form";
-import { CommandeCard } from "@/features/orders/CommandeCard";
-import { CommandeCardSkeleton } from "@/features/orders/skeleton/CommandeCardSkeleton";
-import { DetailCommande } from "@/features/orders/DetailCommande";
-import { DetailCommandeSkeleton } from "@/features/orders/DetailCommandeSkeleton";
-import useCommandeList, { useCommande } from "@/hooks/use-commande";
-import { cn } from "@/lib/utils";
-import { Clock, Hourglass, Loader, Search } from "lucide-react";
-import { useState } from "react";
 import SegmentedControl, {
   type SegmentOption,
 } from "@/components/segmented-control";
+import { CommandeCard } from "@/features/orders/CommandeCard";
+import { DetailCommande } from "@/features/orders/DetailCommande";
+import { CommandeCardSkeleton } from "@/features/orders/skeleton/CommandeCardSkeleton";
+import { DetailCommandeSkeleton } from "@/features/orders/skeleton/DetailCommandeSkeleton";
 import useAuthUser from "@/hooks/use-auth-user";
+import { useCommande, useCommandeList } from "@/hooks/use-commande";
+import { cn } from "@/lib/utils";
+import { Clock, Loader, Search } from "lucide-react";
+import { useState } from "react";
 const options: SegmentOption[] = [
   {
     value: "en_attente",
@@ -57,12 +57,7 @@ const CommandeAttente = () => {
               File d’attente des commandes
             </span>
           )}
-          <div
-            className={cn(
-              "flex items-center gap-5",
-            )}
-          >
-            
+          <div className={cn("flex items-center gap-5")}>
             <InputForm
               placeholder="Rechercher une commande"
               iconLeft={<Search size={16} />}

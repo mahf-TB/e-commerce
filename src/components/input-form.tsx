@@ -1,9 +1,9 @@
 
-import * as React from "react"
-import { EyeIcon, EyeOffIcon } from "lucide-react"
-import { cn } from "@/lib/utils"
-import { Label } from "@/components/ui/label"
 import { Input } from "@/components/ui/input"
+import { Label } from "@/components/ui/label"
+import { cn } from "@/lib/utils"
+import { EyeIcon, EyeOffIcon } from "lucide-react"
+import * as React from "react"
 
 type FormInputProps = React.ComponentProps<"input"> & {
   label?: string
@@ -93,14 +93,6 @@ export default function InputForm({
           </span>
         )}
       </div>
-      {/* Erreur affiche */}
-      {/* <p
-        aria-live="polite"
-        className="mt-2 text-xs peer-aria-invalid:text-destructive"
-        role="alert"
-      >
-        Email is invalid
-      </p> */}
     </div>
   )
 }

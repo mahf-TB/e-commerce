@@ -1,7 +1,7 @@
-import { useQuery } from "@tanstack/react-query";
-import { listAllCommandes, getCommandeById } from "@/services/commandeService";
+import { getCommandeById, listAllCommandes } from "@/services/commandeService";
 import type { Paginated } from "@/types";
 import type { CommandeClient } from "@/types/order";
+import { useQuery } from "@tanstack/react-query";
 
 export type CommandeListParams = {
   page?: number;
@@ -50,6 +50,3 @@ export function useCommande(id?: string) {
 }
 
 
-
-
-export default useCommandeList;

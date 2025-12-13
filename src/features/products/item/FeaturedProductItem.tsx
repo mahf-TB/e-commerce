@@ -54,7 +54,6 @@ export function FeaturedProducts({ product }: FeaturedProductProps) {
       variantId: currentVariant?.id ?? "",
     });
     if (!isOpen) {
-      // ✅ Ouvrir le popover
       console.log("maheada open");
       openCart();
     }

@@ -48,7 +48,7 @@ export function OrderSummary({ fraisLivraison, qte }: OrderSummaryProps) {
             key={data.id}
             id={data.id}
             nom={data.nom}
-            image={data.imagePrincipale}
+            image={data.imagePrincipale ?? "/images/default-product.jpg"}
             description={data?.description}
             prix={data.prixUnitaire}
             quantite={qte}
@@ -67,7 +67,7 @@ export function OrderSummary({ fraisLivraison, qte }: OrderSummaryProps) {
               key={item.id}
               id={item.id}
               nom={item.name}
-              image={item.image}
+              image={item.image ?? "/images/default-product.jpg"}
               description={item?.description}
               prix={item.price}
               quantite={item.quantity}
