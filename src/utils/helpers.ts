@@ -1,5 +1,5 @@
 // src/utils/helpers.ts
-import type { CommandeDetail, StatutCommande } from "@/types";
+import type { StatutCommande } from "@/types";
 
 // Formater un prix en USD
 export const formatPrice = (price: number): string => {
@@ -18,6 +18,17 @@ export const formatDate = (dateStr: string): string => {
     day: "2-digit",
     month: "short",
     year: "numeric",
+  });
+};
+
+export const formatDateTime = (dateStr: string): string => {
+  const date = new Date(dateStr);
+  return date.toLocaleDateString(undefined, {
+    day: "2-digit",
+    month: "short",
+    year: "numeric",
+    hour: "2-digit",
+    minute: "2-digit",
   });
 };
 
@@ -58,7 +69,7 @@ export function getLibelleStatut(statut: StatutCommande): string {
   }
 }
 
-export function getStatusColorClass(statut: CommandeDetail["statut"]) {
+export function getStatusColorClass(statut: StatutCommande) {
   switch (statut) {
     case "en_attente":
       return "bg-amber-100 text-amber-800";

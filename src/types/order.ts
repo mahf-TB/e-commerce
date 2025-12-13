@@ -35,7 +35,7 @@ export type CommandeDetail = {
   lignes: LigneCommande[];
 };
 
-export type StatutCommande = 'en_attente' | 'en_preparation' | 'expediee' | 'livree' | 'annulee';
+export type StatutCommande = 'en_attente' | 'completed' | 'en_preparation' | 'expediee' | 'livree' | 'annulee';
 export type EtatPaiement = 'en_attente' | 'paye' | 'remboursee' | 'partiellement_paye';
 export type TypeLivraison = 'standard' | 'express' | 'retrait_magasin';
 

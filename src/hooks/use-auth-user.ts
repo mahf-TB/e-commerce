@@ -1,7 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { fetchMe, hasToken } from "@/services/authService";
 import type { User } from "@/types";
-import React from "react";
 
 export function useAuthUser() {
   const hasTokenValue = hasToken();
@@ -18,6 +17,7 @@ export function useAuthUser() {
     ...query,
     data: user,
     isAuthenticated,
+    user
   };
 }
 

@@ -23,9 +23,12 @@ import {
   Users2,
   BellRing,
   ArrowLeftFromLine,
+  UserCog,
+  ListOrdered,
 } from "lucide-react";
 import { Logo } from "@/components/icon/logo";
 import { Avatar, AvatarFallback, AvatarImage } from "../components/ui/avatar";
+import { Skeleton } from "@/components/ui/skeleton";
 import Dropdown, { DropdownItems } from "../components/dropdown";
 import { DropdownMenuSeparator } from "../components/ui/dropdown-menu";
 import { Badge } from "../components/ui/badge";
@@ -38,6 +41,7 @@ import UserAvatar from "@/components/user-avatar";
 
 const items = [
   { title: "Dashboard", url: "/admin/dashboard", icon: Home },
+  { title: "File d’attente", url: "/admin/commande-attente", icon: ListOrdered },
   { title: "Commandes", url: "/admin/commande", icon: Inbox },
   { title: "Produits", url: "/admin/produits", icon: Package },
   { title: "Paiements", url: "/admin/dashboard", icon: CreditCard },
@@ -46,13 +50,14 @@ const items = [
 
 const items2 = [
   { title: "Notifications", url: "/admin/dashboard", icon: Bell },
+  { title: "Gérer l'utilisateur", url: "/admin/dashboard", icon: UserCog },
   { title: "Parametre", url: "/admin/dashboard", icon: Settings },
 ];
 
 export function AppSidebar() {
   const { pathname } = useLocation();
   const { removeAuthUser } = useAuthInvalidate();
-  const { data: user, isAuthenticated, isLoading } = useAuthUser();
+  const { user, isLoading } = useAuthUser();
   const navigate = useNavigate();
   const handleLogout = async () => {
     try {
@@ -61,6 +66,11 @@ export function AppSidebar() {
       removeAuthUser();
     } catch (error) {}
   };
+
+
+  if (isLoading) {
+    return <AppSidebarSkeleton />;
+  }
   return (
     <Sidebar className="text-white">
       <div className="bg-gray-950 absolute inset-0 z-0" />
@@ -198,4 +208,68 @@ export function AppSidebar() {
       </SidebarFooter>
     </Sidebar>
   );
+}
+
+
+const AppSidebarSkeleton = () => {
+  return (
+      <Sidebar className="text-white">
+        <div className="bg-gray-950 absolute inset-0 z-0" />
+        <SidebarHeader className="z-50">
+          <div className="flex items-end justify-between gap-4 p-3 pr-1">
+            <div className="flex items-center gap-2">
+              <Skeleton className="h-6 w-6 rounded" />
+              <Skeleton className="h-4 w-20 ml-2" />
+            </div>
+            <Skeleton className="h-6 w-6 rounded" />
+          </div>
+        </SidebarHeader>
+        <SidebarContent>
+          <SidebarGroup>
+            <SidebarGroupContent className="px-2">
+              <SidebarMenu>
+                {Array.from({ length: 5 }).map((_, i) => (
+                  <SidebarMenuItem key={i}>
+                    <SidebarMenuButton
+                      className={`h-10 flex items-center space-x-2`}
+                      asChild
+                    >
+                      <div className="flex items-center w-full">
+                        <Skeleton className="h-4 w-4 rounded" />
+                        <Skeleton className="h-4 w-32 ml-3" />
+                      </div>
+                    </SidebarMenuButton>
+                  </SidebarMenuItem>
+                ))}
+                <SidebarSeparator className="mx-0 my-2 bg-gray-600" />
+                {Array.from({ length: 3 }).map((_, i) => (
+                  <SidebarMenuItem key={`s-${i}`}>
+                    <SidebarMenuButton className="h-10 flex items-center space-x-2" asChild>
+                      <div className="flex items-center w-full">
+                        <Skeleton className="h-4 w-4 rounded" />
+                        <Skeleton className="h-4 w-32 ml-3" />
+                      </div>
+                    </SidebarMenuButton>
+                  </SidebarMenuItem>
+                ))}
+              </SidebarMenu>
+            </SidebarGroupContent>
+          </SidebarGroup>
+        </SidebarContent>
+        <SidebarSeparator className="mx-0 bg-gray-600" />
+
+        <SidebarFooter className="z-50 ">
+          <div className="px-2 flex items-center justify-between">
+            <div className="py-2 flex items-center gap-2 overflow-hidden">
+              <Skeleton className="h-8 w-8 rounded-full" />
+              <div className="hidden md:block">
+                <Skeleton className="h-4 w-24" />
+                <Skeleton className="h-3 w-32 mt-1" />
+              </div>
+            </div>
+            <Skeleton className="h-8 w-8 rounded" />
+          </div>
+        </SidebarFooter>
+      </Sidebar>
+    );
 }

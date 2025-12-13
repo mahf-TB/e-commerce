@@ -1,10 +1,9 @@
-"use client";
 
 import { cn } from "@/lib/utils";
-import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Minus, Plus, X } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import { formatPrice } from "@/utils/helpers";
 
 type ProductCheckoutItemProps = {
   id: string | number;
@@ -72,7 +71,7 @@ export default function ProductItem({
         {/* Quantité + Prix unitaire */}
         <div className="flex items-center gap-2 text-xs">
           <span className="text-muted-foreground">
-            {quantite}* {prix.toLocaleString("fr-FR")} Ar
+            {quantite}* {formatPrice(prix)}
           </span>
         </div>
       </div>
@@ -88,7 +87,7 @@ export default function ProductItem({
             variant="destructive"
             size="sm"
             onClick={removeItem}
-            className="absolute -top-2 -right-2 h-6 w-6 p-0 opacity-0 group-hover:opacity-100 transition-opacity rounded-2xl"
+            className="absolute -top-2 -right-2 h-6 w-6 p-0 opacity-0 group-hover:opacity-100 transition-opacity rounded-full"
           >
             <X size={10} />
             <span className="sr-only">Supprimer</span>

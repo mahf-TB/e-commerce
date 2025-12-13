@@ -1,8 +1,8 @@
 import type { Column } from "@/components/data-table";
 import DataTable from "@/components/data-table";
 import { OrderRow } from "./OrderRows";
+import type { ReactNode } from "react";
 // import Dropdown, { DropdownItems } from "../utils/dropdown";
-
 
 const columns: Column[] = [
   { key: "name", label: "Numéro" },
@@ -15,24 +15,51 @@ const columns: Column[] = [
   { key: "actions", label: "" },
 ];
 
-const TableListe = () => {
+type TableListeOrderProps = {
+  children: ReactNode;
+  isLoading?: boolean;
+  isError?: boolean;
+  length?: number;
+};
+
+const TableListeOrder = ({
+  children,
+  isLoading,
+  isError,
+  length,
+}: TableListeOrderProps) => {
   return (
     <DataTable columns={columns}>
-      <OrderRow
-        id={1}
-        orderNumber="#12345"
-        customer="Jean Rakoto"
-        email="jean@example.com"
-        status="En attente"
-        totalArticles={2}
-        total={29000}
-        date="25-11-2025"
-        onView={(id) => console.log("Voir", id)}
-        onDelete={(id) => console.log("Supprimer", id)}
-      />
+      {isLoading && (
+        <tr>
+          <td colSpan={columns.length} className="px-4 py-6 text-center">
+            Chargement...
+          </td>
+        </tr>
+      )}
+
+      {isError && (
+        <tr>
+          <td
+            colSpan={columns.length}
+            className="px-4 py-6 text-center text-red-600"
+          >
+            Erreur lors du chargement des produits
+          </td>
+        </tr>
+      )}
+
+      {!isLoading && !isError && length === 0 && (
+        <tr>
+          <td colSpan={columns.length} className="px-4 py-6 text-center">
+            Aucun produit
+          </td>
+        </tr>
+      )}
+      {children}
+      
     </DataTable>
   );
 };
 
-export default TableListe;
-
+export default TableListeOrder;

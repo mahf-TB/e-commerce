@@ -25,6 +25,7 @@ import PublicRoutes from "./PublicRoutes";
 import AdminLoginRoutes from "./AdminLoginRoutes";
 import EditProduct from "@/pages/admin/ProduitGerer/EditProduct";
 import EditProductImages from "@/pages/admin/ProduitGerer/EditProductImages_new";
+import CommandeAttente from "@/pages/admin/commandes/CommandeAttente";
 
 
 const router = createBrowserRouter([
@@ -96,11 +97,13 @@ const router = createBrowserRouter([
     children: [
       { path: "dashboard", element: <AdminDashboard /> },
       { path: "commande", element: <Commande /> },
+      { path: "commande-attente", element: <CommandeAttente /> },
       { path: "produits", element: <Products /> },
       { path: "produits/ajouter", element: <AddProduct /> },
       { path: "produits/:id", element: <EditProduct /> },
       { path: "produits/:id/images", element: <EditProductImages /> },
       { path: "clients", element: <Customer /> },
+      { path: "account", element: <Customer /> },
     ],
   },
   {

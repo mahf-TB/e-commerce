@@ -137,18 +137,13 @@ const HeaderPage = () => {
               </div>
             </DropdownMenuLabel>
             <DropdownMenuSeparator className="bg-muted-foreground" />
-            <DropdownItems
-              icon={<UserCircle size={18} />}
-              title="Mon compte"
-              onClick={() => navigate("/account")}
-            />
-            <DropdownItems
-              icon={<ShoppingCart size={18} />}
-              title="Panier"
-              onClick={() => navigate("/cart")}
-            />
             {hasAdminAccess(data?.role) && (
               <>
+                <DropdownItems
+                  icon={<UserCircle size={18} />}
+                  title="Mon compte"
+                  onClick={() => navigate("/admin/account")}
+                />
                 <DropdownItems
                   icon={<ShieldUser size={18} />}
                   title="Espace Administrateur"
@@ -164,6 +159,11 @@ const HeaderPage = () => {
 
             {isClient(data?.role) && (
               <>
+                <DropdownItems
+                  icon={<UserCircle size={18} />}
+                  title="Mon compte"
+                  onClick={() => navigate("/account")}
+                />
                 <DropdownItems
                   icon={<Package size={18} />}
                   title="Commandes"
@@ -186,6 +186,12 @@ const HeaderPage = () => {
                 />
               </>
             )}
+
+            <DropdownItems
+              icon={<ShoppingCart size={18} />}
+              title="Panier"
+              onClick={() => navigate("/cart")}
+            />
 
             <DropdownMenuSeparator className="bg-muted-foreground" />
             <DropdownItems

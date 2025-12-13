@@ -4,9 +4,10 @@ import { useId, useState } from "react";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { cn } from "@/lib/utils";
 
-type SegmentOption = {
+export type SegmentOption = {
   value: string;
   label: React.ReactNode;
+  icon?: React.ReactNode;
 };
 
 type SegmentedControlProps = {
@@ -14,12 +15,16 @@ type SegmentedControlProps = {
   onValueChange: (value: string) => void;
   options: SegmentOption[];
   className?: string;
+  showIcon?: boolean;
+  showLabenl?: boolean;
 };
 
 export default function SegmentedControl({
   value,
   onValueChange,
   options,
+  showIcon = false,
+  showLabenl = true,
   className,
 }: SegmentedControlProps) {
   const id = useId();
@@ -57,13 +62,14 @@ export default function SegmentedControl({
               <label
                 key={option.value}
                 className={cn(
-                  "relative z-10 inline-flex h-full min-w-8 cursor-pointer select-none items-center justify-center whitespace-nowrap px-4 transition-colors font-poppins",
+                  "relative z-10 inline-flex h-full min-w-8 cursor-pointer select-none items-center justify-center whitespace-nowrap px-4 transition-colors font-poppins gap-2",
                   option.value === value
                     ? "text-white"
                     : "text-gray-300 hover:text-gray-200"
                 )}
               >
-                {option.label}
+                {(option.icon || showIcon) && <span>{option.icon}</span>}
+                {showLabenl && option.label}
                 <RadioGroupItem
                   className="sr-only"
                   id={`${id}-${index}`}

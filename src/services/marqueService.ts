@@ -12,9 +12,9 @@ export async function fetchMarques(): Promise<Paginated<Marque>> {
   const res = await api.get("/marques");
   return res.data 
 }
-export async function createNewProduct(credential: any) {
+export async function createNewMarque(credential: any) {
   try {
-    const res = await apiAuth.post("/categories", credential, headers);
+    const res = await apiAuth.post("/marques", credential, headers);
     return res.data;
   } catch (error) {
     throw error;
@@ -22,6 +22,6 @@ export async function createNewProduct(credential: any) {
 }
 
 export default {
-  createNewProduct,
+  createNewMarque,
   fetchMarques
 };
