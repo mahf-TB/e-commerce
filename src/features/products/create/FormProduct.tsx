@@ -1,19 +1,19 @@
-import React, { useEffect, useState } from "react";
-import { Button } from "@/components/ui/button";
-import type { Produit, VariantProduct } from "@/types";
 import type { ImageToUpload } from "@/components/drop-images-upload";
-import { createNewProduct, updateProduct } from "@/services/produitService";
 import InputForm from "@/components/input-form";
-import ReusableSelect from "@/components/select-form";
+import SelectForm from "@/components/select-form";
 import TextareaForm from "@/components/textarea-form";
-import { Plus } from "lucide-react";
-import VariantForm from "./VariantForm";
+import { Button } from "@/components/ui/button";
 import useCategories from "@/hooks/use-categories";
 import useBrands from "@/hooks/use-marques";
-import { useNavigate } from "react-router-dom";
-import { cn } from "@/lib/utils";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { showToast } from "@/lib/toast";
+import { cn } from "@/lib/utils";
+import { createNewProduct, updateProduct } from "@/services/produitService";
+import type { Produit, VariantProduct } from "@/types";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { Plus } from "lucide-react";
+import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import VariantForm from "./VariantForm";
 // à adapter selon ton client HTTP
 // import { api } from "@/services/apiClient";
 
@@ -196,7 +196,7 @@ const FormProduct: React.FC<{
                 isEditMode && " md:grid-cols-1"
               )}
             >
-              <ReusableSelect
+              <SelectForm
                 label="Marque"
                 placeholder="Statut Produit"
                 className="w-full"
@@ -204,7 +204,7 @@ const FormProduct: React.FC<{
                 value={marqueId}
                 onChange={setMarqueId}
               />
-              <ReusableSelect
+              <SelectForm
                 label="Status"
                 className="w-full"
                 placeholder="Statut Produit"

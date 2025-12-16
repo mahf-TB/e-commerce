@@ -3,15 +3,21 @@ import AccountLayout from "@/layouts/AccountLayout";
 import AdminLayout from "@/layouts/AdminLayout";
 import UserLayout from "@/layouts/UserLayout";
 import AccountPage from "@/pages/account/AccountPage";
+import DetailsMyOrder from "@/pages/account/myOrders/DetailsMyOrder";
 import MyOrderPage from "@/pages/account/myOrders/MyOrderPage";
 import Commande from "@/pages/admin/commandes/Commande";
+import CommandeAttente from "@/pages/admin/commandes/CommandeAttente";
 import Customer from "@/pages/admin/Customer/Customer";
 import AdminDashboard from "@/pages/admin/dashboard/AdminDashboard";
 import AddProduct from "@/pages/admin/ProduitGerer/AddProduct";
+import EditProduct from "@/pages/admin/ProduitGerer/EditProduct";
+import EditProductImages from "@/pages/admin/ProduitGerer/EditProductImages_new";
 import Products from "@/pages/admin/ProduitGerer/Products";
+import UserStaff from "@/pages/admin/user/UserStaff";
 import CartPage from "@/pages/cart/CartPage";
 import CheckoutPage from "@/pages/checkout/CheckoutPage";
 import CheckoutPageItem from "@/pages/checkout/CheckoutPageItem";
+import PurchaseSuccess from "@/pages/checkout/PurchaseSuccess";
 import LoginPage from "@/pages/connexion/ConnexionPage";
 import LoginAdmin from "@/pages/connexion/LoginAdmin";
 import HomePage from "@/pages/home/HomePage";
@@ -19,13 +25,11 @@ import NotFoundPage from "@/pages/NotFoundPage";
 import ProductItemsPage from "@/pages/product/ProductItemsPage";
 import ProductPage from "@/pages/product/ProductPage";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import AdminLoginRoutes from "./AdminLoginRoutes";
 import AdminRoutes from "./AdminRoutes";
 import PrivateRoutes from "./PrivateRoutes";
 import PublicRoutes from "./PublicRoutes";
-import AdminLoginRoutes from "./AdminLoginRoutes";
-import EditProduct from "@/pages/admin/ProduitGerer/EditProduct";
-import EditProductImages from "@/pages/admin/ProduitGerer/EditProductImages_new";
-import CommandeAttente from "@/pages/admin/commandes/CommandeAttente";
+import Paiement from "@/pages/admin/paiement/Paiement";
 
 
 const router = createBrowserRouter([
@@ -56,7 +60,9 @@ const router = createBrowserRouter([
         ),
         children: [
           { index: true, element: <AccountPage /> },
+          { path: "dashboard", element: <AccountPage /> },
           { path: "orders", element: <MyOrderPage /> },
+          { path: "orders/:id", element: <DetailsMyOrder /> },
           { path: "wishlist", element: <CartPage /> },
           { path: "notifications", element: <CartPage /> },
         ],
@@ -81,7 +87,7 @@ const router = createBrowserRouter([
         path: "checkout/success",
         element: (
           <PrivateRoutes>
-            <CartPage />
+            <PurchaseSuccess />
           </PrivateRoutes>
         ),
       },
@@ -103,7 +109,9 @@ const router = createBrowserRouter([
       { path: "produits/:id", element: <EditProduct /> },
       { path: "produits/:id/images", element: <EditProductImages /> },
       { path: "clients", element: <Customer /> },
+      { path: "users", element: <UserStaff /> },
       { path: "account", element: <Customer /> },
+      { path: "paiement", element: <Paiement /> },
     ],
   },
   {

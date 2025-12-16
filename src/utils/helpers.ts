@@ -1,5 +1,7 @@
 // src/utils/helpers.ts
-import type { StatutCommande } from "@/types";
+import type { EtatPaiement, StatutCommande } from "@/types";
+import type { DateRange } from "react-day-picker";
+
 
 // Formater un prix en USD
 export const formatPrice = (price: number): string => {
@@ -69,20 +71,38 @@ export function getLibelleStatut(statut: StatutCommande): string {
   }
 }
 
-export function getStatusColorClass(statut: StatutCommande) {
+
+export function getLibellePayement(etat: EtatPaiement): string {
+  switch (etat) {
+    case "en_attente":
+      return "Non Payé";
+    case "paye":
+      return "Payé";
+    case "remboursee":
+      return "Remboursée";
+    case "non_paye":
+      return "Non Payé";
+    case "echoue":
+      return "Echoué";
+    default:
+      return "";
+  }
+}
+
+export function getStatusColorClass(statut: StatutCommande , codeColor: string = "100"): string {
   switch (statut) {
     case "en_attente":
-      return "bg-amber-100 text-amber-800";
+      return `bg-amber-${codeColor} text-amber-800`;
     case "en_preparation":
-      return "bg-blue-100 text-blue-800";
+      return `bg-blue-${codeColor} text-blue-800`;
     case "expediee":
-      return "bg-indigo-100 text-indigo-800";
+      return `bg-indigo-${codeColor} text-indigo-800`;
     case "livree":
-      return "bg-emerald-100 text-emerald-800";
+      return `bg-emerald-${codeColor} text-emerald-800`;
     case "annulee":
-      return "bg-red-100 text-red-800";
+      return `bg-red-${codeColor} text-red-800`;
     default:
-      return "bg-gray-100 text-gray-800";
+      return `bg-gray-${codeColor} text-gray-800`;
   }
 }
 
@@ -130,4 +150,20 @@ export const isClient = (userRole: string): boolean => {
 
 export const hasAdminAccess = (userRole: string): boolean => {
   return ["admin", "manager", "support"].includes(userRole);
+};
+
+
+export const formatDateForAPI = (date: Date): string => {
+  return date.toISOString().split('T')[0]; // Format: YYYY-MM-DD
+};
+
+ export const getDateRangeParams = (range: DateRange | undefined) => {
+  if (!range || !range.from || !range.to) {
+    return { dateDebut: undefined, dateFin: undefined };
+  }
+
+  return {
+    dateDebut: formatDateForAPI(range.from),
+    dateFin: formatDateForAPI(range.to),
+  };
 };

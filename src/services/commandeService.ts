@@ -1,6 +1,6 @@
 import type { CommandeListParams } from "@/hooks/use-commande";
 import { apiAuth } from "@/lib/axios";
-import type { CommandeClient, Paginated } from "@/types";
+import type { CommandeClient, CommandeRaw, Paginated } from "@/types";
 
 export interface CommandeItem {
   produit: string;
@@ -48,7 +48,7 @@ export interface CommandeResponse {
 
 export async function createCommande(
   payload: CreateCommandePayload
-): Promise<Paginated<CommandeResponse>> {
+): Promise<CommandeResponse> {
   try {
     const res = await apiAuth.post("/commandes", payload);
     return res.data;
@@ -86,6 +86,8 @@ export async function listAllCommandes(
     traiter,
     etatPaiement,
     client,
+    dateDebut,
+    dateFin,
   }: CommandeListParams = {
     page: 1,
     limit: 20,
@@ -100,6 +102,8 @@ export async function listAllCommandes(
       traiter,
       etatPaiement,
       client,
+      dateDebut,
+      dateFin,
     };
     const res = await apiAuth.get("/commandes", { params });
     return res.data;
@@ -110,7 +114,7 @@ export async function listAllCommandes(
 
 export async function getCommandeById(
   commandeId: string
-): Promise<CommandeClient> {
+): Promise<CommandeRaw> {
   try {
     const res = await apiAuth.get(`/commandes/${commandeId}`);
     return res.data;
@@ -140,6 +144,39 @@ export async function changeCommandePaiement(
       `/commandes/${commandeId}/paiement`,
       payload
     );
+    return res.data;
+  } catch (error: any) {
+    throw error;
+  }
+}
+
+export async function statsAllCommandes({
+  dateDebut,
+  dateFin,
+}: CommandeListParams): Promise<any> {
+  try {
+    const params = {
+      dateDebut,
+      dateFin,
+    };
+    const res = await apiAuth.get("/commandes/stats", { params });
+    return res.data;
+  } catch (error: any) {
+    throw error;
+  }
+}
+
+
+export async function statsAllCommandesPaiement({
+  dateDebut,
+  dateFin,
+}: CommandeListParams): Promise<any> {
+  try {
+    const params = {
+      dateDebut,
+      dateFin,
+    };
+    const res = await apiAuth.get("/commandes/stats/paiement", { params });
     return res.data;
   } catch (error: any) {
     throw error;

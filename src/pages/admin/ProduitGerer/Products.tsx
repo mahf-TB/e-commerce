@@ -1,14 +1,14 @@
 import PaginationPage from "@/components/pagination-page";
-import ReusableSelect from "@/components/select-form";
 import SearchInput from "@/components/search-input";
+import SelectForm from "@/components/select-form";
 import { Button } from "@/components/ui/button";
+import { ProductRow } from "@/features/products/tableaux/ProductRow";
 import TableListeProduits from "@/features/products/tableaux/TableListeProduits";
+import { useProductList } from "@/hooks/use-product";
+import { productStatusOptions, sortOptions } from "@/utils/options";
 import { Filter, Plus, SortDesc } from "lucide-react";
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import {useProductList} from "@/hooks/use-product";
-import { ProductRow } from "@/features/products/tableaux/ProductRow";
-import { productStatusOptions, sortOptions } from "@/utils/options";
 
 const Products = () => {
   const navigate = useNavigate();
@@ -22,7 +22,7 @@ const Products = () => {
     limit,
     sort,
     q: search,
-    statut: status,
+    statut: "active",
   });
 
   const hanleSetStatut = (statut: string) => {
@@ -43,7 +43,7 @@ const Products = () => {
           {/* FILTRE */}
           <div className="flex items-center rounded gap-2">
             <SearchInput value={search} onChange={setSearch} />
-            <ReusableSelect
+            <SelectForm
               labelTitle="Statut du produit"
               placeholder="Statut"
               options={productStatusOptions}
@@ -52,7 +52,7 @@ const Products = () => {
               icon={Filter}
             />
 
-            <ReusableSelect
+            <SelectForm
               labelTitle="Trier par"
               placeholder="Trier par"
               options={sortOptions}

@@ -1,7 +1,6 @@
+import { getProductById, getProductList } from "@/services/produitService";
+import type { Paginated, ProductListItem, Produit } from "@/types";
 import { useQuery } from "@tanstack/react-query";
-import { getProductList, getProductById } from "@/services/produitService";
-import type { ProductListItem, Produit } from "@/types";
-import type { Paginated } from "@/types";
 
 export type ProductListParams = {
   page?: number;
@@ -35,7 +34,7 @@ export function useProductList(params: ProductListParams = {}) {
     q,
     categorie,
     marque,
-    sort = "newest",
+    sort,
     minPrice,
     maxPrice,
     statut,
@@ -67,7 +66,9 @@ export function useProductList(params: ProductListParams = {}) {
   let items: ProductListItem[] = [];
   let pagination: Paginated<ProductListItem> | undefined = undefined;
 
-  if (raw && typeof raw === "object" && "items" in (raw as any)) {
+  if (Array.isArray(raw)) {
+    items = raw as ProductListItem[];
+  } else if (raw && typeof raw === "object" && "items" in (raw as any)) {
     const r = raw as Paginated<ProductListItem>;
     items = Array.isArray(r.items) ? r.items : [];
     pagination = r;

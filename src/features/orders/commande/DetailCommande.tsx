@@ -1,13 +1,20 @@
 import BadgeItem from "@/components/BadgeItem";
-import { CommandeStatusStepper } from "@/features/orders/commande-status-stepper";
 import { Button } from "@/components/ui/button";
-import { formatDateTime } from "@/utils/helpers";
-import { formatPrice } from "@/utils/helpers";
 import UserAvatar from "@/components/user-avatar";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { changeCommandeStatut } from "@/services/commandeService";
+import { CommandeStatusStepper } from "@/features/orders/commande/commande-status-stepper";
+import useAuthUser from "@/hooks/use-auth-user";
 import { showToast } from "@/lib/toast";
+import { cn } from "@/lib/utils";
+import { changeCommandeStatut } from "@/services/commandeService";
 import type { StatutCommande } from "@/types/order";
+import {
+  formatDateTime,
+  formatPrice,
+  hasAdminAccess,
+  isClient,
+} from "@/utils/helpers";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { ArrowLeft } from "lucide-react";
 import ProductOrder from "./ProductOrder";
 
 const colorByPaiement = {
@@ -24,12 +31,16 @@ const BadgeByPaiement = {
 
 export const DetailCommande = ({
   order,
+  className,
+  onCancel,
 }: {
   order: any;
+  className?: string;
   onCancel?: () => void;
 }) => {
   const client = order?.client || {};
   const queryClient = useQueryClient();
+  const { user } = useAuthUser();
 
   const changeStatutMutation = useMutation({
     mutationFn: ({
@@ -43,6 +54,9 @@ export const DetailCommande = ({
       showToast("success", "Statut de la commande mis à jour avec succès");
       queryClient.invalidateQueries({
         queryKey: ["commandes"],
+      });
+      queryClient.invalidateQueries({
+        queryKey: ["commandes", order?.id],
       });
     },
     onError: (error: any) => {
@@ -74,6 +88,10 @@ export const DetailCommande = ({
     // Si expédiée -> livrer
     else if (order?.statut === "expediee") {
       handleChangeStatut("livree");
+    } 
+     // Si livrée -> completed
+    else if (order?.statut === "livree") {
+      handleChangeStatut("completed");
     }
   };
 
@@ -82,21 +100,31 @@ export const DetailCommande = ({
   };
 
   return (
-    <div className="p-4 md:w-3/4 w-full mt-5  px-6 rounded">
-      <div className="flex items-center justify-between mb-4">
-        <div>
-          <h2 className="text-xl font-poppins font-bold flex items-center gap-5">
-            <span>{order?.reference}</span>
-            <BadgeItem
-              statut={BadgeByPaiement[order?.etatPaiement] || "gray-400"}
-              className={`bg-${
-                colorByPaiement[order?.etatPaiement] || "gray-400"
-              }`}
-            />
-          </h2>
-          <p className="text-sm text-muted-foreground">
-            Crée le {order?.creeLe ? formatDateTime(order.creeLe) : ""}
-          </p>
+    <div className={cn("p-4 md:w-3/4 w-full mt-5  px-6 rounded", className)}>
+      <div className="flex items-center justify-between mb-4 sticky ">
+        <div className="flex gap-2 items-center">
+          <Button
+            variant="outline"
+            size="icon"
+            className="rounded"
+            onClick={onCancel}
+          >
+            <ArrowLeft size={18} />
+          </Button>
+          <div>
+            <h2 className="text-xl font-poppins font-bold flex items-center gap-5">
+              <span>{order?.reference}</span>
+              <BadgeItem
+                statut={BadgeByPaiement[order?.etatPaiement] || "gray-400"}
+                className={`bg-${
+                  colorByPaiement[order?.etatPaiement] || "gray-400"
+                }`}
+              />
+            </h2>
+            <p className="text-sm text-muted-foreground">
+              Crée le {order?.creeLe ? formatDateTime(order.creeLe) : ""}
+            </p>
+          </div>
         </div>
         <div className="flex items-center gap-3">
           {order?.statut !== "annulee" && order?.statut !== "livree" && (
@@ -110,20 +138,33 @@ export const DetailCommande = ({
               Annuler
             </Button>
           )}
-          {order?.statut !== "annulee" && order?.statut !== "livree" && (
+          {hasAdminAccess(user?.role) &&
+            order?.statut !== "annulee" &&
+            order?.statut !== "livree" && (
+              <Button
+                size={"sm"}
+                className="text-sm px-8 rounded bg-blue-600"
+                onClick={handleConfirmer}
+                disabled={changeStatutMutation.isPending}
+              >
+                {changeStatutMutation.isPending
+                  ? "Chargement..."
+                  : order?.statut === "en_attente"
+                  ? "Préparer la commande"
+                  : order?.statut === "en_preparation"
+                  ? "Expédier"
+                  : "Livrer"}
+              </Button>
+            )}
+          {isClient(user?.role) && order?.statut === "livree" && (
             <Button
               size={"sm"}
-              className="text-sm px-8 rounded bg-blue-600"
+              variant={"outline"}
               onClick={handleConfirmer}
               disabled={changeStatutMutation.isPending}
+              className="text-sm text-green-600 hover:text-green-600 font-medium rounded border-green-500"
             >
-              {changeStatutMutation.isPending
-                ? "Chargement..."
-                : order?.statut === "en_attente"
-                ? "Confirmer"
-                : order?.statut === "en_preparation"
-                ? "Expédier"
-                : "Livrer"}
+              Commande livrée
             </Button>
           )}
         </div>
@@ -169,15 +210,18 @@ export const DetailCommande = ({
           </div>
           {/* Section right pour les details de la commande */}
           <div className="space-y-3">
-            <div className="bg-white p-2 rounded-md flex items-center gap-4">
-              <UserAvatar src={client.photo || ""} />
-              <div className="">
-                <h3 className="font-poppins">{client.nom}</h3>
-                <h3 className="font-poppins text-xs text-muted-foreground">
-                  {client.email}
-                </h3>
+            {!isClient(user?.role) && (
+              <div className="bg-white p-2 rounded-md flex items-center gap-4">
+                <UserAvatar src={client.photo || ""} />
+                <div className="">
+                  <h3 className="font-poppins">{client.nom}</h3>
+                  <h3 className="font-poppins text-xs text-muted-foreground">
+                    {client.email}
+                  </h3>
+                </div>
               </div>
-            </div>
+            )}
+
             <div className="bg-white p-4 rounded-md">
               <h3 className="font-poppins font-bold mb-2">
                 Status d'une commande

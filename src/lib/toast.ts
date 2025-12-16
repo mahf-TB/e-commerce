@@ -3,35 +3,30 @@ import { toast, type ExternalToast } from "sonner";
 
 export type ToastVariant = "success" | "error" | "info" | "warning";
 
-const palette = {
-  success: "green",
-  error: "red",
-  info: "blue",
-  warning: "amber",
-} as const;
-
-const tone = (color: (typeof palette)[ToastVariant]) => ({
-  "--normal-bg": `color-mix(in oklab, light-dark(var(--color-${color}-600), var(--color-${color}-400)) 10%, var(--background))`,
-  "--normal-text": `light-dark(var(--color-${color}-600), var(--color-${color}-400))`,
-  "--normal-border": `light-dark(var(--color-${color}-600), var(--color-${color}-400))`,
-});
-
-const styles: Record<ToastVariant, Record<string, string>> = {
-  success: tone("green"),
-  error: tone("red"),
-  info: tone("blue"),
-  warning: tone("amber"),
+// Classes Tailwind pour chaque variante
+const variantClasses: Record<ToastVariant, string> = {
+  success: "border-emerald-500 bg-emerald-50 text-emerald-900 dark:bg-emerald-950 dark:text-emerald-100",
+  error: "border-red-500 bg-red-50 text-red-900 dark:bg-red-950 dark:text-red-100",
+  info: "border-blue-500 bg-blue-50 text-blue-900 dark:bg-blue-950 dark:text-blue-100",
+  warning: "border-amber-500 bg-amber-50 text-amber-900 dark:bg-amber-950 dark:text-amber-100",
 };
 
-export type ToastOptions = Omit<ExternalToast, "style"> & { style?: CSSProperties };
+export type ToastOptions = Omit<ExternalToast, "style" | "className"> & { 
+  style?: CSSProperties;
+  className?: string;
+};
 
 export function showToast(
   variant: ToastVariant,
   message: string,
   options?: ToastOptions
 ) {
-  const mergedStyle = { ...styles[variant], ...options?.style } as CSSProperties;
-  const payload = { ...options, style: mergedStyle } satisfies ExternalToast;
+  const className = `${variantClasses[variant]} ${options?.className || ""}`;
+  const payload = { 
+    ...options, 
+    className,
+    style: options?.style,
+  } satisfies ExternalToast;
 
   switch (variant) {
     case "success":

@@ -1,56 +1,55 @@
 // components/app-sidebar.tsx
+import { Logo } from "@/components/icon/logo";
 import {
   Sidebar,
   SidebarContent,
-  SidebarHeader,
   SidebarFooter,
   SidebarGroup,
   SidebarGroupContent,
+  SidebarHeader,
   SidebarMenu,
-  SidebarMenuItem,
   SidebarMenuButton,
+  SidebarMenuItem,
   SidebarSeparator,
 } from "@/components/ui/sidebar";
-import {
-  Home,
-  Inbox,
-  Ellipsis,
-  LogOut,
-  Bell,
-  Settings,
-  Package,
-  CreditCard,
-  Users2,
-  BellRing,
-  ArrowLeftFromLine,
-  UserCog,
-  ListOrdered,
-} from "lucide-react";
-import { Logo } from "@/components/icon/logo";
-import { Avatar, AvatarFallback, AvatarImage } from "../components/ui/avatar";
 import { Skeleton } from "@/components/ui/skeleton";
-import Dropdown, { DropdownItems } from "../components/dropdown";
-import { DropdownMenuSeparator } from "../components/ui/dropdown-menu";
-import { Badge } from "../components/ui/badge";
-import { NavLink, useLocation, useNavigate } from "react-router-dom";
-import { logout } from "@/services/authService";
+import UserAvatar from "@/components/user-avatar";
 import { useAuthInvalidate } from "@/hooks/use-auth-invalidate";
 import useAuthUser from "@/hooks/use-auth-user";
+import { logout } from "@/services/authService";
 import { fallbackAvatar, getFullName, maskEmail } from "@/utils/helpers";
-import UserAvatar from "@/components/user-avatar";
+import {
+  ArrowLeftFromLine,
+  Bell,
+  BellRing,
+  CreditCard,
+  Ellipsis,
+  Home,
+  Inbox,
+  ListOrdered,
+  LogOut,
+  Package,
+  Settings,
+  UserCog,
+  Users2,
+} from "lucide-react";
+import { NavLink, useLocation, useNavigate } from "react-router-dom";
+import Dropdown, { DropdownItems } from "../components/dropdown";
+import { Badge } from "../components/ui/badge";
+import { DropdownMenuSeparator } from "../components/ui/dropdown-menu";
 
 const items = [
   { title: "Dashboard", url: "/admin/dashboard", icon: Home },
   { title: "File d’attente", url: "/admin/commande-attente", icon: ListOrdered },
   { title: "Commandes", url: "/admin/commande", icon: Inbox },
   { title: "Produits", url: "/admin/produits", icon: Package },
-  { title: "Paiements", url: "/admin/dashboard", icon: CreditCard },
+  { title: "Paiements", url: "/admin/paiement", icon: CreditCard },
   { title: "Clients", url: "/admin/clients", icon: Users2 },
 ];
 
 const items2 = [
   { title: "Notifications", url: "/admin/dashboard", icon: Bell },
-  { title: "Gérer l'utilisateur", url: "/admin/dashboard", icon: UserCog },
+  { title: "Gérer l'utilisateur", url: "/admin/users", icon: UserCog },
   { title: "Parametre", url: "/admin/dashboard", icon: Settings },
 ];
 
@@ -82,9 +81,9 @@ export function AppSidebar() {
             className="flex items-center gap-2 text-xl cursor-pointer"
           >
           <Logo width={28} height={22} className="text-white" color="#FFFFFF" />
-            <h1 className="font-poppins font-black">Mark-E</h1>
+            <h1 className="font-poppins font-black text-white">Mark-E</h1>
           </div>
-          <div className="hover:text-gray-500 p-1 rounded-md cursor-pointer transition-colors">
+          <div className="hover:text-gray-500 text-white p-1 rounded-md cursor-pointer transition-colors">
             <ArrowLeftFromLine size={18} />
             {/* <SidebarTrigger /> arrow-left-from-line */}
           </div>
@@ -166,15 +165,15 @@ export function AppSidebar() {
               src={user?.photo}
               fallback={fallbackAvatar(user)}
             />
-            <div className="hidden md:block">
-              <p className="text-sm font-medium">{getFullName(user)}</p>
+            <div className=" text-white">
+              <p className="text-sm font-medium ">{getFullName(user)}</p>
               <p className="text-xs line-clamp-1">{maskEmail(user?.email)}</p>
             </div>
           </div>
           <Dropdown
             align="start"
             btnShow={
-              <span className="cursor-pointer hover:bg-gray-800 p-2 rounded-md">
+              <span className="cursor-pointer text-white hover:bg-gray-800 p-2 rounded-md">
                 <Ellipsis size={18} />
               </span>
             }

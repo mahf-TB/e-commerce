@@ -1,10 +1,6 @@
 import { cn } from "@/lib/utils";
-type StatutCommande =
-  | "en_attente"
-  | "en_preparation"
-  | "expediee"
-  | "livree"
-  | "annulee";
+import type { StatutCommande } from "@/types";
+
 
 function getProgressConfig(statut: StatutCommande) {
   switch (statut) {

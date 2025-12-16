@@ -48,7 +48,8 @@ export function CommandeStatusStepper({
   className = "",
 }: CommandeStatusStepperProps) {
   const currentStep = statusMap[statut];
-
+  
+  
   if (statut === "annulee") {
     return (
       <div
@@ -64,11 +65,10 @@ export function CommandeStatusStepper({
       <OrderStepper
         steps={statusSteps}
         defaultValue={currentStep}
+        value={currentStep}
         orientation="vertical"
         className={className}
       />
-
-      <div className="absolute inset-0"></div>
     </div>
   );
 }

@@ -1,43 +1,9 @@
-
-
-export type Commande = {
-  id: string
-  numeroCommande: string
-  nombreProduits: number
-  nomClient: string
-  dateCreation: string
-  statut: StatutCommande
-  dateLivraison: string
-  adresseLivraison: string
-  total: number
-  lignes: LigneCommande[]
-}
-
-export type LigneCommande = {
-  id: string;
-  nomProduit: string;
-  image: string;
-  quantite: number;
-  prixUnitaire: number;
-  description?: string;
-};
-
-export type CommandeDetail = {
-  id: string;
-  numeroCommande: string;
-  nombreProduits: number;
-  nomClient: string;
-  dateCreation: string;
-  statut: StatutCommande;
-  dateLivraison: string;
-  adresseLivraison: string;
-  total: number;
-  lignes: LigneCommande[];
-};
+import type { User } from "./user";
 
 export type StatutCommande = 'en_attente' | 'completed' | 'en_preparation' | 'expediee' | 'livree' | 'annulee';
-export type EtatPaiement = 'en_attente' | 'paye' | 'remboursee' | 'partiellement_paye';
+export type EtatPaiement = 'en_attente' | 'paye' | 'remboursee' | 'non_paye' | 'echoue';
 export type TypeLivraison = 'standard' | 'express' | 'retrait_magasin';
+
 
 export type LigneCommandeItem = {
   id: string;
@@ -60,33 +26,31 @@ export type CommandeClient = {
   total: number;
   frais: number;
   creeLe: string;
+  modePaiement: string;
   items: LigneCommandeItem[];
   nomDestinataire?: string;
   adresseLivraison?: string;
   dateLivraison?: string;
   nombreProduits?: number;
-  dateCreation?: string;
+  miseAJour?: string;
 };
 
 export type CommandeRaw = {
-  id?: string;
-  _id?: string;
+  id: string;
   reference: string;
-  statutCommande: StatutCommande;
+  statut: StatutCommande;
   etatPaiement: EtatPaiement;
   typeLivraison: TypeLivraison;
+  modePaiement: string;
   total: number;
   frais: number;
-  createdAt: string;
-  items: Array<{
-    id?: string;
-    _id?: string;
-    produit: string;
-    variantId: string;
-    codeVariant: string;
-    nomProduit: string;
-    quantite: number;
-    prixUnitaire: number;
-    totalLigne: number;
-  }>;
+  nomDestinataire?: string;
+  adresseLivraison?: string;
+  dateLivraison?: string;
+  nombreProduits?: number;
+  items: LigneCommandeItem[];
+  client: User;
+  traiterPar: User | null;
+  creeLe: string;
+  miseAJour?: string;
 };

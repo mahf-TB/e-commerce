@@ -2,15 +2,17 @@ import InputForm from "@/components/input-form";
 import SegmentedControl, {
   type SegmentOption,
 } from "@/components/segmented-control";
-import { CommandeCard } from "@/features/orders/CommandeCard";
-import { DetailCommande } from "@/features/orders/DetailCommande";
+import { CommandeCard } from "@/features/orders/commande/CommandeCard";
+import { DetailCommande } from "@/features/orders/commande/DetailCommande";
 import { CommandeCardSkeleton } from "@/features/orders/skeleton/CommandeCardSkeleton";
 import { DetailCommandeSkeleton } from "@/features/orders/skeleton/DetailCommandeSkeleton";
 import useAuthUser from "@/hooks/use-auth-user";
 import { useCommande, useCommandeList } from "@/hooks/use-commande";
 import { cn } from "@/lib/utils";
-import { Clock, Loader, Search } from "lucide-react";
+import { Clock, Loader, PackageX, Search } from "lucide-react";
 import { useState } from "react";
+
+
 const options: SegmentOption[] = [
   {
     value: "en_attente",
@@ -31,7 +33,7 @@ const CommandeAttente = () => {
   const [isHide, setIsHide] = useState(false);
   const [selectedOrder, setSelectedOrder] = useState<any | null>(null);
   const { items, isLoading } = useCommandeList({
-    statutCommande: statusFilter,
+    statutCommande: statusFilter === "en_attente" ? "en_attente" : "expediee,en_preparation,livree",
     search: searchTerm || "",
     traiter: statusFilter !== "en_attente" ? user.id : "",
   });
@@ -101,10 +103,26 @@ const CommandeAttente = () => {
             ))
           ) : (
             // Afficher message vide
-            <div className="col-span-full flex items-center justify-center py-12">
-              <p className="text-center text-muted-foreground">
-                Aucune commande en attente
-              </p>
+            <div className="col-span-full flex items-center justify-center py-20">
+              <div className="flex flex-col items-center gap-4 max-w-md text-center">
+                <div className="relative">
+                  <div className="absolute inset-0 bg-gray-200 rounded-full blur-xl opacity-50"></div>
+                  <div className="relative bg-gray-100 p-6 rounded-full">
+                    <PackageX className="text-gray-400" size={48} strokeWidth={1.5} />
+                  </div>
+                </div>
+                <div className="space-y-2">
+                  <h3 className="text-lg font-bold text-gray-900">
+                    Aucune commande {statusFilter === "en_attente" ? "en attente" : "en traitement"}
+                  </h3>
+                  <p className="text-sm text-muted-foreground">
+                    {statusFilter === "en_attente" 
+                      ? "Les nouvelles commandes apparaîtront ici"
+                      : "Aucune commande en cours de traitement pour le moment"
+                    }
+                  </p>
+                </div>
+              </div>
             </div>
           )}
         </div>
@@ -114,7 +132,6 @@ const CommandeAttente = () => {
         (selectedOrderItems ? (
           <DetailCommande
             order={selectedOrderItems}
-            onCancel={() => setIsHide(false)}
           />
         ) : (
           <DetailCommandeSkeleton />

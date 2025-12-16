@@ -102,12 +102,12 @@ export default function CheckoutPage() {
       console.log(payload);
 
       // Créer la commande
-      await createCommande(payload);
+      const res = await createCommande(payload);
       showToast("success", "Commande créée avec succès !");
       // Vider le panier
       clearCart();
       // Rediriger vers la page de succès ou les commandes
-      navigate("/checkout/success");
+      navigate(`/checkout/success?ref=${res.reference}`);
     } catch (error: any) {
       console.error("Erreur lors de la création de la commande:", error);
       const errorMessage =

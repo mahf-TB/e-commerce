@@ -1,6 +1,6 @@
 import BadgeItem from "@/components/BadgeItem";
 import { Card } from "@/components/ui/card";
-import { formatDateTime } from "@/utils/helpers";
+import { formatDateTime, getLibelleStatut, getStatusColorClass } from "@/utils/helpers";
 
 export const CommandeCard = ({ order, onClick, selected }: any) => {
   return (
@@ -19,8 +19,8 @@ export const CommandeCard = ({ order, onClick, selected }: any) => {
             </span>
           </div>
           <BadgeItem
-            statut={order.statut == "en_attente" ? "En attente" : order.statut}
-            className="bg-amber-400"
+            statut={getLibelleStatut(order.statut)}
+            className={getStatusColorClass(order.statut , "500")}
           />
         </div>
 

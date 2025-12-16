@@ -6,10 +6,10 @@ import { Bell, Heart, LayoutDashboard, Package } from "lucide-react";
 import { Navigate, NavLink, Outlet, useLocation } from "react-router-dom";
 
 const AccountLayout = () => {
-   const { data, isAuthenticated, isLoading } = useAuthUser();
+   const { data, isLoading } = useAuthUser();
   const { pathname } = useLocation();
   const navItems = [
-    { to: "/account", label: "Mon compte", icon: <LayoutDashboard size={18} /> },
+    { to: "/account/dashboard", label: "Mon compte", icon: <LayoutDashboard size={18} /> },
     { to: "/account/orders", label: "Commandes", icon: <Package size={18} /> },
     { to: "/account/wishlist", label: "Favoris", icon: <Heart size={18} /> },
     {
@@ -29,7 +29,7 @@ const AccountLayout = () => {
   return (
     <div className={cn(" w-full")}>
       <div className="w-full flex py-4 gap-5 mt-5">
-        <aside className="w-1/5 sticky top-20 h-fit px-4  ">
+        <aside className="w-1/5 sticky top-40 h-fit px-4  ">
           <div className="py-2 flex items-center gap-2  mb-4 overflow-hidden">
             <UserAvatar fallback="CN" size={50} src={data?.photo}/>
             <div className="hidden md:block">
@@ -41,7 +41,7 @@ const AccountLayout = () => {
           </div>
           <nav className="flex flex-col gap-2">
             {navItems.map((item) => {
-              const isActive = pathname === item.to;
+              const isActive = pathname.startsWith(item.to) ||  pathname === "/account" && item.to === "/account/dashboard";
               return (
                 <NavLink
                   key={item.to}

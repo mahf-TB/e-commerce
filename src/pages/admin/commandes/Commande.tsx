@@ -1,73 +1,174 @@
+import DateRangePickerComponent from "@/components/input-DateRangePicker";
 import PaginationPage from "@/components/pagination-page";
+import StatisticGrid, { type Stat } from "@/components/statistic-grid";
 import { Button } from "@/components/ui/button";
-import SemiCircleChart from "@/features/orders/myOrder/GrapheStatus";
-import { OrderRow } from "@/features/orders/OrderRows";
-import OrderStatusFilter from "@/features/orders/OrderStatusFilter";
-import TableListe from "@/features/orders/TableListe";
-import { ArrowUp } from "lucide-react";
-import  { useState } from "react";
+import { OrderRow } from "@/features/orders/tableaux/OrderRows";
+import OrderStatusFilter from "@/features/orders/tableaux/OrderStatusFilter";
+import TableListe from "@/features/orders/tableaux/TableListe";
+import { useCommandeList, useCommandeStats } from "@/hooks/use-commande";
+import { getDateRangeParams } from "@/utils/helpers";
+import {
+  Banknote,
+  Download,
+  Landmark,
+  Package,
+  PackageCheck,
+  Plus
+} from "lucide-react";
+import { useState } from "react";
+import type { DateRange } from "react-day-picker";
 
-const orderStats = [
-  { label: "En attent", value: 50, color: "#fbbf24" },
-  { label: "En traitement", value: 90, color: "#6366f1" },
-  { label: "Expédiée", value: 120, color: "#3b82f6" },
-  { label: "Livrée", value: 110, color: "#10b981" },
-  { label: "Annulée", value: 30, color: "#ef4444" },
-];
+const getFilterStatut = (status: string) => {
+  if (
+    status === "en_attente" ||
+    status === "en_preparation" ||
+    status === "expediee" ||
+    status === "livree" ||
+    status === "annulee"
+  ) {
+    return status;
+  }
+  return undefined;
+};
+
+const getFilterPaiement = (status: string) => {
+  if (status === "remboursee" || status === "non_paye" || status === "paye") {
+    return status;
+  }
+  return undefined;
+};
+
+
 const Commande = () => {
   const [status, setStatus] = useState("");
+  const [search, setSearch] = useState("");
   const [page, setPage] = useState(1);
+  const [range, setRange] = useState<DateRange | undefined>(undefined);
+
+  const dateParams = getDateRangeParams(range);
+
+  const { items, isLoading, isError, pagination } = useCommandeList({
+    page,
+    limit: 5,
+    search,
+    statutCommande: getFilterStatut(status),
+    etatPaiement: getFilterPaiement(status),
+    ...dateParams,
+  });
+
+  // Récupérer les statistiques dynamiques
+  const { data: statsData } = useCommandeStats();
+
+  // Mapper les données backend vers le format Stat[]
+  const stats: Stat[] = [
+    {
+      title: "Commandes totales",
+      value: statsData?.general?.totalCommandes || 0,
+      subtitle: "Nombre total de commandes créées sur la période",
+      icon: <Package size={18} />,
+      color: "text-green-600",
+    },
+    {
+      title: "Chiffre d'affaires",
+      value: statsData?.revenus?.total || 0,
+      subtitle: "Montant total des commandes payées",
+      icon: <Landmark size={18} />,
+      color: "text-yellow-600",
+    },
+    {
+      title: "Commandes livrées",
+      value: statsData?.general?.commandesParStatut?.livree?.count || 0,
+      subtitle: "Commandes livrées avec succès aux clients.",
+      icon: <PackageCheck size={18} />,
+      color: "text-blue-600",
+    },
+    {
+      title: "Revenu des frais",
+      value: statsData?.revenus?.totalFrais || 0,
+      subtitle: "Montant total des frais de livraison perçus.",
+      icon: <Banknote size={18} />,
+      color: "text-violet-600",
+    },
+  ];
+    
+  
   return (
     <div className="flex items-start">
-      <div className="p-4 md:w-3/4  w-full mt-5">
-        <div className="flex items-center justify-between mx-5">
-          <span className="text-xl font-black font-poppins">Commandes</span>
-          <div className="flex items-center gap-2">
-            {/* FILTRE */}
-            <div className="">
-              <OrderStatusFilter value={status} onChange={setStatus} />
+      <div className="p-4 md:w-4/4  w-full mt-5 space-y-6">
+        <StatisticGrid
+          stats={stats}
+          className="p-0 lg:p-0  max-md:hidden"
+        />
+        <div className="flex items-start justify-between gap-2">
+            <div className="flex items-center gap-2">
+              <OrderStatusFilter
+                selectedValue={status}
+                handleSelect={setStatus}
+                value={search}
+                onChange={setSearch}
+              />
+               {/* FILTRE */}
+              <DateRangePickerComponent value={range} onChange={setRange} />
             </div>
+          <div className="flex items-start gap-2">
             <Button
               onClick={() => console.log("hello")}
-              className="flex items-center gap-1 rounded bg-gray-950 text-white px-2 py-2"
+              className="flex items-center gap-1 rounded bg-blue-500 text-white px-5 py-2"
             >
-              <ArrowUp size={18} />
+              <Download size={18} />
               <span className="">Export</span>
+            </Button>
+            <Button
+              onClick={() => console.log("hello")}
+              className="flex items-center gap-1 rounded bg-gray-950 text-white px-5 py-2"
+            >
+              <Plus size={18} />
+              <span className="">Nouvelle commande</span>
             </Button>
           </div>
         </div>
         <div className="mt-5">
-          <TableListe>
-            <OrderRow
-              id={1}
-              orderNumber="#12345"
-              customer="Jean Rakoto"
-              email="jean@example.com"
-              status="En attente"
-              totalArticles={2}
-              total={29000}
-              date="25-11-2025"
-              onView={(id) => console.log("Voir", id)}
-              onDelete={(id) => console.log("Supprimer", id)}
-            />
+          <TableListe
+            isLoading={isLoading}
+            isError={isError}
+            length={items.length}
+          >
+            {items.length > 0 &&
+              items.map((order, index) => (
+                <OrderRow
+                  key={index}
+                  orderId={order.id}
+                  orderNumber={order.reference}
+                  customer={order.client.nom}
+                  email={order.client.email}
+                  image={order.client.photo || ""}
+                  status={order.statut}
+                  paiement={order.etatPaiement}
+                  adresse={order?.adresseLivraison || "N/A"}
+                  totalArticles={2}
+                  total={order.total}
+                  date={order.creeLe}
+                  onView={(id) => console.log("Voir", id)}
+                  onDelete={(id) => console.log("Supprimer", id)}
+                />
+              ))}
           </TableListe>
           <PaginationPage
             isList
             currentPage={page}
-            totalPages={3}
+            totalPages={pagination?.totalPages || 1}
             onPageChange={(p) => setPage(p)}
           />
         </div>
       </div>
-      <div className="p-4 w-1/4 border-l h-screen hidden md:flex flex-col items-center">
+      {/* <div className="p-4 w-1/4 border-l h-screen hidden md:flex flex-col items-center">
         <span className="text-lg font-black font-poppins  whitespace-nowrap">
           Statistiques des commandes
         </span>
         <div>
-          {/* // Usage: */}
           <SemiCircleChart stats={orderStats} />
         </div>
-      </div>
+      </div> */}
     </div>
   );
 };

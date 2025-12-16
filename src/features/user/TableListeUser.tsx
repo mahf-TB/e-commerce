@@ -1,33 +1,24 @@
 import type { Column } from "@/components/data-table";
 import DataTable from "@/components/data-table";
-import { OrderRow } from "./OrderRows";
 import type { ReactNode } from "react";
 // import Dropdown, { DropdownItems } from "../utils/dropdown";
 
-const columns: Column[] = [
-  { key: "name", label: "Numéro" },
-  { key: "type", label: "Client" },
-  { key: "address", label: "Adresse" },
-  { key: "status", label: "Status" },
-  { key: "items", label: "Articles" },
-  { key: "montant", label: "Total" },
-  { key: "created_at", label: "Création" },
-  { key: "actions", label: "" },
-];
 
-type TableListeOrderProps = {
+type TableListeUserProps = {
   children: ReactNode;
   isLoading?: boolean;
   isError?: boolean;
   length?: number;
+  columns: Column[] 
 };
 
-const TableListeOrder = ({
+const TableListeUser = ({
   children,
   isLoading,
   isError,
   length,
-}: TableListeOrderProps) => {
+  columns
+}: TableListeUserProps) => {
   return (
     <DataTable columns={columns}>
       {isLoading && (
@@ -62,4 +53,4 @@ const TableListeOrder = ({
   );
 };
 
-export default TableListeOrder;
+export default TableListeUser;

@@ -1,9 +1,9 @@
 import InputForm from "@/components/input-form";
-import ReusableSelect from "@/components/select-form";
-import type { VariantProduct } from "@/types";
-import React from "react";
+import SelectForm from "@/components/select-form";
 import { Button } from "@/components/ui/button";
+import type { VariantProduct } from "@/types";
 import { productConditionOptions } from "@/utils/options";
+import React from "react";
 
 
 
@@ -101,7 +101,7 @@ const VariantForm = ({
           <div className="flex gap-2">
             <div className="flex-1">
 
-              <ReusableSelect
+              <SelectForm
               id={`etat-${index}`}
                 label="État"
                 className="w-full"

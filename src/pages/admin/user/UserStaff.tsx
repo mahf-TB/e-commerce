@@ -5,6 +5,7 @@ import SegmentedControl, {
     type SegmentOption,
 } from "@/components/segmented-control";
 import { Button } from "@/components/ui/button";
+import AddUserModal from "@/features/user/AddUserModal";
 import TableListeUser from "@/features/user/TableListeUser";
 import { UserRows } from "@/features/user/UserRows";
 import { useUsersList } from "@/hooks/use-users";
@@ -33,15 +34,13 @@ const options: SegmentOption[] = [
 
 const columns: Column[] = [
   { key: "noms", label: "Noms" },
-  { key: "adresse", label: "Adresse" },
-  { key: "tele", label: "Téléphone" },
   { key: "role", label: "Rôle" },
   { key: "status", label: "Status" },
   { key: "created_at", label: "Création" },
   { key: "actions", label: "" },
 ];
 
-const Customer = () => {
+const UserStaff = () => {
   const navigate = useNavigate();
   const [status, setStatus] = React.useState("");
   const [page, setPage] = React.useState(1);
@@ -50,7 +49,7 @@ const Customer = () => {
     statut: status !== "all" ? status : "",
     search,
     page,
-    role:"customer,guest"
+    role: "admin,manager,support",
   });
 
   return (
@@ -68,11 +67,11 @@ const Customer = () => {
           <div className="flex items-center rounded gap-2">
             <SearchInput value={search} onChange={setSearch} />
             {/* <SelectForm
-              labelTitle="Statut du produit"
+              labelTitle="Statut de l'utilisateur"
               placeholder="Statut"
-              options={productStatusOptions}
+              options={userStatusOptions}
               value={status}
-              onChange={hanleSetStatut}
+              onChange={handleSetStatut}
               icon={Filter}
             />
 
@@ -85,13 +84,17 @@ const Customer = () => {
               icon={SortDesc}
             /> */}
           </div>
-          <Button
-            onClick={() => navigate("ajouter")}
-            className="flex items-center gap-1 rounded bg-gray-950 text-white px-5 py-2"
-          >
-            <Plus size={18} />
-            <span className="">Nouveau</span>
-          </Button>
+
+          <AddUserModal
+            title="Ajouter un utilisateur"
+            description="Créer un nouveau compte utilisateur dans le système"
+            trigger={
+              <Button className="flex items-center gap-1 rounded bg-gray-950 text-white px-5 py-2">
+                <Plus size={18} />
+                <span>Nouveau</span>
+              </Button>
+            }
+          />
         </div>
       </div>
       {/* Liste des donnee en table */}
@@ -104,10 +107,8 @@ const Customer = () => {
         >
           {items?.map((user) => (
             <UserRows
-            isClient={true}
               userId={user.id}
               adresse={user.adresse || ""}
-              telephone={user.telephone || ""}
               email={user.email || ""}
               photo={user.photo || ""}
               prenom={user.prenom || ""}
@@ -130,4 +131,4 @@ const Customer = () => {
   );
 };
 
-export default Customer;
+export default UserStaff;

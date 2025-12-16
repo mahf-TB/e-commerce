@@ -1,17 +1,18 @@
 "use client";
 
+import { OrderProgressBar } from "@/components/OrderProgressBar";
+import Tooltips from "@/components/tooltips";
+import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import {
-  MoreHorizontal,
-  Download,
-  Info,
-  MapPin,
-  Calendar,
-  User,
-} from "lucide-react";
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 import { cn } from "@/lib/utils";
-import type { Commande, CommandeClient } from "@/types/order";
+import type { CommandeClient } from "@/types/order";
 import {
   formatDate,
   formatPrice,
@@ -19,15 +20,13 @@ import {
   getStatusColorClass,
 } from "@/utils/helpers";
 import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from "@/components/ui/tooltip";
-import Tooltips from "@/components/tooltips";
-import { OrderProgressBar } from "@/components/OrderProgressBar";
-import { Badge } from "@/components/ui/badge";
-import { Separator } from "@/components/ui/separator";
+  Calendar,
+  Download,
+  Info,
+  MapPin,
+  MoreHorizontal,
+  User,
+} from "lucide-react";
 import { Link } from "react-router-dom";
 
 type OrderCardProps = {
@@ -102,7 +101,7 @@ export function OrderCard({ order }: OrderCardProps) {
             Articles de la commande
           </div>
           <Link
-            to={`/mes-commandes/${order.id}`}
+            to={`/account/orders/${order.id}`}
             className="text-xs text-blue-500 font-medium hover:underline"
           >
             Voir le détail

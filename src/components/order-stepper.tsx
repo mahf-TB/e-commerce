@@ -17,6 +17,8 @@ export interface StepItem {
 export interface OrderStepperProps {
   steps: StepItem[];
   defaultValue?: number;
+  value?: number;
+  onValueChange?: (value: number) => void;
   orientation?: "horizontal" | "vertical";
   className?: string;
   disabled?: boolean;
@@ -32,13 +34,20 @@ export interface OrderStepperProps {
 export function OrderStepper({
   steps,
   defaultValue = 1,
+  value,
+  onValueChange,
   orientation = "horizontal",
   className = "",
   disabled = false,
 }: OrderStepperProps) {
   return (
     <div className={`space-y-4 ${className}`}>
-      <Stepper defaultValue={defaultValue} orientation={orientation}>
+      <Stepper
+        defaultValue={defaultValue}
+        value={value}
+        onValueChange={onValueChange}
+        orientation={orientation}
+      >
         {steps.map(({ step, title, description }) => (
           <StepperItem
             className="relative not-last:flex-1 items-start"

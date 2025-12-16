@@ -1,4 +1,4 @@
-import ReusableSelect from "@/components/select-form";
+import SelectForm from "@/components/select-form";
 import { useProductList } from "@/hooks/use-product";
 import type { ProductListItem } from "@/types";
 import { sortOptions } from "@/utils/options";
@@ -131,7 +131,7 @@ export function FeaturedSection({
           >
             <Filter size={14} />
           </button>
-          <ReusableSelect
+          <SelectForm
             labelTitle="Trier par"
             placeholder="Trier par"
             options={sortOptions}

@@ -1,8 +1,8 @@
 "use client";
 
-import { useId, useState } from "react";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { cn } from "@/lib/utils";
+import { useId } from "react";
 
 export type SegmentOption = {
   value: string;
@@ -17,6 +17,7 @@ type SegmentedControlProps = {
   className?: string;
   showIcon?: boolean;
   showLabenl?: boolean;
+  itemsLength?: string;
 };
 
 export default function SegmentedControl({
@@ -26,6 +27,7 @@ export default function SegmentedControl({
   showIcon = false,
   showLabenl = true,
   className,
+  itemsLength
 }: SegmentedControlProps) {
   const id = useId();
 
@@ -69,7 +71,7 @@ export default function SegmentedControl({
                 )}
               >
                 {(option.icon || showIcon) && <span>{option.icon}</span>}
-                {showLabenl && option.label}
+                {showLabenl && option.label}{(itemsLength && selectedIndex === index) && ` (${itemsLength})`}
                 <RadioGroupItem
                   className="sr-only"
                   id={`${id}-${index}`}

@@ -1,4 +1,3 @@
-import React, { useId } from "react";
 import {
   Select,
   SelectContent,
@@ -9,6 +8,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { cn } from "@/lib/utils";
+import React, { useId } from "react";
 import { Label } from "./ui/label";
 
 export interface SelectOption {
@@ -16,7 +16,7 @@ export interface SelectOption {
   value: string;
 }
 
-type ReusableSelectProps = {
+type SelectFormProps = {
   id?: any;
   label?: string;
   labelTitle?: string;
@@ -30,7 +30,7 @@ type ReusableSelectProps = {
   required?: boolean;
 };
 
-const ReusableSelect: React.FC<ReusableSelectProps> = ({
+const SelectForm: React.FC<SelectFormProps> = ({
   id,
   label,
   labelTitle,
@@ -78,4 +78,4 @@ const ReusableSelect: React.FC<ReusableSelectProps> = ({
   );
 };
 
-export default ReusableSelect;
+export default SelectForm;

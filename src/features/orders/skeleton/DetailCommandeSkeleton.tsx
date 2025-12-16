@@ -1,9 +1,10 @@
-import { Skeleton } from "@/components/ui/skeleton";
 import { Button } from "@/components/ui/button";
+import { Skeleton } from "@/components/ui/skeleton";
+import { cn } from "@/lib/utils";
 
-export function DetailCommandeSkeleton() {
+export function DetailCommandeSkeleton( {className}: {className?: string} ) {
   return (
-    <div className="p-4 md:w-3/4 w-full mt-5 bg-white px-6 rounded">
+    <div className={cn("p-4 md:w-3/4 w-full mt-5 bg-white px-6 rounded h-screen", className)}>
       {/* Header */}
       <div className="flex items-center justify-between mb-4">
         <div>

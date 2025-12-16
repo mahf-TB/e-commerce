@@ -1,4 +1,3 @@
-import React from "react";
 import { Button } from "@/components/ui/button";
 import {
   Empty,
@@ -8,6 +7,7 @@ import {
   EmptyMedia,
   EmptyTitle,
 } from "@/components/ui/empty";
+import React from "react";
 
 interface ActionButton {
   label: string;
@@ -36,9 +36,9 @@ export function EmptyState({
   return (
     <Empty>
       <EmptyHeader className="text-gray-500">
-        {media && <EmptyMedia variant="icon" className="text-gray-500">{media}</EmptyMedia>}
+        {media && <EmptyMedia variant="icon" className="text-gray-400 rounded-full p-5 ">{media}</EmptyMedia>}
         <EmptyTitle>{title}</EmptyTitle>
-        {description && <EmptyDescription>{description}</EmptyDescription>}
+        {description && <EmptyDescription className="text-gray-900">{description}</EmptyDescription>}
       </EmptyHeader>
 
       {actions.length > 0 && (
