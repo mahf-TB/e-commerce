@@ -48,15 +48,25 @@ const defaultStats: Stat[] = [
 interface StatisticGridProps {
   stats?: Stat[];
   className?: string;
+  isFullPage?: boolean;
 }
 
 export default function StatisticGrid({
   stats = defaultStats,
   className,
+  isFullPage,
 }: StatisticGridProps) {
   return (
-    <div className={cn("p-4", className)}>
-      <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-4 ">
+    <div className="w-full">
+      <div
+        className={cn(
+          isFullPage
+            ? "grid-cols-1"
+            : "grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4",
+          "grid gap-4",
+          className
+        )}
+      >
         {stats.map((stat, index) => (
           <Card
             key={index}
@@ -79,11 +89,11 @@ export default function StatisticGrid({
                   {/* {formatCompactNumber(stat.value)} */}
                   <NumberTicker
                     value={stat.value}
-                    startValue={stat.value > 1000000 ? 1000000 : 1}
+                    startValue={stat.value > 1000000 ? 1000000 : 0}
                     className={cn(
-                    "text-2xl font-black text-foreground whitespace-pre-wrap tracking-tight",
-                    stat.color
-                  )}
+                      "text-2xl font-black text-foreground whitespace-pre-wrap tracking-tight",
+                      stat.color
+                    )}
                   />
                 </span>
               </div>

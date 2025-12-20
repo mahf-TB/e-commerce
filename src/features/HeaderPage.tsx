@@ -182,7 +182,7 @@ const HeaderPage = () => {
                 <DropdownItems
                   icon={<Bell size={18} />}
                   title="Notifications"
-                  onClick={() => navigate("/account/notifications")}
+                  onClick={() => navigate("/notifications-list")}
                 />
               </>
             )}

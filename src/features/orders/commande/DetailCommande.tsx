@@ -62,7 +62,7 @@ export const DetailCommande = ({
     onError: (error: any) => {
       showToast(
         "error",
-        error?.response?.data?.message ||
+        error?.response?.data?.message ||  error?.response?.data?.error ||
           "Erreur lors de la mise à jour du statut"
       );
     },

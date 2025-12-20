@@ -4,8 +4,15 @@ import type {
   GoogleCredentialResponse,
   LoginCredentials,
   RegisterPayload,
+  UpdateProfilePayload,
   User,
 } from "../types";
+const headers = {
+  headers: {
+    "Content-Type": "multipart/form-data",
+  },
+};
+
 
 // Envoie l'idToken au backend pour obtenir le token d'auth
 export async function connectedGoogleToken(
@@ -40,6 +47,7 @@ export async function registerUser(
   const res = await api.post("/auth/register", payload);
   return res.data as AuthData;
 }
+
 
 export async function processGoogleCredential(
   credentialResponse: GoogleCredentialResponse
@@ -77,6 +85,30 @@ export function hasToken(): boolean {
   const token = getToken();
   return Boolean(token);
 }
+
+
+export async function profileUser(
+  payload: UpdateProfilePayload
+): Promise<User> {
+  const res = await apiAuth.put("/auth/profile", payload);
+  return res.data as User;
+}
+
+
+/**
+ * Upload l'avatar d'un utilisateur
+ * Requiert: utilisateur connecté (propriétaire) ou admin
+ */
+export async function uploadUserAvatar(
+  file: File
+): Promise<User> {
+  const formData = new FormData();
+  formData.append("avatar", file);
+
+  const res = await apiAuth.post(`/auth/avatar`, formData, headers);
+  return res.data as User;
+}
+
 
 export default {
   logout,

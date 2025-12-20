@@ -49,7 +49,7 @@ const Commande = () => {
 
   const { items, isLoading, isError, pagination } = useCommandeList({
     page,
-    limit: 5,
+    limit: 7,
     search,
     statutCommande: getFilterStatut(status),
     etatPaiement: getFilterPaiement(status),

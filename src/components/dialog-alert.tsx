@@ -19,7 +19,7 @@ export type AlertVariant = "danger" | "warning" | "success" | "info";
 type AlertComponentProps = {
   trigger?: ReactNode;
   title: string;
-  description: string;
+  description: string | ReactNode;
   variant?: AlertVariant;
   cancelText?: string;
   confirmText?: string;

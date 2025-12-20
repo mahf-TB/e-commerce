@@ -50,7 +50,6 @@ export function NavbarMenu() {
   const currentPath = location.pathname;
   const currentSort = searchParams.get("sort") ?? "default";
 
-  if (isLoadingCategories) return <div>Chargement des catégories...</div>;
   const renderCategoryLinks = () => {
     if (!categoriesOptions || categoriesOptions.length === 0) {
       return (

@@ -50,11 +50,34 @@ const CartPage = () => {
             <div className="space-y-3">
               {/* Ici tu map tes items du panier */}
               {cartItems.length === 0 ? (
-                <div className="px-4 py-8 text-center">
-                  <ShoppingCart className="h-12 w-12 mx-auto mb-2 text-muted-foreground opacity-50" />
-                  <p className="text-sm text-muted-foreground">
-                    Your cart is empty
-                  </p>
+                <div className="col-span-full flex items-center justify-center py-10">
+                  <div className="flex flex-col items-center gap-4 max-w-md text-center">
+                    <div className="relative">
+                      <div className="absolute inset-0 bg-gray-50 rounded-full  opacity-50"></div>
+                      <div className="relative bg-gray-50 p-6 rounded-full">
+                        <ShoppingCart
+                          className="text-gray-400"
+                          size={28}
+                          strokeWidth={1.5}
+                        />
+                      </div>
+                    </div>
+                    <div className="space-y-2">
+                      <h3 className="text-lg font-bold text-gray-900">
+                        Aucune commande... pour le moment !
+                      </h3>
+                      <p className="text-sm text-muted-foreground">
+                        On vous aide à trouver de quoi vous faire plaisir.
+                      </p>
+                      <Button
+                        variant={"outline"}
+                        onClick={() => navigate("/products")}
+                        className="rounded"
+                      >
+                        C'est partie pour les achats
+                      </Button>
+                    </div>
+                  </div>
                 </div>
               ) : (
                 cartItems.map((item, i) => (

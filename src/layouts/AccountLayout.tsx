@@ -2,7 +2,7 @@ import UserAvatar from "@/components/user-avatar";
 import useAuthUser from "@/hooks/use-auth-user";
 import { cn } from "@/lib/utils";
 import { getFullName, maskEmail } from "@/utils/helpers";
-import { Bell, Heart, LayoutDashboard, Package } from "lucide-react";
+import { Bell, Heart, HelpCircle, LayoutDashboard, MapPin, Package, Shield } from "lucide-react";
 import { Navigate, NavLink, Outlet, useLocation } from "react-router-dom";
 
 const AccountLayout = () => {
@@ -10,15 +10,13 @@ const AccountLayout = () => {
   const { pathname } = useLocation();
   const navItems = [
     { to: "/account/dashboard", label: "Mon compte", icon: <LayoutDashboard size={18} /> },
-    { to: "/account/orders", label: "Commandes", icon: <Package size={18} /> },
+    { to: "/account/orders", label: "Mes commandes", icon: <Package size={18} /> },
+    { to: "/account/infos-user", label: "Mes infos", icon: <MapPin size={18} /> },
     { to: "/account/wishlist", label: "Favoris", icon: <Heart size={18} /> },
-    {
-      to: "/account/notifications",
-      label: "Notifications",
-      icon: <Bell size={18} />,
-    },
+    { to: "/account/notifications", label: "Notifications", icon: <Bell size={18} /> },
+    { to: "/account/security", label: "Sécurité", icon: <Shield size={18} /> },
+    { to: "/account/support", label: "Support", icon: <HelpCircle size={18} /> },
   ];
-  
   // Protect account space: only customers can access
   if (!isLoading && data?.role !== "customer") {
     return <Navigate to="/" replace />;

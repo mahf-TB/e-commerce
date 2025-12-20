@@ -1,4 +1,4 @@
-import { SaveOff, Trash2 } from "lucide-react";
+import { PackageX, SaveOff, Trash2 } from "lucide-react";
 import React from "react";
 
 import BadgeButton from "@/components/BadgeButton";
@@ -65,10 +65,25 @@ export default function CartPopover({
         {/* Articles du panier */}
         <div className="max-h-[450px] overflow-y-auto p-2">
           {cartItems.length === 0 ? (
-            <EmptyState
-              media={<SaveOff size={32} />}
-              title="Votre panier est vide"
-            />
+           
+            <div className="col-span-full flex items-center justify-center py-20 px-5">
+              <div className="flex flex-col items-center gap-4 max-w-md text-center">
+                <div className="relative">
+                  <div className="absolute inset-0 bg-gray-200 rounded-full blur-xl opacity-50"></div>
+                  <div className="relative bg-gray-100 p-4 rounded-full">
+                    <PackageX className="text-gray-400" size={38} strokeWidth={1.5} />
+                  </div>
+                </div>
+                <div className="space-y-2">
+                  <h3 className="text-lg font-bold text-gray-900 font-poppins">
+                    Votre panier est vide
+                  </h3>
+                  <p className="text-sm text-muted-foreground">
+                    Ajoutez des articles à votre panier pour commencer vos achats.
+                  </p>
+                </div>
+              </div>
+            </div>
           ) : (
             cartItems.map((item, i) => (
               <ProductItem

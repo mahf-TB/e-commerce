@@ -12,13 +12,15 @@ export const productConditionOptions = [
 ];
 
 export const orderStatusOptions = [
-  { label: "En attente", value: "pending" },
-  { label: "En traitement", value: "processing" },
-  { label: "Expédiée", value: "shipped" },
-  { label: "Livrée", value: "delivered" },
-  { label: "Annulée", value: "cancelled" },
-  { label: "Remboursée", value: "refunded" },
-  { label: "Archivée", value: "archived" },
+  { label: "Toutes", value: "all" },
+  { label: "En attente", value: "en_attente" },
+  { label: "Payée", value: "paye" },
+  { label: "En traitement", value: "en_preparation" },
+  { label: "Expédiée", value: "expediee" },
+  { label: "Livrée", value: "livree" },
+  { label: "Non Payée", value: "non_paye" },
+  { label: "Remboursée", value: "remboursee" },
+  { label: "Annulée", value: "annulee" },
 ];
 
 export const paymentStatusOptions = [

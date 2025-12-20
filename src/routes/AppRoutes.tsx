@@ -30,6 +30,11 @@ import AdminRoutes from "./AdminRoutes";
 import PrivateRoutes from "./PrivateRoutes";
 import PublicRoutes from "./PublicRoutes";
 import Paiement from "@/pages/admin/paiement/Paiement";
+import Wishlist from "@/pages/account/favoris/Wishlist";
+import Information from "@/pages/account/infos/Information";
+import Securite from "@/pages/account/securite/Securite";
+import Notifications from "@/pages/account/notifications/notifications";
+import NotificationsList from "@/pages/account/notifications/NotificationsList";
 
 
 const router = createBrowserRouter([
@@ -63,9 +68,19 @@ const router = createBrowserRouter([
           { path: "dashboard", element: <AccountPage /> },
           { path: "orders", element: <MyOrderPage /> },
           { path: "orders/:id", element: <DetailsMyOrder /> },
-          { path: "wishlist", element: <CartPage /> },
-          { path: "notifications", element: <CartPage /> },
+          { path: "infos-user", element: <Information /> },
+          { path: "wishlist", element: <Wishlist /> },
+          { path: "notifications", element: <Notifications /> },
+          { path: "security", element: <Securite /> },
         ],
+      },
+      {
+        path: "notifications-list",
+        element: (
+          <PrivateRoutes>
+            <NotificationsList />
+          </PrivateRoutes>
+        ),
       },
       {
         path: "checkout",

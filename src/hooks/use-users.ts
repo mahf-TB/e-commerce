@@ -1,10 +1,10 @@
+import { uploadUserAvatar } from "@/services/authService";
 import {
     createUser,
     deleteUser,
     fetchUserById,
     fetchUsers,
     updateUser,
-    uploadUserAvatar,
     type CreateUserPayload,
     type UpdateUserPayload,
     type UserListParams,
@@ -93,6 +93,7 @@ export function useUpdateUser() {
   });
 }
 
+
 /**
  * Hook pour supprimer un utilisateur
  */
@@ -108,19 +109,4 @@ export function useDeleteUser() {
   });
 }
 
-/**
- * Hook pour uploader l'avatar d'un utilisateur
- */
-export function useUploadUserAvatar() {
-  const queryClient = useQueryClient();
 
-  return useMutation({
-    mutationFn: ({ id, file }: { id: string | number; file: File }) =>
-      uploadUserAvatar(id, file),
-    onSuccess: (data, variables) => {
-      // Invalide le cache de l'utilisateur et l'auth si c'est l'utilisateur connecté
-      queryClient.invalidateQueries({ queryKey: ["users", variables.id] });
-      queryClient.invalidateQueries({ queryKey: ["auth", "me"] });
-    },
-  });
-}

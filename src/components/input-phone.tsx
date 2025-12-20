@@ -39,7 +39,7 @@ export function InputPhoneNumber({
   const inputId = id ?? generatedId;
 
   return (
-    <div className={cn("*:not-first:mt-2", containerClassName)} dir="ltr">
+    <div className={cn("*:not-first:mt-1", containerClassName)} dir="ltr">
       {!hideLabel && label && (
         <Label htmlFor={inputId} className="font-medium text-xs">
           {label}

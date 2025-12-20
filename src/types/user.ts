@@ -40,5 +40,15 @@ export type RegisterPayload = {
   prenom?: string;
   adresse?: string;
   telephone?: string;
+  username?: string;
   // ajoutez d'autres champs si votre backend l'exige
 };
+
+export interface UpdateProfilePayload {
+  nom?: string;
+  prenom?: string;
+  adresse?: string;
+  telephone?: string;
+  username?: string;
+  // ajoutez d'autres champs si votre backend l'exige
+}

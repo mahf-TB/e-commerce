@@ -1,5 +1,10 @@
 import { apiAuth } from "@/lib/axios";
 import type { Paginated, User } from "@/types";
+const headers = {
+  headers: {
+    "Content-Type": "multipart/form-data",
+  },
+};
 
 // Types pour les paramètres de requête
 export interface UserListParams {
@@ -87,21 +92,4 @@ export async function deleteUser(id: string | number): Promise<void> {
   await apiAuth.delete(`/users/${id}`);
 }
 
-/**
- * Upload l'avatar d'un utilisateur
- * Requiert: utilisateur connecté (propriétaire) ou admin
- */
-export async function uploadUserAvatar(
-  id: string | number,
-  file: File
-): Promise<User> {
-  const formData = new FormData();
-  formData.append("avatar", file);
 
-  const res = await apiAuth.post(`/users/${id}/avatar`, formData, {
-    headers: {
-      "Content-Type": "multipart/form-data",
-    },
-  });
-  return res.data as User;
-}
