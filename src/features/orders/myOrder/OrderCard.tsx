@@ -1,5 +1,6 @@
 "use client";
 
+import Dropdown, { DropdownItems } from "@/components/dropdown";
 import { OrderProgressBar } from "@/components/OrderProgressBar";
 import Tooltips from "@/components/tooltips";
 import { Badge } from "@/components/ui/badge";
@@ -11,6 +12,7 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
+import { useDownloadFacture } from "@/hooks/use-commande";
 import { cn } from "@/lib/utils";
 import type { CommandeClient } from "@/types/order";
 import {
@@ -23,17 +25,24 @@ import {
   Calendar,
   Download,
   Info,
+  Loader2,
   MapPin,
   MoreHorizontal,
   User,
+  X,
 } from "lucide-react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 type OrderCardProps = {
   order: CommandeClient;
 };
 
 export function OrderCard({ order }: OrderCardProps) {
+  const downloadFactureMutation = useDownloadFacture();
+  const navigate = useNavigate();
+  const handleDownload = (commandeId: string, reference: string) => {
+    downloadFactureMutation.mutate({ commandeId, reference });
+  };
   return (
     <Card className="w-full p-5 rounded-sm shadow-none gap-3">
       <CardContent className="p-0  border-gray-300">
@@ -45,9 +54,25 @@ export function OrderCard({ order }: OrderCardProps) {
                 N°: {order.reference}
               </div>
               <div className="flex items-center gap-2">
-                <Button variant="ghost" size="icon" className="rounded-md">
-                  <MoreHorizontal className="h-5 w-5" />
-                </Button>
+                <Dropdown
+                  btnShow={
+                    <Button variant="ghost" size="icon" className="rounded-md">
+                      <MoreHorizontal className="h-5 w-5" />
+                    </Button>
+                  }
+                >
+                  <DropdownItems
+                    icon={<Info size={16} />}
+                    title="Voir details"
+                    onClick={() => navigate(`/account/orders/${order.id}`)}
+                  />
+                  <DropdownItems
+                    icon={<X size={16} />}
+                    variant="destructive"
+                    title="Annuler la commande"
+                    onClick={() => navigate(`/account/orders/${order.id}`)}
+                  />
+                </Dropdown>
               </div>
             </div>
             <Tooltips text={getLibelleStatut(order.statut)}>
@@ -141,9 +166,21 @@ export function OrderCard({ order }: OrderCardProps) {
         {/* Ligne stats */}
         <div className="flex items-end justify-between mt-5">
           <div className="flex items-center gap-2">
-            <Button variant="outline" size="sm" className="rounded text-xs">
-              <Download className="mr-1 h-4 w-4" />
-              Télécharger la facture
+            <Button
+              disabled={downloadFactureMutation.isPending}
+              onClick={() => handleDownload(order.id, order.reference)}
+              variant="outline"
+              size="sm"
+              className="rounded text-xs"
+            >
+              {downloadFactureMutation.isPending ? (
+                <Loader2 className="mr-1 h-4 w-4 animate-spin" />
+              ) : (
+                <Download className="mr-1 h-4 w-4" />
+              )}
+              {downloadFactureMutation.isPending
+                ? "Génération en cours..."
+                : "Télécharger la facture"}
             </Button>
           </div>
           <div className="flex flex-col items-end">

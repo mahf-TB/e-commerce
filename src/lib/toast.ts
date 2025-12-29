@@ -1,7 +1,7 @@
 import type { CSSProperties } from "react";
 import { toast, type ExternalToast } from "sonner";
 
-export type ToastVariant = "success" | "error" | "info" | "warning";
+export type ToastVariant = "normal" | "action" | "success" | "info" | "warning" | "error" | "loading" | "default";
 
 export type ToastOptions = Omit<ExternalToast, "style"> & { 
   style?: CSSProperties;
@@ -26,6 +26,12 @@ export function showToast(
       return toast.info(message, payload);
     case "warning":
       return toast.warning(message, payload);
+    case "loading":
+      return toast.loading(message, payload);
+    case "action":
+      return toast(message, { ...payload, action: payload.action });
+    case "normal":
+    case "default":
     default:
       return toast(message, payload);
   }

@@ -14,6 +14,8 @@ function getProgressConfig(statut: StatutCommande) {
       return { percent: 100, color: 'bg-emerald-500' }; // vert
     case 'annulee':
       return { percent: 100, color: 'bg-red-500' };     // rouge
+    case 'completed':
+      return { percent: 100, color: 'bg-green-600' }; 
     default:
       return { percent: 0, color: 'bg-muted' };
   }

@@ -87,6 +87,7 @@ const Customer = () => {
           </div>
           <Button
             onClick={() => navigate("ajouter")}
+            disabled
             className="flex items-center gap-1 rounded bg-gray-950 text-white px-5 py-2"
           >
             <Plus size={18} />

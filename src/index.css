@@ -32,7 +32,6 @@
   --accent: oklch(0.97 0 0);
   --accent-foreground: oklch(0.205 0 0);
   --destructive: oklch(0.577 0.245 27.325);
-  --destructive-foreground: oklch(0.985 0 0);
   --error: oklch(0.577 0.245 27.325);
   --error-foreground: oklch(0.985 0 0);
   --success: 142 76% 36%;

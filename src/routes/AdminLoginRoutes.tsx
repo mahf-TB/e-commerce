@@ -1,7 +1,7 @@
+import useAuthUser from "@/hooks/use-auth-user";
 import React from "react";
 import { Navigate, useLocation } from "react-router-dom";
 import authService from "../services/authService";
-import useAuthUser from "@/hooks/use-auth-user";
 
 interface Props {
   children: React.ReactNode;
@@ -9,21 +9,23 @@ interface Props {
 }
 
 const AdminLoginRoutes: React.FC<Props> = ({ children, redirectTo = "/admin/dashboard" }) => {
-  const token = authService.getToken();
   const location = useLocation();
-  const { data: user, isLoading } = useAuthUser();
+
+  // Si l'utilisateur est authentifié (fetchMe a réussi), rediriger selon le rôle
+  const { data: user, isLoading , isAuthenticated} = useAuthUser();
 
   if (isLoading) return null; // ou afficher un spinner
 
-  // If authenticated and non-customer, redirect to admin dashboard
-  if (token && user?.role !== "customer") {
+  if (isAuthenticated && user?.role && user.role !== "customer") {
     return <Navigate to={redirectTo} state={{ from: location }} replace />;
   }
 
-  // If authenticated as customer, redirect to home (they can't use admin login)
-  if (token && user?.role === "customer") {
+  if (isAuthenticated && user?.role === "customer") {
     return <Navigate to="/" state={{ from: location }} replace />;
   }
+
+  // Si un token existe mais que l'auth n'est pas confirmée (ex: serveur indisponible),
+  // on laisse afficher la page de login pour éviter des boucles de redirection.
 
   return children;
 };

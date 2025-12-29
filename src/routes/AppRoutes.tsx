@@ -1,18 +1,33 @@
 // src/routes/AppRoutes.tsx
 import AccountLayout from "@/layouts/AccountLayout";
 import AdminLayout from "@/layouts/AdminLayout";
+import AdminSettingsLayout from "@/layouts/SettingsLayout";
 import UserLayout from "@/layouts/UserLayout";
 import AccountPage from "@/pages/account/AccountPage";
+import Wishlist from "@/pages/account/favoris/Wishlist";
+import Information from "@/pages/account/infos/Information";
 import DetailsMyOrder from "@/pages/account/myOrders/DetailsMyOrder";
 import MyOrderPage from "@/pages/account/myOrders/MyOrderPage";
-import Commande from "@/pages/admin/commandes/Commande";
+import Notifications from "@/pages/account/notifications/notifications";
+import NotificationsList from "@/pages/account/notifications/NotificationsList";
+import Securite from "@/pages/account/securite/Securite";
+import AvisPage from "@/pages/admin/avis/AvisPage";
 import CommandeAttente from "@/pages/admin/commandes/CommandeAttente";
+import CommandeItem from "@/pages/admin/commandes/CommandeItem";
+import Commande from "@/pages/admin/commandes/Commandes";
 import Customer from "@/pages/admin/Customer/Customer";
 import AdminDashboard from "@/pages/admin/dashboard/AdminDashboard";
+import Paiement from "@/pages/admin/paiement/Paiement";
 import AddProduct from "@/pages/admin/ProduitGerer/AddProduct";
 import EditProduct from "@/pages/admin/ProduitGerer/EditProduct";
 import EditProductImages from "@/pages/admin/ProduitGerer/EditProductImages_new";
 import Products from "@/pages/admin/ProduitGerer/Products";
+import CategoriesKanbanPage from "@/pages/admin/settings/categorie/CategoriesKanbanPage";
+import GeneralSettingsPage from "@/pages/admin/settings/general/GeneralSettingsPage";
+import MarquesPage from "@/pages/admin/settings/marques/MarquesPage";
+import MonCompte from "@/pages/admin/settings/mon-compte/MonCompte";
+import Security from "@/pages/admin/settings/security/Security";
+import SupportPage from "@/pages/admin/settings/support/SupportPage";
 import UserStaff from "@/pages/admin/user/UserStaff";
 import CartPage from "@/pages/cart/CartPage";
 import CheckoutPage from "@/pages/checkout/CheckoutPage";
@@ -20,6 +35,7 @@ import CheckoutPageItem from "@/pages/checkout/CheckoutPageItem";
 import PurchaseSuccess from "@/pages/checkout/PurchaseSuccess";
 import LoginPage from "@/pages/connexion/ConnexionPage";
 import LoginAdmin from "@/pages/connexion/LoginAdmin";
+import ErrorServerPage from "@/pages/ErrorServerPage";
 import HomePage from "@/pages/home/HomePage";
 import NotFoundPage from "@/pages/NotFoundPage";
 import ProductItemsPage from "@/pages/product/ProductItemsPage";
@@ -29,12 +45,6 @@ import AdminLoginRoutes from "./AdminLoginRoutes";
 import AdminRoutes from "./AdminRoutes";
 import PrivateRoutes from "./PrivateRoutes";
 import PublicRoutes from "./PublicRoutes";
-import Paiement from "@/pages/admin/paiement/Paiement";
-import Wishlist from "@/pages/account/favoris/Wishlist";
-import Information from "@/pages/account/infos/Information";
-import Securite from "@/pages/account/securite/Securite";
-import Notifications from "@/pages/account/notifications/notifications";
-import NotificationsList from "@/pages/account/notifications/NotificationsList";
 
 
 const router = createBrowserRouter([
@@ -116,8 +126,10 @@ const router = createBrowserRouter([
       </AdminRoutes>
     ),
     children: [
+      { index: true, element: <AdminDashboard /> },
       { path: "dashboard", element: <AdminDashboard /> },
       { path: "commande", element: <Commande /> },
+      { path: "commande/:id", element: <CommandeItem /> },
       { path: "commande-attente", element: <CommandeAttente /> },
       { path: "produits", element: <Products /> },
       { path: "produits/ajouter", element: <AddProduct /> },
@@ -125,8 +137,27 @@ const router = createBrowserRouter([
       { path: "produits/:id/images", element: <EditProductImages /> },
       { path: "clients", element: <Customer /> },
       { path: "users", element: <UserStaff /> },
-      { path: "account", element: <Customer /> },
       { path: "paiement", element: <Paiement /> },
+      
+    ],
+  },
+  {
+    path: "/admin/parametre",
+    element: (
+      <AdminRoutes>
+        <AdminSettingsLayout />
+      </AdminRoutes>
+    ),
+    children: [
+      { index: true, element: <MonCompte /> },
+      { path: "account", element: <MonCompte /> },
+      { path: "categories", element: <CategoriesKanbanPage /> },
+      { path: "security", element: <Security /> },
+      { path: "marques", element: <MarquesPage /> },
+      { path: "users", element: <UserStaff /> },
+      { path: "support", element: <SupportPage /> },
+      { path: "general", element: <GeneralSettingsPage /> },
+      { path: "avis", element: <AvisPage /> },
     ],
   },
   {
@@ -136,6 +167,10 @@ const router = createBrowserRouter([
         <LoginAdmin />
       </AdminLoginRoutes>
     ),
+  },
+  {
+    path: "/erreur-serveur",
+    element: <ErrorServerPage />,
   },
   {
     path: "*",

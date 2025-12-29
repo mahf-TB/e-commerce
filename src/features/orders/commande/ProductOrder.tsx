@@ -34,6 +34,7 @@ export default function ProductOrder({
 }: ProductItemProps) {
   const totalPrice = total ?? prix * quantite;
   const navigate = useNavigate();
+console.log(id);
 
   return (
     <div

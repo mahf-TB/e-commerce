@@ -1,6 +1,7 @@
 import Tooltips from "@/components/tooltips";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
+import { useCheckFavoris, useToggleFavoris } from "@/hooks/use-favoris";
 import { cn } from "@/lib/utils";
 import { useCartStore } from "@/store/use-panier.store";
 import { formatPrice } from "@/utils/helpers";
@@ -32,6 +33,8 @@ export function ProductCard({
 }: ProductCardProps) {
   const navigate = useNavigate();
   const { addItem, openCart } = useCartStore();
+  const { isFavoris, isLoading } = useCheckFavoris("Produit", id.toString());
+  const { toggle, isPending } = useToggleFavoris();  
 
   const handleAddToCart = () => {
     addItem({
@@ -58,15 +61,18 @@ export function ProductCard({
           alt={produit}
           className="w-full h-52 object-cover"
         />
-        <div
-          onClick={() => console.log("mahefaaa")}
-          className="z-10 absolute bottom-2 right-2 bg-white rounded-full p-2 hidden group-hover:block shadow-md cursor-pointer hover:bg-gray-100 transition-all duration-200"
+        <button
+          onClick={() =>
+            toggle({ itemType: "Produit", itemId: id.toString(), isFavoris })
+          }
+          disabled={isPending || isLoading}
+          className="z-10 absolute bottom-2 right-2 bg-white rounded-full p-2 hidden group-hover:block shadow-md cursor-pointer hover:bg-gray-100 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
         >
           <Heart
             size={16}
-            className={cn("text-red-500", id === "" ? "fill-red-500" : "")}
+            className={cn( isFavoris ? "text-red-500 fill-red-500" : "")}
           />
-        </div>
+        </button>
         {/* <div className="absolute top-12 right-2 bg-white rounded-full p-2 hidden group-hover:block shadow-md cursor-pointer hover:bg-gray-100 transition-all duration-200">
           <Star size={16} className="text-red-500 fill-red-500" />
         </div> */}

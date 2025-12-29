@@ -47,7 +47,7 @@ const Paiement = () => {
   const [range, setRange] = React.useState<DateRange | undefined>(undefined);
   const { items, isLoading, isError, pagination } = useCommandeList({
     page,
-    limit: 5,
+    limit: 15,
     etatPaiement: status === "all" ? undefined : status,
     ...getDateRangeParams(range),
   });
@@ -102,4 +102,15 @@ const Paiement = () => {
   );
 };
 
-export default Paiement;
+
+
+// Wrapper export : vérifie le rôle avant d'afficher le dashboard
+import RequireRole from "@/components/RequireRole";
+
+export default function PaiementPageWrapper() {
+  return (
+    <RequireRole allowedRoles={["admin"]}>
+      <Paiement />
+    </RequireRole>
+  );
+}

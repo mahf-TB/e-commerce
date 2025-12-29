@@ -2,6 +2,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 
 export function OrderCardSkeleton() {
+
   return (
     <Card className="w-full p-5 rounded-sm shadow-none gap-3">
       <CardContent className="p-0 border-gray-300">

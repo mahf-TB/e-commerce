@@ -13,7 +13,7 @@ import {
 } from "@/components/ui/dialog";
 import { useCreateUser } from "@/hooks/use-users";
 import { showToast } from "@/lib/toast";
-import { EllipsisVertical, Lock, LockKeyhole, Mail, User } from "lucide-react";
+import { EllipsisVertical, GripVertical, Lock, LockKeyhole, Mail, User } from "lucide-react";
 import { useState } from "react";
 
 // Pretend we have initial image files
@@ -106,8 +106,8 @@ export default function AddUserModal({
       <DialogTrigger asChild>{trigger && trigger}</DialogTrigger>
       <DialogContent className="flex flex-col gap-0 overflow-y-visible p-0 sm:max-w-lg [&>button:last-child]:top-3.5 rounded border border-muted-foreground">
         <DialogHeader className="contents space-y-0 text-left bg-gray-900">
-          <DialogTitle className="border-b p-4  font-poppins text-white bg-gray-950">
-             {title}
+          <DialogTitle className="border-b p-4  font-poppins text-white bg-gray-950 flex items-center gap-1 uppercase font-medium">
+             <GripVertical size={16} /> {title}
           </DialogTitle>
           <DialogDescription className="sr-only">
             {description}
@@ -155,10 +155,11 @@ export default function AddUserModal({
                 </div>
                 <div className="*:not-first:mt-2">
                   <SelectForm
-                  icon={LockKeyhole}
+                  // icon={LockKeyhole}
                     label="Role"
                     required
                     className="w-full"
+                    placeholder="Selectionnez son rôle"
                     value={userInfo.role}
                     onChange={(e) => setUserInfo({ ...userInfo, role: e })}
                     options={[

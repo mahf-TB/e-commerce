@@ -2,21 +2,21 @@ import StatisticGrid, { type Stat } from "@/components/statistic-grid";
 import { Button } from "@/components/ui/button";
 import CommandeRecentes from "@/features/orders/myOrder/CommandeRecents";
 import useAuthUser from "@/hooks/use-auth-user";
-import { Package } from "lucide-react";
+import { DollarSign, Package } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 const defaultStats: Stat[] = [
   {
     title: "Commandes",
     value: 0,
     subtitle: "Commandes passées",
-    icon: <Package size={18} />,
+    icon: Package,
     color: "text-green-600",
   },
   {
     title: "Dépense",
     value: 0,
     subtitle: "Commandes passées",
-    icon: <Package size={18} />,
+    icon: DollarSign,
     color: "text-red-600",
   },
 ];

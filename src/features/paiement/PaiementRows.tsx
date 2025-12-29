@@ -3,7 +3,7 @@ import { Badge } from "@/components/ui/badge";
 import { DropdownMenuLabel } from "@/components/ui/dropdown-menu";
 import UserAvatar from "@/components/user-avatar";
 import type { EtatPaiement } from "@/types";
-import { formatDate, formatPrice, getLibellePayement } from "@/utils/helpers";
+import { formatDate, formatPrice, getLibellePayement, getPaiementColorClass } from "@/utils/helpers";
 import {
   Banknote,
   Bitcoin,
@@ -48,12 +48,10 @@ export const PaiementRow = forwardRef<HTMLTableRowElement, PaiementRowProps>(
   }) => {
     const navigate = useNavigate();
     const Icon = (mode: string) => {
-      if (mode === "card")
-        return <CreditCard size={14} />;
-      else if (mode === "espece")
-        return <Banknote size={14} />;
-      else return <Bitcoin size={14} />; 
-    }
+      if (mode === "card") return <CreditCard size={14} />;
+      else if (mode === "espece") return <Banknote size={14} />;
+      else return <Bitcoin size={14} />;
+    };
     return (
       <tr className="hover:bg-slate-200  transition-colors">
         {/* NUMERO DE COMMANDE */}
@@ -63,17 +61,7 @@ export const PaiementRow = forwardRef<HTMLTableRowElement, PaiementRowProps>(
 
         {/* PAIEMENT */}
         <td className="px-4 py-2 text-sm">
-          <Badge
-            className={` ${
-              paiement === "en_attente"
-                ? "bg-red-500"
-                : paiement === "paye"
-                ? "bg-green-500"
-                : paiement === "annulee"
-                ? "bg-red-500"
-                : "bg-gray-400"
-            }`}
-          >
+          <Badge className={getPaiementColorClass(paiement as EtatPaiement)}>
             {getLibellePayement(paiement as EtatPaiement)}
           </Badge>
         </td>

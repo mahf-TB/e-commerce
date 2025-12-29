@@ -22,7 +22,7 @@ const Products = () => {
     limit,
     sort,
     q: search,
-    statut: "active",
+    statut: status,
   });
 
   const hanleSetStatut = (statut: string) => {
@@ -63,7 +63,7 @@ const Products = () => {
           </div>
           <Button
             onClick={() => navigate("ajouter")}
-            className="flex items-center gap-1 rounded bg-gray-950 text-white px-2 py-2"
+            className="flex items-center gap-1 rounded bg-gray-950 text-white px-5 py-2"
           >
             <Plus size={18} />
             <span className="">Nouveau</span>

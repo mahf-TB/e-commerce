@@ -182,26 +182,6 @@ export default function LineChart5() {
           <CardTitle className="text-lg font-semibold">
             Vente de cette produit
           </CardTitle>
-          <div className="flex -space-x-2 hover:space-x-1">
-            {Array(4)
-              .fill(null)
-              .map((_, index) => (
-                <Avatar
-                  key={index}
-                  className="ring-background ring-2 transition-all duration-300 ease-in-out"
-                >
-                  <AvatarImage
-                    src={
-                      "https://cdn.shadcnstudio.com/ss-assets/avatar/avatar-2.png"
-                    }
-                    alt={`Avatar ${index + 1}`}
-                  />
-                  <AvatarFallback className="text-xs">{`A${
-                    index + 1
-                  }`}</AvatarFallback>
-                </Avatar>
-              ))}
-          </div>
           <CardToolbar>
             {/* Period Selector */}
             <Select

@@ -5,18 +5,24 @@ import { Button } from "@/components/ui/button";
 import { OrderRow } from "@/features/orders/tableaux/OrderRows";
 import OrderStatusFilter from "@/features/orders/tableaux/OrderStatusFilter";
 import TableListe from "@/features/orders/tableaux/TableListe";
-import { useCommandeList, useCommandeStats } from "@/hooks/use-commande";
-import { getDateRangeParams } from "@/utils/helpers";
+import useAuthUser from "@/hooks/use-auth-user";
+import {
+  useAnnulerCommande,
+  useCommandeList,
+  useCommandeStats,
+} from "@/hooks/use-commande";
+import { formatPrice, getDateRangeParams, isAdmin } from "@/utils/helpers";
 import {
   Banknote,
   Download,
   Landmark,
   Package,
   PackageCheck,
-  Plus
+  Plus,
 } from "lucide-react";
 import { useState } from "react";
 import type { DateRange } from "react-day-picker";
+import { useNavigate } from "react-router-dom";
 
 const getFilterStatut = (status: string) => {
   if (
@@ -38,13 +44,14 @@ const getFilterPaiement = (status: string) => {
   return undefined;
 };
 
-
 const Commande = () => {
+  const { user } = useAuthUser();
+  const navigate = useNavigate();
+  const annulerCommandeMutation = useAnnulerCommande();
   const [status, setStatus] = useState("");
   const [search, setSearch] = useState("");
   const [page, setPage] = useState(1);
   const [range, setRange] = useState<DateRange | undefined>(undefined);
-
   const dateParams = getDateRangeParams(range);
 
   const { items, isLoading, isError, pagination } = useCommandeList({
@@ -56,69 +63,40 @@ const Commande = () => {
     ...dateParams,
   });
 
-  // Récupérer les statistiques dynamiques
-  const { data: statsData } = useCommandeStats();
-
-  // Mapper les données backend vers le format Stat[]
-  const stats: Stat[] = [
-    {
-      title: "Commandes totales",
-      value: statsData?.general?.totalCommandes || 0,
-      subtitle: "Nombre total de commandes créées sur la période",
-      icon: <Package size={18} />,
-      color: "text-green-600",
-    },
-    {
-      title: "Chiffre d'affaires",
-      value: statsData?.revenus?.total || 0,
-      subtitle: "Montant total des commandes payées",
-      icon: <Landmark size={18} />,
-      color: "text-yellow-600",
-    },
-    {
-      title: "Commandes livrées",
-      value: statsData?.general?.commandesParStatut?.livree?.count || 0,
-      subtitle: "Commandes livrées avec succès aux clients.",
-      icon: <PackageCheck size={18} />,
-      color: "text-blue-600",
-    },
-    {
-      title: "Revenu des frais",
-      value: statsData?.revenus?.totalFrais || 0,
-      subtitle: "Montant total des frais de livraison perçus.",
-      icon: <Banknote size={18} />,
-      color: "text-violet-600",
-    },
-  ];
-    
+  console.log(items);
   
+  const handleAnnuler = (id: string) => {
+    if (!id) return;
+    annulerCommandeMutation.mutate({
+      commandeId: id,
+    });
+  };
+
   return (
     <div className="flex items-start">
       <div className="p-4 md:w-4/4  w-full mt-5 space-y-6">
-        <StatisticGrid
-          stats={stats}
-          className="p-0 lg:p-0  max-md:hidden"
-        />
+        {isAdmin(user?.role) && <AdminStatistics />}
         <div className="flex items-start justify-between gap-2">
-            <div className="flex items-center gap-2">
-              <OrderStatusFilter
-                selectedValue={status}
-                handleSelect={setStatus}
-                value={search}
-                onChange={setSearch}
-              />
-               {/* FILTRE */}
-              <DateRangePickerComponent value={range} onChange={setRange} />
-            </div>
+          <div className="flex items-center gap-2">
+            <OrderStatusFilter
+              selectedValue={status}
+              handleSelect={setStatus}
+              value={search}
+              onChange={setSearch}
+            />
+            {/* FILTRE */}
+            <DateRangePickerComponent value={range} onChange={setRange} />
+          </div>
           <div className="flex items-start gap-2">
             <Button
               onClick={() => console.log("hello")}
-              className="flex items-center gap-1 rounded bg-blue-500 text-white px-5 py-2"
+              className="flex items-center gap-1 rounded bg-blue-500 hover:bg-blue-500/80 text-white px-5 py-2"
             >
               <Download size={18} />
               <span className="">Export</span>
             </Button>
             <Button
+            disabled
               onClick={() => console.log("hello")}
               className="flex items-center gap-1 rounded bg-gray-950 text-white px-5 py-2"
             >
@@ -145,11 +123,11 @@ const Commande = () => {
                   status={order.statut}
                   paiement={order.etatPaiement}
                   adresse={order?.adresseLivraison || "N/A"}
-                  totalArticles={2}
+                  totalArticles={order.items.length}
                   total={order.total}
                   date={order.creeLe}
-                  onView={(id) => console.log("Voir", id)}
-                  onDelete={(id) => console.log("Supprimer", id)}
+                  onView={(id) =>navigate(`/admin/commande/${id}`)}
+                  onDelete={(id) => handleAnnuler(id as string)}
                 />
               ))}
           </TableListe>
@@ -174,3 +152,41 @@ const Commande = () => {
 };
 
 export default Commande;
+
+const AdminStatistics = () => {
+  // Récupérer les statistiques dynamiques
+  const { data: statsData } = useCommandeStats();
+
+  // Mapper les données backend vers le format Stat[]
+  const stats: Stat[] = [
+    {
+      title: "Commandes totales",
+      value: statsData?.general?.totalCommandes || 0,
+      subtitle: "Nombre total de commandes créées sur la période",
+      icon: Package,
+      color: "text-green-600",
+    },
+    {
+      title: "Chiffre d'affaires",
+      value: formatPrice(statsData?.revenus?.total) || 0,
+      subtitle: "Montant total des commandes payées",
+      icon: Landmark,
+      color: "text-yellow-600",
+    },
+    {
+      title: "Commandes livrées",
+      value: statsData?.general?.commandesParStatut?.livree?.count || 0,
+      subtitle: "Commandes livrées avec succès aux clients.",
+      icon: PackageCheck,
+      color: "text-blue-600",
+    },
+    {
+      title: "Revenu des frais",
+      value: formatPrice(statsData?.revenus?.totalFrais) || 0,
+      subtitle: "Montant total des frais de livraison perçus.",
+      icon: Banknote,
+      color: "text-violet-600",
+    },
+  ];
+  return <StatisticGrid stats={stats} className="p-0 lg:p-0  max-md:hidden" />;
+};

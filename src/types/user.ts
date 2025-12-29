@@ -50,5 +50,6 @@ export interface UpdateProfilePayload {
   adresse?: string;
   telephone?: string;
   username?: string;
+  email?: string;
   // ajoutez d'autres champs si votre backend l'exige
 }

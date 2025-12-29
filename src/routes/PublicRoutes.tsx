@@ -1,6 +1,5 @@
 import React from "react";
 import { Navigate, useLocation } from "react-router-dom";
-import authService from "../services/authService";
 import useAuthUser from "@/hooks/use-auth-user";
 
 interface Props {
@@ -9,13 +8,12 @@ interface Props {
 }
 
 const PublicRoutes: React.FC<Props> = ({ children, redirectTo = "/" }) => {
-  const token = authService.getToken();
   const location = useLocation();
-  const { data: user, isLoading } = useAuthUser();
+  const { data: user, isLoading , isAuthenticated } = useAuthUser();
 
   if (isLoading) return null; // ou afficher un spinner
 
-  if (token) {
+  if (isAuthenticated) {
     // If on admin-login, redirect based on role
     if (location.pathname === "/admin-login") {
       const defaultRedirect = user?.role !== "customer" ? "/admin/dashboard" : "/";

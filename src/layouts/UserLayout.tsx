@@ -1,4 +1,5 @@
 // src/layouts/UserLayout.tsx
+import ServerStatusBanner from "@/components/ServerStatusBanner";
 import HeaderPage from "@/features/HeaderPage";
 import { NavbarMenu } from "@/features/NavbarMenu";
 import { cn } from "@/lib/utils";
@@ -15,6 +16,7 @@ const UserLayout = () => {
       )}
     >
       <div className="w-full">
+        <ServerStatusBanner />
         {!location.pathname.startsWith("/checkout") && (
           <div className="sticky top-0 z-50">
             <HeaderPage />

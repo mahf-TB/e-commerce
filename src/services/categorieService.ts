@@ -12,9 +12,9 @@ export async function fetchCategories(): Promise<Paginated<Category>> {
   const res = await api.get("/categories");
   return res.data 
 }
-export async function createNewProduct(credential: any) {
+export async function createNewCategorie(credential: any) {
   try {
-    const res = await apiAuth.post("/categories", credential, headers);
+    const res = await apiAuth.post("/categories", credential);
     return res.data;
   } catch (error) {
     throw error;
@@ -22,6 +22,6 @@ export async function createNewProduct(credential: any) {
 }
 
 export default {
-  createNewProduct,
+  createNewCategorie,
   fetchCategories
 };

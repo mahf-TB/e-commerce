@@ -1,13 +1,14 @@
 import InputForm from "@/components/input-form";
 import SegmentedControl from "@/components/segmented-control";
-import { Search } from "lucide-react";
-import  { useState } from "react";
+import { Button } from "@/components/ui/button";
 import { OrderCard } from "@/features/orders/myOrder/OrderCard";
 import { OrderCardSkeleton } from "@/features/orders/skeleton/OrderCardSkeleton";
-import type { CommandeClient } from "@/types/order";
-import { useQuery } from "@tanstack/react-query";
 import { listMesCommande } from "@/services/commandeService";
 import type { Paginated } from "@/types";
+import type { CommandeClient } from "@/types/order";
+import { useQuery } from "@tanstack/react-query";
+import { PackageX, Search } from "lucide-react";
+import { useState } from "react";
 
 const options = [
   { value: "all", label: "Tous" },
@@ -77,8 +78,20 @@ const MyOrderPage = () => {
           {commandes.length > 0 ? (
             commandes.map((order) => <OrderCard key={order.id} order={order} />)
           ) : (
-            <div className="text-center text-gray-500 py-8 col-span-full">
-              Aucune commande trouvée.
+            <div className="col-span-full flex items-center justify-center py-20">
+              <div className="flex flex-col items-center gap-4 max-w-md text-center">
+                <div className="relative">
+                  <div className="absolute inset-0 bg-gray-200 rounded-full blur-xl opacity-50"></div>
+                  <div className="relative bg-gray-100 p-6 rounded-full">
+                    <PackageX className="text-gray-400" size={48} strokeWidth={1.5} />
+                  </div>
+                </div>
+                <div className="space-y-2">
+                  <h3 className="text-lg font-bold text-gray-900">Aucune commande trouvée</h3>
+                  <p className="text-sm text-muted-foreground">Vous n'avez aucune commande correspondant à vos filtres.</p>
+                  <Button variant={"outline"} onClick={() => window.location.href = '/products'}>Voir les produits</Button>
+                </div>
+              </div>
             </div>
           )}
         </section>

@@ -3,21 +3,23 @@ import Dropdown, { DropdownItems } from "@/components/dropdown";
 import { Badge } from "@/components/ui/badge";
 import { DropdownMenuLabel } from "@/components/ui/dropdown-menu";
 import UserAvatar from "@/components/user-avatar";
+import { useDownloadFacture } from "@/hooks/use-commande";
 import type { EtatPaiement, StatutCommande } from "@/types";
 import {
   formatDate,
   formatPrice,
   getLibellePayement,
   getLibelleStatut,
+  getPaiementColorClass,
   getStatusColorClass,
 } from "@/utils/helpers";
-import { EllipsisVertical, PenBox, ReceiptText, Trash } from "lucide-react";
+import { Download, EllipsisVertical, PenBox, ReceiptText, Trash, X } from "lucide-react";
 import type { HTMLAttributes } from "react";
 import { forwardRef } from "react";
 import { useNavigate } from "react-router-dom";
 
 export interface OrderRowProps extends HTMLAttributes<HTMLTableRowElement> {
-  orderId: string | number;
+  orderId: string ;
   orderNumber: string;
   customer: string;
   email: string;
@@ -58,8 +60,11 @@ export const OrderRow = forwardRef<HTMLTableRowElement, OrderRowProps>(
     },
     ref
   ) => {
-
     const navigate = useNavigate();
+    const downloadFactureMutation = useDownloadFacture();
+    const handleDownload = (commandeId: string, reference: string) => {
+      downloadFactureMutation.mutate({ commandeId, reference });
+    };
     return (
       <tr ref={ref} {...rest} className="hover:bg-slate-200  transition-colors">
         {/* NUMERO DE COMMANDE */}
@@ -73,11 +78,7 @@ export const OrderRow = forwardRef<HTMLTableRowElement, OrderRowProps>(
         {/* CLIENT */}
         <td className="px-4 py-2 text-sm text-gray-700 dark:text-gray-300  ">
           <div className="flex items-center gap-2 whitespace-nowrap">
-            <UserAvatar
-              src={image}
-              fallback="CN"
-              size={32}
-            />
+            <UserAvatar src={image} fallback="CN" size={32} />
             <div className="flex flex-col">
               <span>{customer}</span>
               <span className="text-xs">{email}</span>
@@ -106,22 +107,14 @@ export const OrderRow = forwardRef<HTMLTableRowElement, OrderRowProps>(
         {/* PAIEMENT */}
         <td className="px-4 py-2 text-sm">
           <Badge
-            className={` ${
-              paiement === "en_attente"
-                ? "bg-red-500"
-                : paiement === "paye"
-                ? "bg-green-500"
-                : paiement === "annulee"
-                ? "bg-red-500"
-                : "bg-gray-400"
-            }`}
+            className={getPaiementColorClass(paiement as EtatPaiement, "400")}
           >
             {getLibellePayement(paiement as EtatPaiement)}
           </Badge>
         </td>
 
         {/* DATE */}
-        <td className="px-4 py-2 text-sm text-gray-700 dark:text-gray-300">
+        <td className="px-4 py-2 text-sm text-gray-700 dark:text-gray-300 whitespace-nowrap">
           {formatDate(date)}
         </td>
 
@@ -135,22 +128,26 @@ export const OrderRow = forwardRef<HTMLTableRowElement, OrderRowProps>(
             }
           >
             <DropdownMenuLabel>Actions</DropdownMenuLabel>
-          <DropdownItems
-            icon={<ReceiptText size={18} />}
-            title="Voir détails"
-            onClick={() => onView && onView(orderId)}
-          />
-          <DropdownItems
-            icon={<PenBox size={18} />}
-            title="Modifier"
-            onClick={() => navigate(`${orderId}`)}
-          />
             <DropdownItems
-              icon={<Trash size={18} />}
-              title="Supprimer"
-              variant="destructive"
-              onClick={() => onDelete && onDelete(orderId)}
+              icon={<ReceiptText size={18} />}
+              title="Voir détails"
+              onClick={() => onView && onView(orderId)}
             />
+            <DropdownItems
+              icon={<Download size={18} />}
+              title="Télécharger la facture"
+              onClick={() => handleDownload(orderId, orderNumber)}
+            />
+            {!["annulee", "livree", "completed", "expediee"].includes(
+              status
+            ) && (
+              <DropdownItems
+                icon={<X size={18} />}
+                variant="destructive"
+                title="Annuler la commande"
+                onClick={() => onDelete && onDelete(orderId)}
+              />
+            )}
           </Dropdown>
         </td>
       </tr>

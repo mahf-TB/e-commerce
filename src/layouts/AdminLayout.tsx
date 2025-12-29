@@ -1,6 +1,7 @@
 // src/layouts/AdminLayout.tsx
-import { AppSidebar } from "@/features/AppSidebar";
+import ServerStatusBanner from "@/components/ServerStatusBanner";
 import { SidebarProvider } from "@/components/ui/sidebar";
+import { AppSidebar } from "@/features/AppSidebar";
 import useAuthUser from "@/hooks/use-auth-user";
 import { Navigate, Outlet } from "react-router-dom";
 
@@ -15,6 +16,7 @@ const AdminLayout = () => {
   if (isLoading) return null; // or a spinner component
   return (
     <SidebarProvider>
+      <ServerStatusBanner />
       <AppSidebar />
       <div className="bg-white min-h-screen w-full">
         <main>

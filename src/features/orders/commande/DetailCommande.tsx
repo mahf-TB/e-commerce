@@ -3,31 +3,25 @@ import { Button } from "@/components/ui/button";
 import UserAvatar from "@/components/user-avatar";
 import { CommandeStatusStepper } from "@/features/orders/commande/commande-status-stepper";
 import useAuthUser from "@/hooks/use-auth-user";
-import { showToast } from "@/lib/toast";
+import {
+  useAnnulerCommande,
+  useChangeStatutCommande,
+} from "@/hooks/use-commande";
 import { cn } from "@/lib/utils";
-import { changeCommandeStatut } from "@/services/commandeService";
-import type { StatutCommande } from "@/types/order";
+import type { EtatPaiement, StatutCommande } from "@/types/order";
 import {
   formatDateTime,
   formatPrice,
+  getLibellePayement,
+  getPaiementColorClass,
   hasAdminAccess,
   isClient,
 } from "@/utils/helpers";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { ArrowLeft } from "lucide-react";
 import ProductOrder from "./ProductOrder";
+import { Badge } from "@/components/ui/badge";
 
-const colorByPaiement = {
-  en_attente: "red-500",
-  paye: "green-500",
-  remboursee: "purple-500",
-} as Record<string, string>;
 
-const BadgeByPaiement = {
-  en_attente: "Non payé",
-  paye: "Payé",
-  remboursee: "Remboursée",
-} as Record<string, string>;
 
 export const DetailCommande = ({
   order,
@@ -38,35 +32,12 @@ export const DetailCommande = ({
   className?: string;
   onCancel?: () => void;
 }) => {
+  console.log(order);
+  
   const client = order?.client || {};
-  const queryClient = useQueryClient();
   const { user } = useAuthUser();
-
-  const changeStatutMutation = useMutation({
-    mutationFn: ({
-      commandeId,
-      statutCommande,
-    }: {
-      commandeId: string;
-      statutCommande: StatutCommande;
-    }) => changeCommandeStatut(commandeId, { statutCommande }),
-    onSuccess: () => {
-      showToast("success", "Statut de la commande mis à jour avec succès");
-      queryClient.invalidateQueries({
-        queryKey: ["commandes"],
-      });
-      queryClient.invalidateQueries({
-        queryKey: ["commandes", order?.id],
-      });
-    },
-    onError: (error: any) => {
-      showToast(
-        "error",
-        error?.response?.data?.message ||  error?.response?.data?.error ||
-          "Erreur lors de la mise à jour du statut"
-      );
-    },
-  });
+  const annulerCommandeMutation = useAnnulerCommande();
+  const changeStatutMutation = useChangeStatutCommande();
 
   const handleChangeStatut = (nouveauStatut: StatutCommande) => {
     if (!order?.id) return;
@@ -88,15 +59,18 @@ export const DetailCommande = ({
     // Si expédiée -> livrer
     else if (order?.statut === "expediee") {
       handleChangeStatut("livree");
-    } 
-     // Si livrée -> completed
+    }
+    // Si livrée -> completed
     else if (order?.statut === "livree") {
       handleChangeStatut("completed");
     }
   };
 
   const handleAnnuler = () => {
-    handleChangeStatut("annulee");
+    if (!order?.id) return;
+    annulerCommandeMutation.mutate({
+      commandeId: order.id,
+    });
   };
 
   return (
@@ -114,12 +88,15 @@ export const DetailCommande = ({
           <div>
             <h2 className="text-xl font-poppins font-bold flex items-center gap-5">
               <span>{order?.reference}</span>
-              <BadgeItem
-                statut={BadgeByPaiement[order?.etatPaiement] || "gray-400"}
-                className={`bg-${
-                  colorByPaiement[order?.etatPaiement] || "gray-400"
-                }`}
-              />
+
+              <Badge
+                className={getPaiementColorClass(
+                  order?.etatPaiement as EtatPaiement,
+                  "400"
+                )}
+              >
+                {getLibellePayement(order?.etatPaiement as EtatPaiement)}
+              </Badge>
             </h2>
             <p className="text-sm text-muted-foreground">
               Crée le {order?.creeLe ? formatDateTime(order.creeLe) : ""}
@@ -127,20 +104,24 @@ export const DetailCommande = ({
           </div>
         </div>
         <div className="flex items-center gap-3">
-          {order?.statut !== "annulee" && order?.statut !== "livree" && (
+          {!["annulee", "livree", "completed", "expediee"].includes(
+            order?.statut
+          ) && (
             <Button
               variant={"destructive"}
               size={"sm"}
               className="text-sm px-8 rounded"
               onClick={handleAnnuler}
-              disabled={changeStatutMutation.isPending}
+              disabled={
+                changeStatutMutation.isPending ||
+                annulerCommandeMutation.isPending
+              }
             >
-              Annuler
+              {annulerCommandeMutation.isPending ? "Annulation..." : "Annuler"}
             </Button>
           )}
           {hasAdminAccess(user?.role) &&
-            order?.statut !== "annulee" &&
-            order?.statut !== "livree" && (
+            !["annulee", "livree", "completed"].includes(order?.statut) && (
               <Button
                 size={"sm"}
                 className="text-sm px-8 rounded bg-blue-600"
@@ -178,7 +159,7 @@ export const DetailCommande = ({
               {order.items?.map((item: any, idx: number) => (
                 <ProductOrder
                   key={idx}
-                  id={item.id}
+                  id={item.produitId}
                   image="/images/default-product.jpg"
                   nom={item.nomProduit}
                   code={item.codeVariant}

@@ -1,12 +1,13 @@
 import InputForm from "@/components/input-form";
-import { ProductCard } from "@/features/products/listGrid/ProductCard";
+import { FavorisProductCard } from "@/features/products/favoris/FavorisProductCard";
 import { ProductCardSkeleton } from "@/features/products/skeleton/ProductCardSkeleton";
-import type { ProductListItem } from "@/types";
+import { useFavoris } from "@/hooks/use-favoris";
 import { Search } from "lucide-react";
-import  { useState } from "react";
+import { useState } from "react";
 
 const Wishlist = () => {
   const [searchQuery, setSearchQuery] = useState("");
+  const { data: favoris, isLoading } = useFavoris();
 
   return (
     <div>
@@ -21,26 +22,28 @@ const Wishlist = () => {
         />
       </div>
       {/* Grille */}
-            <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-              {([] as ProductListItem[]).map((product) => (
-                <ProductCard
-                  key={product.id}
-                  id={product.id}
-                  produit={product.nom}
-                  description={product.description}
-                  price={product.minPrice}
-                  imageUrl={product.imagePrincipale}
-                  rating={product.noteMoyenne}
-                  reviewsCount={product.nombreAvis}
-                  status={product.statut}
-                  variantId={product.variantId}
-                />
-              ))}
-              {true &&
-                Array.from({ length: 3 }).map((_, i) => (
-                  <ProductCardSkeleton key={i} />
-                ))}
-            </div>
+      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+        {(favoris?.items ?? []).map((item) => {
+          const product = item.itemId;
+          const imageUrl=   product?.images.find((img: any) => img.isPrincipale)?.url ?? "/images/default-product.jpg"
+          return (
+            <FavorisProductCard
+              key={product.id}
+              id={product.id}
+              produit={product.nom}
+              description={product.description}
+              imageUrl={imageUrl}
+              rating={product.noteMoyenne || 0}
+              reviewsCount={product.nombreAvis || 0}
+              status={product.statut}
+            />
+          );
+        })}
+        {isLoading &&
+          Array.from({ length: 4 }).map((_, i) => (
+            <ProductCardSkeleton key={i} />
+          ))}
+      </div>
     </div>
   );
 };

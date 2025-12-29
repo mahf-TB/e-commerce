@@ -24,7 +24,10 @@ const TableListeUser = ({
       {isLoading && (
         <tr>
           <td colSpan={columns.length} className="px-4 py-6 text-center">
-            Chargement...
+            <div className="text-center">
+              <div className="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-gray-900 mb-4"></div>
+              <p className="text-gray-600">Chargement...</p>
+            </div>
           </td>
         </tr>
       )}

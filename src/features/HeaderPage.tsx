@@ -142,7 +142,7 @@ const HeaderPage = () => {
                 <DropdownItems
                   icon={<UserCircle size={18} />}
                   title="Mon compte"
-                  onClick={() => navigate("/admin/account")}
+                  onClick={() => navigate("/admin/parametre/account")}
                 />
                 <DropdownItems
                   icon={<ShieldUser size={18} />}

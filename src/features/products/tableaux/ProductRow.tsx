@@ -141,7 +141,7 @@ export const ProductRow: React.FC<ProductRowProps> = ({
       </td>
 
       {/* DATE */}
-      <td className="px-4 py-2 text-sm text-gray-700 dark:text-gray-300">
+      <td className="px-4 py-2 text-sm text-gray-700 dark:text-gray-300 whitespace-nowrap">
         {formatDate(date)}
       </td>
 

@@ -150,6 +150,7 @@ export async function changeCommandePaiement(
   }
 }
 
+// Ancienne fonction (dépréciée, utiliser dashboardService.ts)
 export async function statsAllCommandes({
   dateDebut,
   dateFin,
@@ -167,18 +168,35 @@ export async function statsAllCommandes({
 }
 
 
-export async function statsAllCommandesPaiement({
-  dateDebut,
-  dateFin,
-}: CommandeListParams): Promise<any> {
+
+/**
+ * Télécharger la facture d'une commande en PDF
+ * @param commandeId - ID de la commande
+ * @returns Blob du fichier PDF
+ */
+export async function downloadFacture(commandeId: string): Promise<Blob> {
   try {
-    const params = {
-      dateDebut,
-      dateFin,
-    };
-    const res = await apiAuth.get("/commandes/stats/paiement", { params });
-    return res.data;
-  } catch (error: any) {
+    const response = await apiAuth.get(`/commandes/${commandeId}/facture`, {
+      responseType: 'blob', // Important pour recevoir un fichier binaire
+    });
+    return response.data;
+  } catch (error: any) {    
+    throw error;
+  }
+}
+
+
+
+/**
+ * Annuler une commande
+ * @param commandeId - ID de la commande
+ * @returns 
+ */
+export async function annulerCommande(commandeId: string , payload?: any): Promise<CommandeClient> {
+  try {
+    const response = await apiAuth.post(`/commandes/${commandeId}/annuler`, payload);
+    return response.data;
+  } catch (error: any) {    
     throw error;
   }
 }

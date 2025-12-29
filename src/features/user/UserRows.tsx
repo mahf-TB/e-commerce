@@ -53,6 +53,7 @@ export const UserRows = forwardRef<HTMLTableRowElement, UserRowsProps>(
     ref
   ) => {
     const navigate = useNavigate();
+    
     return (
       <tr ref={ref} {...rest} className="hover:bg-slate-200  transition-colors">
         {/* CLIENT */}
