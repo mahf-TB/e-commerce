@@ -7,13 +7,15 @@ export function useAvisList(params: AvisParams = {}) {
     limit = 20,
     statut,
     note,
-    produitId,
+    itemType
   } = params;
 
+  console.log(itemType);
+  
   const query = useQuery<AvisListResponse>({
     queryKey: [
       "avis",
-      { page, limit, statut, note, produitId },
+      { page, limit, statut, note, itemType },
     ],
     queryFn: () =>
       getAllAvis({
@@ -21,7 +23,7 @@ export function useAvisList(params: AvisParams = {}) {
         limit,
         statut: statut === "tous" ? undefined : statut,
         note: note ? Number(note) : undefined,
-        produitId,
+        itemType : itemType ? itemType : undefined,
       }),
     staleTime: 1000 * 60 * 2, // 2 minutes
     retry: 1,

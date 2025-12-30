@@ -128,16 +128,17 @@ const AvisCard = ({ avis }: { avis: Avis }) => {
   );
 };
 
-export default function AvisPage() {
+function AvisPage() {
   const [statutFilter, setStatutFilter] = useState("tous");
   const [typeFilter, setTypeFilter] = useState("tous");
   const [noteFilter, setNoteFilter] = useState("tous");
 
   // Récupérer les avis depuis l'API
-  const { avis, isLoading, totalItems } = useAvisList({
+  const { avis, isLoading } = useAvisList({
     statut: statutFilter,
     note: noteFilter === "tous" ? undefined : Number(noteFilter),
     limit: 100, // Récupérer tous les avis pour les stats
+    itemType: typeFilter === "tous" ? undefined : typeFilter,
   });
 
   // Calculer les statistiques
@@ -250,5 +251,18 @@ export default function AvisPage() {
         </div>
       )}
     </div>
+  );
+}
+
+
+
+// Wrapper export : vérifie le rôle avant d'afficher le dashboard
+import RequireRole from "@/components/RequireRole";
+
+export default function AvisPageWrapper() {
+  return (
+    <RequireRole allowedRoles={["admin", "support"]}>
+      <AvisPage />
+    </RequireRole>
   );
 }

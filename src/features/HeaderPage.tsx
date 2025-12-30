@@ -5,33 +5,34 @@ import SearchInput from "@/components/search-input";
 import Tooltips from "@/components/tooltips";
 import { Button } from "@/components/ui/button";
 import {
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
+    DropdownMenuLabel,
+    DropdownMenuSeparator,
 } from "@/components/ui/dropdown-menu";
 import { Highlighter } from "@/components/ui/highlighter";
 import UserAvatar from "@/components/user-avatar";
 import CartPopover from "@/features/cart/PanierPopover";
+import NotificationsSheet from "@/features/notifications/NotificationsSheet";
 import { useAuthInvalidate } from "@/hooks/use-auth-invalidate";
 import useAuthUser from "@/hooks/use-auth-user";
 import { logout } from "@/services/authService";
 import { useCartStore } from "@/store/use-panier.store";
 import {
-  fallbackAvatar,
-  getFullName,
-  hasAdminAccess,
-  isClient,
-  maskEmail,
+    fallbackAvatar,
+    getFullName,
+    hasAdminAccess,
+    isClient,
+    maskEmail,
 } from "@/utils/helpers";
 import {
-  Bell,
-  Heart,
-  LogOut,
-  Package,
-  Settings,
-  ShieldUser,
-  ShoppingCart,
-  ShoppingCartIcon,
-  UserCircle,
+    Bell,
+    Heart,
+    LogOut,
+    Package,
+    Settings,
+    ShieldUser,
+    ShoppingCart,
+    ShoppingCartIcon,
+    UserCircle,
 } from "lucide-react";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -93,6 +94,7 @@ const HeaderPage = () => {
               onClick={() => console.log("Notifications")}
             />
           </Tooltips>
+          <NotificationsSheet />
           {/* User Logo and btn connexion */}
           {isAuthenticated ? (
             <Tooltips text="Profile">

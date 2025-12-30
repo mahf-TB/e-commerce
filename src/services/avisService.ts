@@ -46,7 +46,7 @@ export type AvisParams = {
   limit?: number;
   statut?: string;
   note?: number;
-  produitId?: string;
+  itemType?: string;
 };
 
 export async function getAllAvis(params?: AvisParams): Promise<AvisListResponse> {

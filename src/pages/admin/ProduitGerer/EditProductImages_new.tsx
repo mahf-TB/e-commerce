@@ -251,4 +251,14 @@ const EditProductImages = () => {
   );
 };
 
-export default EditProductImages;
+
+// Wrapper export : vérifie le rôle avant d'afficher le dashboard
+import RequireRole from "@/components/RequireRole";
+
+export default function EditProductImagesWrapper() {
+  return (
+    <RequireRole allowedRoles={["admin"]}>
+      <EditProductImages />
+    </RequireRole>
+  );
+}

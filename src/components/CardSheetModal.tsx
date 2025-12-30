@@ -6,12 +6,16 @@ import useSystemStore from "@/store/use-system.store";
 
 interface CardSheetModalProps {
   openModal: boolean;
+  titre?: string;
+  description?: string;
   setOpenModal: (open: boolean) => void;
   children: React.ReactNode;
 }
 
 const CardSheetModal: React.FC<CardSheetModalProps> = ({
   openModal,
+  titre,
+  description,
   setOpenModal,
   children,
 }) => {
@@ -35,7 +39,7 @@ const CardSheetModal: React.FC<CardSheetModalProps> = ({
             exit={{ opacity: 0 }}
             transition={{ duration: 0.3 }}
             onClick={handleClose}
-            className="bg-black/50 z-50 fixed top-0 right-0 left-0 bottom-0"
+            className="bg-black/50 z-999  fixed top-0 right-0 left-0 bottom-0 "
             aria-hidden="true"
           />
 
@@ -47,13 +51,23 @@ const CardSheetModal: React.FC<CardSheetModalProps> = ({
             exit={{ x: "100%", opacity: 0 }}
             transition={{ type: "spring", damping: 25, stiffness: 300 }}
             className={cn(
-              "fixed right-1 top-1 z-50  max-sm:left-1 bottom-1 bg-white rounded border border-gray-500 shadow-lg overflow-y-auto",
+              "fixed right-1 top-1 z-999 max-sm:left-1 bottom-1 bg-white rounded border border-gray-500 shadow-lg overflow-y-auto",
               isExpanded ? "left-1" : "sm:w-[450px]"
             )}
           >
             {/* Header */}
-            <div className="flex justify-end items-center p-4 sticky top-0 z-50 bg-white dark:bg-gray-800">
-              <div className="flex items-center gap-4">
+            <div className="flex  justify-between items-center p-4 sticky top-0 z-999 bg-white dark:bg-gray-800">
+              {titre && (
+                <div className="text-gray-900">
+                  <h2 className="font-poppins font-semibold">{titre}</h2>
+                  {description && (
+                    <p className="text-xs text-muted-foreground">
+                      {description}
+                    </p>
+                  )}
+                </div>
+              )}
+              <div className="flex items-center ml-auto gap-4">
                 {isExpanded ? (
                   <motion.button
                     whileHover={{ scale: 1.1 }}
@@ -93,7 +107,7 @@ const CardSheetModal: React.FC<CardSheetModalProps> = ({
               animate={{ opacity: 1 }}
               transition={{ delay: 0.2, duration: 0.3 }}
               className={cn(
-                "px-4",
+                "px-4 z-999",
                 isExpanded ? " container mx-auto " : "w-full"
               )}
             >

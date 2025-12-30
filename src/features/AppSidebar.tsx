@@ -1,4 +1,5 @@
 // components/app-sidebar.tsx
+import CommandPalette from "@/components/CommandPalette";
 import { Logo } from "@/components/icon/logo";
 import {
   Sidebar,
@@ -14,9 +15,11 @@ import {
 } from "@/components/ui/sidebar";
 import { Skeleton } from "@/components/ui/skeleton";
 import UserAvatar from "@/components/user-avatar";
+import NotificationsSheet from "@/features/notifications/NotificationsSheet";
 import { useAuthInvalidate } from "@/hooks/use-auth-invalidate";
 import useAuthUser from "@/hooks/use-auth-user";
 import { logout } from "@/services/authService";
+import useSystemStore from "@/store/use-system.store";
 import {
   fallbackAvatar,
   getFullName,
@@ -34,17 +37,14 @@ import {
   ListOrdered,
   LogOut,
   Package,
-  Search,
   Settings,
   UserCog,
-  Users2,
+  Users2
 } from "lucide-react";
 import { NavLink, useLocation, useNavigate } from "react-router-dom";
 import Dropdown, { DropdownItems } from "../components/dropdown";
 import { Badge } from "../components/ui/badge";
 import { DropdownMenuSeparator } from "../components/ui/dropdown-menu";
-import SearchInput from "@/components/search-input";
-import InputForm from "@/components/input-form";
 
 const items = [
   { title: "Dashboard", url: "/admin/dashboard", icon: Home },
@@ -72,12 +72,18 @@ const items = [
 
 const items2 = [
   // { title: "Avis clients", url: "/admin/avis", icon: MessageSquare },
-  { title: "Notifications", url: "/admin/notifications", icon: BellRing },
+  {
+    title: "Notifications",
+    url: "/admin/notifications",
+    icon: BellRing,
+    isNotify: true,
+  },
   // { title: "Gérer l'utilisateur", url: "/admin/users", icon: UserCog },
   { title: "Parametre", url: "/admin/parametre/account", icon: Settings },
 ];
 
 export function AppSidebar() {
+  const { setNotifySheet } = useSystemStore();
   const { pathname } = useLocation();
   const { removeAuthUser } = useAuthInvalidate();
   const { user, isLoading } = useAuthUser();
@@ -118,8 +124,8 @@ export function AppSidebar() {
         </div>
       </SidebarHeader>
       <SidebarContent>
-        <div className="px-4">
-          <InputForm iconLeft={<Search size={14} />} className="border-muted-foreground/60" placeholder="Rechercher..."/>
+        <div className="px-4 text-white z-50">
+          <CommandPalette inverted  />
         </div>
         <SidebarGroup>
           <SidebarGroupContent className="px-2">
@@ -142,6 +148,11 @@ export function AppSidebar() {
                         hover:bg-gray-800 hover:text-white
                       `}
                       asChild
+                      onClick={() => {
+                        if (item.title === "Notifications") {
+                          // Logique spéciale pour les notifications si nécessaire
+                        }
+                      }}
                     >
                       <NavLink
                         to={item.url}
@@ -161,6 +172,9 @@ export function AppSidebar() {
                 const Icon = item.icon;
                 const isActive =
                   pathname === item.url || pathname.startsWith(item.url);
+                    const onNotifyClick = () => {
+                  item.isNotify ? setNotifySheet(true) : null;
+                };
                 return (
                   <SidebarMenuItem key={item.title}>
                     <SidebarMenuButton
@@ -170,9 +184,10 @@ export function AppSidebar() {
                         hover:bg-gray-800 hover:text-white
                       `}
                       asChild
+                      onClick={onNotifyClick}
                     >
                       <NavLink
-                        to={item.url}
+                        to={!item.isNotify ? item.url : "#"}
                         className="flex items-center text-gray-400 space-x-2 h-10"
                       >
                         <Icon size={18} />

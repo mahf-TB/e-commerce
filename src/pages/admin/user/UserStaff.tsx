@@ -131,4 +131,15 @@ const UserStaff = () => {
   );
 };
 
-export default UserStaff;
+
+
+// Wrapper export : vérifie le rôle avant d'afficher le dashboard
+import RequireRole from "@/components/RequireRole";
+
+export default function UserPageWrapper() {
+  return (
+    <RequireRole allowedRoles={["admin"]}>
+      <UserStaff />
+    </RequireRole>
+  );
+}

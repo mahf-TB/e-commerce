@@ -28,8 +28,6 @@ const MonCompte = () => {
   // Charger les données de l'utilisateur
   useEffect(() => {
     if (user) {
-      console.log(user);
-      
       setUserInfo({
         email: user.email || "",
         username: user.username || "",
@@ -57,7 +55,9 @@ const MonCompte = () => {
       console.error("Erreur lors de la mise à jour:", error);
       showToast(
         "error",
-        error?.response?.data?.message || error?.response?.data?.error|| "Erreur lors de la mise à jour"
+        error?.response?.data?.message ||
+          error?.response?.data?.error ||
+          "Erreur lors de la mise à jour"
       );
     }
   };
@@ -116,11 +116,10 @@ const MonCompte = () => {
           showIcon
         />
       </div>
-
-      {/* Contenu conditionnel */}
-      {activeTab === "infos" ? (
-        <div className="flex items-start justify-center gap-2">
-          {/* Informations de base */}
+      <div className="flex items-start justify-center gap-2">
+        {/* Contenu conditionnel */}
+        {/* Informations de base */}
+        {activeTab === "infos" ? (
           <Card className="shadow-none rounded w-3/4 border-none">
             <CardHeader>
               <CardTitle>Informations personnelles</CardTitle>
@@ -213,12 +212,10 @@ const MonCompte = () => {
               </form>
             </CardContent>
           </Card>
-        </div>
-      ) : (
-        <div className="flex items-start justify-center gap-2">
+        ) : (
           <ChangerMotDePasse />
-        </div>
-      )}
+        )}
+      </div>
     </div>
   );
 };

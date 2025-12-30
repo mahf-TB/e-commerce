@@ -7,7 +7,7 @@ import useBrands, { type Marque } from "@/hooks/use-marques";
 import { Building2, Plus } from "lucide-react";
 import { useState } from "react";
 
-export default function MarquesPage() {
+function MarquesPage() {
   const { items: marques, isLoading } = useBrands();
   const [mode, setMode] = useState<"grid" | "list">("grid");
 
@@ -104,5 +104,17 @@ export default function MarquesPage() {
         </div>
       )}
     </div>
+  );
+}
+
+
+// Wrapper export : vérifie le rôle avant d'afficher le dashboard
+import RequireRole from "@/components/RequireRole";
+
+export default function MarquesPageWrapper() {
+  return (
+    <RequireRole allowedRoles={["admin"]}>
+      <MarquesPage />
+    </RequireRole>
   );
 }

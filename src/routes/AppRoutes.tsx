@@ -45,6 +45,7 @@ import AdminLoginRoutes from "./AdminLoginRoutes";
 import AdminRoutes from "./AdminRoutes";
 import PrivateRoutes from "./PrivateRoutes";
 import PublicRoutes from "./PublicRoutes";
+import NotificationsPages from "@/pages/admin/settings/notifications/Notifications";
 
 
 const router = createBrowserRouter([
@@ -158,6 +159,7 @@ const router = createBrowserRouter([
       { path: "support", element: <SupportPage /> },
       { path: "general", element: <GeneralSettingsPage /> },
       { path: "avis", element: <AvisPage /> },
+      { path: "notifications", element: <NotificationsPages /> },
     ],
   },
   {

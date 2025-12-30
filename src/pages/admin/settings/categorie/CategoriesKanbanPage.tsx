@@ -3,7 +3,7 @@ import SegmentedControl from "@/components/segmented-control";
 import useCategories, { useCreateCategory, type Category } from "@/hooks/use-categories";
 import { useState } from "react";
 
-export default function CategoriesKanbanPage() {
+function CategoriesKanbanPage() {
   const { items: categories, isLoading } = useCategories();
   const { mutateAsync: createCategory } = useCreateCategory();
   const [mode, setMode] = useState("kanban");
@@ -81,5 +81,16 @@ export default function CategoriesKanbanPage() {
         </div>
       )}
     </div>
+  );
+}
+
+// Wrapper export : vérifie le rôle avant d'afficher le dashboard
+import RequireRole from "@/components/RequireRole";
+
+export default function CategoriesKanbanPageWrapper() {
+  return (
+    <RequireRole allowedRoles={["admin"]}>
+      <CategoriesKanbanPage />
+    </RequireRole>
   );
 }

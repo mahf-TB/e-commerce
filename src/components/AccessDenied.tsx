@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 export default function AccessDenied() {
   const navigate = useNavigate();
   return (
-    <div className="min-h-[90vh] flex items-center justify-center px-4">
+    <div className="min-h-[80vh] flex items-center justify-center px-4">
       <div className="max-w-lg w-full">
         <div className="col-span-full flex items-center justify-center py-12">
           <div className="flex flex-col items-center gap-4 max-w-md text-center">
@@ -22,7 +22,7 @@ export default function AccessDenied() {
               </p>
               <div className="flex items-center justify-center gap-3 mt-5">
                 <Button onClick={() => navigate(-1)}>Retour</Button>
-                <Button variant="ghost" onClick={() => navigate('/')}>Accueil</Button>
+                <Button variant="ghost" onClick={() => navigate('/admin')}>Accueil</Button>
               </div>
             </div>
           </div>

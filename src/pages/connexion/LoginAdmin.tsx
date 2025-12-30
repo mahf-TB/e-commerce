@@ -35,7 +35,7 @@ const LoginAdmin = () => {
       await loginUser();
     } catch (error) {
       console.error("Erreur de connexion : ", error || error);
-      setError("Échec de la connexion. Veuillez vérifier vos identifiants.");
+      setError("Échec. Veuillez vérifier vos identifiants.");
       setLoading(false);
     } finally {
       setLoading(false);

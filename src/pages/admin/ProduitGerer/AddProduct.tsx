@@ -50,4 +50,14 @@ const AddProduct = () => {
   );
 };
 
-export default AddProduct;
+
+// Wrapper export : vérifie le rôle avant d'afficher le dashboard
+import RequireRole from "@/components/RequireRole";
+
+export default function AddProductWrapper() {
+  return (
+    <RequireRole allowedRoles={["admin"]}>
+      <AddProduct />
+    </RequireRole>
+  );
+}
