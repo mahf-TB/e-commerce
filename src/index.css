@@ -136,7 +136,6 @@
   --accent: oklch(0.269 0 0);
   --accent-foreground: oklch(0.985 0 0);
   --destructive: oklch(0.704 0.191 22.216);
-  --destructive-foreground: oklch(0.985 0 0);
   --error: oklch(0.704 0.191 22.216);
   --error-foreground: oklch(0.985 0 0);
   --success: 142 76% 36%;

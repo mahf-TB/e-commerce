@@ -1,5 +1,5 @@
 // src/layouts/UserLayout.tsx
-import ServerStatusBanner from "@/components/ServerStatusBanner";
+import ServerStatusBanner from "@/components/utils/ServerStatusBanner";
 import HeaderPage from "@/features/HeaderPage";
 import { NavbarMenu } from "@/features/NavbarMenu";
 import { cn } from "@/lib/utils";

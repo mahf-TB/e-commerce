@@ -1,4 +1,3 @@
-import InputForm from "@/components/input-form";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
@@ -15,12 +14,11 @@ import { showToast } from "@/lib/toast";
 import {
   CheckCircle2,
   Key,
-  Lock,
   Monitor,
   Shield,
   ShieldAlert,
   Smartphone,
-  XCircle,
+  XCircle
 } from "lucide-react";
 import { useState } from "react";
 

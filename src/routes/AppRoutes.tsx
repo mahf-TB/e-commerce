@@ -132,7 +132,7 @@ const router = createBrowserRouter([
       { path: "dashboard", element: <AdminDashboard /> },
       { path: "commande", element: <Commande /> },
       { path: "commande/:id", element: <CommandeItem /> },
-      { path: "commande-attente", element: <CommandeAttente /> },
+      { path: "file-attente", element: <CommandeAttente /> },
       { path: "produits", element: <Products /> },
       { path: "produits/ajouter", element: <AddProduct /> },
       { path: "produits/:id", element: <EditProduct /> },

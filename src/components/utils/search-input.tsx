@@ -1,7 +1,7 @@
-import React, { type ReactElement, type CSSProperties } from "react";
-import { Search } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { Input } from "./ui/input";
+import { Search } from "lucide-react";
+import React, { type CSSProperties, type ReactElement } from "react";
+import { Input } from "../ui/input";
 
 export interface SearchInputProps {
   placeholder?: string;

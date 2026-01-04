@@ -1,5 +1,5 @@
-import DateRangePickerComponent from "@/components/input-DateRangePicker";
-import SegmentedControl from "@/components/segmented-control";
+import DateRangePickerComponent from "@/components/utils/input-DateRangePicker";
+import SegmentedControl from "@/components/utils/segmented-control";
 import { QuickActions } from "@/features/dashboard/QuickActions";
 import { RecentOrders } from "@/features/dashboard/RecentOrders";
 import { RevenueChart } from "@/features/dashboard/RevenueChart";
@@ -292,11 +292,11 @@ const navigate = useNavigate();
 };
 
 // Wrapper export : vérifie le rôle avant d'afficher le dashboard
-import RequireRole from "@/components/RequireRole";
+import RequireRole from "@/components/utils/RequireRole";
 
 export default function AdminDashboardPageWrapper() {
   return (
-    <RequireRole allowedRoles={["admin", "manager"]}>
+    <RequireRole allowedRoles={["admin"]}>
       <AdminDashboard />
     </RequireRole>
   );

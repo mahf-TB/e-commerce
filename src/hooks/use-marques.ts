@@ -1,7 +1,7 @@
-import { useQuery } from "@tanstack/react-query";
+import type { SelectOption } from "@/components/utils/select-form";
 import { fetchMarques } from "@/services/marqueService";
-import type { SelectOption } from "@/components/select-form";
 import type { Paginated } from "@/types";
+import { useQuery } from "@tanstack/react-query";
 
 export type Marque = {
   _id: any;

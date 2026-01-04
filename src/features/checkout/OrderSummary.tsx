@@ -1,6 +1,6 @@
-import ProductItem from "@/components/product-item";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import ProductItem from "@/components/utils/product-item";
 import { getOneVariantProduit } from "@/services/produitService";
 import { useCartStore } from "@/store/use-panier.store";
 import { formatPrice } from "@/utils/helpers";

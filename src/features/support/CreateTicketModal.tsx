@@ -1,17 +1,17 @@
-import InputForm from "@/components/input-form";
-import SelectForm from "@/components/select-form";
-import TextareaForm from "@/components/textarea-form";
 import { Button } from "@/components/ui/button";
 import {
-    Dialog,
-    DialogClose,
-    DialogContent,
-    DialogDescription,
-    DialogFooter,
-    DialogHeader,
-    DialogTitle,
-    DialogTrigger,
+  Dialog,
+  DialogClose,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
 } from "@/components/ui/dialog";
+import InputForm from "@/components/utils/input-form";
+import SelectForm from "@/components/utils/select-form";
+import TextareaForm from "@/components/utils/textarea-form";
 import { showToast } from "@/lib/toast";
 import { AlertCircle, GripVertical, Tag } from "lucide-react";
 import { useState } from "react";

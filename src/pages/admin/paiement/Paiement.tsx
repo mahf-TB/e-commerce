@@ -1,6 +1,6 @@
-import DateRangePickerComponent from "@/components/input-DateRangePicker";
-import PaginationPage from "@/components/pagination-page";
-import SelectForm, { type SelectOption } from "@/components/select-form";
+import DateRangePickerComponent from "@/components/utils/input-DateRangePicker";
+import PaginationPage from "@/components/utils/pagination-page";
+import SelectForm, { type SelectOption } from "@/components/utils/select-form";
 import { PaiementRow } from "@/features/paiement/PaiementRows";
 import TableListePaie from "@/features/paiement/TableListePaie";
 import { useCommandeList } from "@/hooks/use-commande";
@@ -105,7 +105,7 @@ const Paiement = () => {
 
 
 // Wrapper export : vérifie le rôle avant d'afficher le dashboard
-import RequireRole from "@/components/RequireRole";
+import RequireRole from "@/components/utils/RequireRole";
 
 export default function PaiementPageWrapper() {
   return (

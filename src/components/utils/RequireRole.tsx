@@ -1,4 +1,4 @@
-import AccessDenied from "@/components/AccessDenied";
+import AccessDenied from "@/components/utils/AccessDenied";
 import useAuthUser from "@/hooks/use-auth-user";
 import React from "react";
 

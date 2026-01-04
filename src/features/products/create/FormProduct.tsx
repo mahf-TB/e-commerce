@@ -1,8 +1,8 @@
-import type { ImageToUpload } from "@/components/drop-images-upload";
-import InputForm from "@/components/input-form";
-import SelectForm from "@/components/select-form";
-import TextareaForm from "@/components/textarea-form";
 import { Button } from "@/components/ui/button";
+import type { ImageToUpload } from "@/components/utils/drop-images-upload";
+import InputForm from "@/components/utils/input-form";
+import SelectForm from "@/components/utils/select-form";
+import TextareaForm from "@/components/utils/textarea-form";
 import useCategories from "@/hooks/use-categories";
 import useBrands from "@/hooks/use-marques";
 import { showToast } from "@/lib/toast";

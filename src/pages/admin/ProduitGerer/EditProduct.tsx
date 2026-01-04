@@ -1,5 +1,4 @@
 import { Button } from "@/components/ui/button";
-import { Card } from "@/components/ui/card";
 import FormProduct from "@/features/products/create/FormProduct";
 import { useProduct } from "@/hooks/use-product";
 import { ArrowLeft, ImageIcon } from "lucide-react";
@@ -76,7 +75,7 @@ const EditProduct = () => {
 
 
 // Wrapper export : vérifie le rôle avant d'afficher le dashboard
-import RequireRole from "@/components/RequireRole";
+import RequireRole from "@/components/utils/RequireRole";
 
 export default function EditProductWrapper() {
   return (

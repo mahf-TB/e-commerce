@@ -1,4 +1,13 @@
-import BadgeButton from "@/components/BadgeButton";
+import { DropdownMenuLabel } from "@/components/ui/dropdown-menu";
+import BadgeButton from "@/components/utils/BadgeButton";
+import BadgeItem from "@/components/utils/BadgeItem";
+import Dropdown, { DropdownItems } from "@/components/utils/dropdown";
+import LineChart5 from "@/components/utils/line-chart-5";
+import { cn } from "@/lib/utils";
+import { changeStatutVariant } from "@/services/produitService";
+import useSystemStore from "@/store/use-system.store";
+import type { Produit } from "@/types";
+import { formatDate, formatPrice } from "@/utils/helpers";
 import {
   EllipsisIcon,
   PenBox,
@@ -6,19 +15,10 @@ import {
   ShieldOff,
   Trash,
 } from "lucide-react";
-import ImageProductList from "./ImageProductList";
-import type { Produit } from "@/types";
-import { formatDate, formatPrice } from "@/utils/helpers";
-import ProductDetailsSkeleton from "../skeleton/ProductDetailsSkeleton";
 import React from "react";
-import BadgeItem from "@/components/BadgeItem";
-import LineChart5 from "@/components/line-chart-5";
-import useSystemStore from "@/store/use-system.store";
-import { cn } from "@/lib/utils";
-import { DropdownMenuLabel } from "@/components/ui/dropdown-menu";
-import Dropdown, { DropdownItems } from "@/components/dropdown";
-import { changeStatutVariant } from "@/services/produitService";
+import ProductDetailsSkeleton from "../skeleton/ProductDetailsSkeleton";
 import ActionDetails from "./ActionDetails";
+import ImageProductList from "./ImageProductList";
 
 type ProductDetailsProps = {
   product: Produit | undefined;

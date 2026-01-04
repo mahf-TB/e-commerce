@@ -1,4 +1,4 @@
-import { OrderStepper, type StepItem } from "@/components/order-stepper";
+import { OrderStepper, type StepItem } from "@/components/utils/order-stepper";
 import type { StatutCommande } from "@/types/order";
 
 const statusSteps: StepItem[] = [

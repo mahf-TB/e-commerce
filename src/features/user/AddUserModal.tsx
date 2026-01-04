@@ -1,5 +1,3 @@
-import InputForm from "@/components/input-form";
-import SelectForm from "@/components/select-form";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -11,9 +9,11 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
+import InputForm from "@/components/utils/input-form";
+import SelectForm from "@/components/utils/select-form";
 import { useCreateUser } from "@/hooks/use-users";
 import { showToast } from "@/lib/toast";
-import { EllipsisVertical, GripVertical, Lock, LockKeyhole, Mail, User } from "lucide-react";
+import { GripVertical, Lock, Mail, User } from "lucide-react";
 import { useState } from "react";
 
 // Pretend we have initial image files

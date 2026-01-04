@@ -1,26 +1,26 @@
-import DialogAlert from "@/components/dialog-alert";
-import InputForm from "@/components/input-form";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
-    Card,
-    CardContent,
-    CardDescription,
-    CardHeader,
-    CardTitle,
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
 } from "@/components/ui/card";
+import DialogAlert from "@/components/utils/dialog-alert";
+import InputForm from "@/components/utils/input-form";
 import useAuthUser from "@/hooks/use-auth-user";
 import { showToast } from "@/lib/toast";
 import {
-    AlertTriangle,
-    Eye,
-    EyeOff,
-    Key,
-    Mail,
-    Monitor,
-    Shield,
-    Smartphone,
-    Trash2,
+  AlertTriangle,
+  Eye,
+  EyeOff,
+  Key,
+  Mail,
+  Monitor,
+  Shield,
+  Smartphone,
+  Trash2,
 } from "lucide-react";
 import React, { useState } from "react";
 

@@ -22,8 +22,8 @@ export default function ErrorServerPage() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center px-4 bg-gray-50">
-      <Card className="max-w-xl w-full p-8 text-center shadow-none rounded">
+    <div className="min-h-screen flex items-center justify-center px-4 ">
+      <Card className="max-w-xl w-full p-8 text-center shadow-none rounded border-none">
         <div className="mb-4 flex items-center justify-center">
           <div className="rounded-full bg-red-50 p-3">
             <Server className="h-8 w-8 text-red-600" />

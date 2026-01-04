@@ -1,7 +1,7 @@
-import DateRangePickerComponent from "@/components/input-DateRangePicker";
-import PaginationPage from "@/components/pagination-page";
-import StatisticGrid, { type Stat } from "@/components/statistic-grid";
 import { Button } from "@/components/ui/button";
+import DateRangePickerComponent from "@/components/utils/input-DateRangePicker";
+import PaginationPage from "@/components/utils/pagination-page";
+import StatisticGrid, { type Stat } from "@/components/utils/statistic-grid";
 import { OrderRow } from "@/features/orders/tableaux/OrderRows";
 import OrderStatusFilter from "@/features/orders/tableaux/OrderStatusFilter";
 import TableListe from "@/features/orders/tableaux/TableListe";

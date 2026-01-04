@@ -1,4 +1,4 @@
-import type { SelectOption } from "@/components/select-form";
+import type { SelectOption } from "@/components/utils/select-form";
 import { showToast } from "@/lib/toast";
 import { createNewCategorie, fetchCategories } from "@/services/categorieService";
 import type { Paginated } from "@/types";

@@ -1,4 +1,4 @@
-import SelectForm from "@/components/select-form";
+import SelectForm from "@/components/utils/select-form";
 import { useProductList } from "@/hooks/use-product";
 import type { ProductListItem } from "@/types";
 import { sortOptions } from "@/utils/options";

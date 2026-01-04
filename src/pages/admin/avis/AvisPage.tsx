@@ -1,9 +1,9 @@
-import { EmptyState } from "@/components/EmptyState";
-import SegmentedControl from "@/components/segmented-control";
-import SelectForm, { type SelectOption } from "@/components/select-form";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
+import { EmptyState } from "@/components/utils/EmptyState";
+import SegmentedControl from "@/components/utils/segmented-control";
+import SelectForm, { type SelectOption } from "@/components/utils/select-form";
 import { StatCard } from "@/features/dashboard/StatCard";
 import { useAvisList } from "@/hooks/use-avis";
 import type { Avis } from "@/services/avisService";
@@ -257,7 +257,7 @@ function AvisPage() {
 
 
 // Wrapper export : vérifie le rôle avant d'afficher le dashboard
-import RequireRole from "@/components/RequireRole";
+import RequireRole from "@/components/utils/RequireRole";
 
 export default function AvisPageWrapper() {
   return (

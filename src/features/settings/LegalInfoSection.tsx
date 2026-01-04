@@ -1,5 +1,5 @@
-import InputForm from "@/components/input-form";
 import { Card } from "@/components/ui/card";
+import InputForm from "@/components/utils/input-form";
 
 interface LegalInfoSectionProps {
   data: {

@@ -1,4 +1,4 @@
-import InputForm from "@/components/input-form";
+import InputForm from "@/components/utils/input-form";
 import { Lock, MapPin, Phone, User } from "lucide-react";
 import React, { useState } from "react";
 

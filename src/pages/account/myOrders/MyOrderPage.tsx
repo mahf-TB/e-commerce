@@ -1,6 +1,6 @@
-import InputForm from "@/components/input-form";
-import SegmentedControl from "@/components/segmented-control";
 import { Button } from "@/components/ui/button";
+import InputForm from "@/components/utils/input-form";
+import SegmentedControl from "@/components/utils/segmented-control";
 import { OrderCard } from "@/features/orders/myOrder/OrderCard";
 import { OrderCardSkeleton } from "@/features/orders/skeleton/OrderCardSkeleton";
 import { listMesCommande } from "@/services/commandeService";

@@ -1,7 +1,7 @@
-import PaginationPage from "@/components/pagination-page";
-import SearchInput from "@/components/search-input";
-import SelectForm from "@/components/select-form";
 import { Button } from "@/components/ui/button";
+import PaginationPage from "@/components/utils/pagination-page";
+import SearchInput from "@/components/utils/search-input";
+import SelectForm from "@/components/utils/select-form";
 import { ProductRow } from "@/features/products/tableaux/ProductRow";
 import TableListeProduits from "@/features/products/tableaux/TableListeProduits";
 import { useProductList } from "@/hooks/use-product";

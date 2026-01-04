@@ -1,7 +1,7 @@
-import InputCardPayment from "@/components/input-card-payment";
-import { InputPhoneNumber } from "@/components/input-phone";
 import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import InputCardPayment from "@/components/utils/input-card-payment";
+import { InputPhoneNumber } from "@/components/utils/input-phone";
 
 interface PaymentMethodsProps {
   modePaye?: string;

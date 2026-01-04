@@ -11,7 +11,7 @@ import {
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from "./ui/dropdown-menu";
+} from "../ui/dropdown-menu";
 
 interface DropdownProps extends React.ComponentPropsWithoutRef<typeof DropdownMenuContent> {
   children: ReactNode;

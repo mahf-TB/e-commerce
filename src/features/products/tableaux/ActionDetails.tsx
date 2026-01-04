@@ -1,17 +1,16 @@
-import BadgeButton from "@/components/BadgeButton";
-import Dropdown, { DropdownItems } from "@/components/dropdown";
 import { Button } from "@/components/ui/button";
 import { DropdownMenuLabel } from "@/components/ui/dropdown-menu";
+import BadgeButton from "@/components/utils/BadgeButton";
+import Dropdown, { DropdownItems } from "@/components/utils/dropdown";
 import { changeStatutProduct } from "@/services/produitService";
 import {
   EllipsisIcon,
-  HardDriveUploadIcon,
   ImagePlus,
   PenBox,
   Printer,
   Shield,
   ShieldOff,
-  Trash,
+  Trash
 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 

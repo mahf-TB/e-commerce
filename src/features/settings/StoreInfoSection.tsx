@@ -1,7 +1,7 @@
-import InputForm from "@/components/input-form";
-import TextareaForm from "@/components/textarea-form";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
+import InputForm from "@/components/utils/input-form";
+import TextareaForm from "@/components/utils/textarea-form";
 import { Upload, X } from "lucide-react";
 import { useState } from "react";
 

@@ -1,6 +1,6 @@
-import Tooltips from "@/components/tooltips";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
+import Tooltips from "@/components/utils/tooltips";
 import { useCheckFavoris, useToggleFavoris } from "@/hooks/use-favoris";
 import { cn } from "@/lib/utils";
 import { useCartStore } from "@/store/use-panier.store";

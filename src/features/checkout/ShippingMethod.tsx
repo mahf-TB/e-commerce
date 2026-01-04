@@ -1,4 +1,4 @@
-import { PricingRadio } from "@/components/pricing-radio";
+import { PricingRadio } from "@/components/utils/pricing-radio";
 
 interface ShippingMethodProps {
   value?: string;

@@ -1,5 +1,5 @@
-import type { Column } from "@/components/data-table";
-import DataTable from "@/components/data-table";
+import type { Column } from "@/components/utils/data-table";
+import DataTable from "@/components/utils/data-table";
 import type { ReactNode } from "react";
 
 const columns: Column[] = [

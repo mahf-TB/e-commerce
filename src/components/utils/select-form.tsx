@@ -9,7 +9,7 @@ import {
 } from "@/components/ui/select";
 import { cn } from "@/lib/utils";
 import React, { useId } from "react";
-import { Label } from "./ui/label";
+import { Label } from "../ui/label";
 
 export interface SelectOption {
   label: string;

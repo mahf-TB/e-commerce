@@ -1,6 +1,3 @@
-import AvatarUpload from "@/components/AvatarUpload";
-import InputForm from "@/components/input-form";
-import SegmentedControl from "@/components/segmented-control";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -9,6 +6,9 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import AvatarUpload from "@/components/utils/AvatarUpload";
+import InputForm from "@/components/utils/input-form";
+import SegmentedControl from "@/components/utils/segmented-control";
 import useAuthUser, { useUpdateProfileUser } from "@/hooks/use-auth-user";
 import { showToast } from "@/lib/toast";
 import { getLibelleRole } from "@/utils/helpers";

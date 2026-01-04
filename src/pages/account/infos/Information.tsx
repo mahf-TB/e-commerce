@@ -1,6 +1,3 @@
-import AvatarUpload from "@/components/AvatarUpload";
-import InputForm from "@/components/input-form";
-import { InputPhoneNumber } from "@/components/input-phone";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -9,6 +6,9 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import AvatarUpload from "@/components/utils/AvatarUpload";
+import InputForm from "@/components/utils/input-form";
+import { InputPhoneNumber } from "@/components/utils/input-phone";
 import useAuthUser, { useUpdateProfileUser } from "@/hooks/use-auth-user";
 
 import { showToast } from "@/lib/toast";

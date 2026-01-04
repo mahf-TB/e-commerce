@@ -1,17 +1,16 @@
-import { BadgeButton } from "@/components/BadgeButton";
-import Dropdown, { DropdownItems } from "@/components/dropdown";
 import { Logo } from "@/components/icon/logo";
-import SearchInput from "@/components/search-input";
-import Tooltips from "@/components/tooltips";
 import { Button } from "@/components/ui/button";
 import {
-    DropdownMenuLabel,
-    DropdownMenuSeparator,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
 } from "@/components/ui/dropdown-menu";
 import { Highlighter } from "@/components/ui/highlighter";
-import UserAvatar from "@/components/user-avatar";
+import { BadgeButton } from "@/components/utils/BadgeButton";
+import Dropdown, { DropdownItems } from "@/components/utils/dropdown";
+import SearchInput from "@/components/utils/search-input";
+import Tooltips from "@/components/utils/tooltips";
+import UserAvatar from "@/components/utils/user-avatar";
 import CartPopover from "@/features/cart/PanierPopover";
-import NotificationsSheet from "@/features/notifications/NotificationsSheet";
 import { useAuthInvalidate } from "@/hooks/use-auth-invalidate";
 import useAuthUser from "@/hooks/use-auth-user";
 import { useFavoris } from "@/hooks/use-favoris";
@@ -20,22 +19,22 @@ import { logout } from "@/services/authService";
 import { useCartStore } from "@/store/use-panier.store";
 import useSystemStore from "@/store/use-system.store";
 import {
-    fallbackAvatar,
-    getFullName,
-    hasAdminAccess,
-    isClient,
-    maskEmail,
+  fallbackAvatar,
+  getFullName,
+  hasAdminAccess,
+  isClient,
+  maskEmail,
 } from "@/utils/helpers";
 import {
-    Bell,
-    Heart,
-    LogOut,
-    Package,
-    Settings,
-    ShieldUser,
-    ShoppingCart,
-    ShoppingCartIcon,
-    UserCircle,
+  Bell,
+  Heart,
+  LogOut,
+  Package,
+  Settings,
+  ShieldUser,
+  ShoppingCart,
+  ShoppingCartIcon,
+  UserCircle,
 } from "lucide-react";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";

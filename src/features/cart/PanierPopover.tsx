@@ -1,9 +1,6 @@
-import { PackageX, SaveOff, Trash2 } from "lucide-react";
+import { PackageX, Trash2 } from "lucide-react";
 import React from "react";
 
-import BadgeButton from "@/components/BadgeButton";
-import { EmptyState } from "@/components/EmptyState";
-import ProductItem from "@/components/product-item";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
@@ -11,10 +8,12 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
+import BadgeButton from "@/components/utils/BadgeButton";
+import ProductItem from "@/components/utils/product-item";
 import { useCartStore } from "@/store/use-panier.store";
 import { formatPrice } from "@/utils/helpers";
 import { useNavigate } from "react-router-dom";
-import Tooltips from "../../components/tooltips";
+import Tooltips from "../../components/utils/tooltips";
 
 export type CartPopoverProps = {
   btnShow?: React.ReactNode;

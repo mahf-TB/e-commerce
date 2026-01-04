@@ -1,6 +1,6 @@
-import InputForm from "@/components/input-form";
-import SelectForm from "@/components/select-form";
 import { Button } from "@/components/ui/button";
+import InputForm from "@/components/utils/input-form";
+import SelectForm from "@/components/utils/select-form";
 import type { VariantProduct } from "@/types";
 import { productConditionOptions } from "@/utils/options";
 import React from "react";

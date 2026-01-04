@@ -1,4 +1,5 @@
 import { Button } from "@/components/ui/button";
+import GlobalSearch from "@/features/SearchGlobal/GlobalSearch";
 import { Lock } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
@@ -20,6 +21,7 @@ export default function AccessDenied() {
               <p className="text-sm text-muted-foreground">
                 Vous n'avez pas les permissions nécessaires pour accéder à cette page.
               </p>
+              <GlobalSearch  />
               <div className="flex items-center justify-center gap-3 mt-5">
                 <Button onClick={() => navigate(-1)}>Retour</Button>
                 <Button variant="ghost" onClick={() => navigate('/admin')}>Accueil</Button>

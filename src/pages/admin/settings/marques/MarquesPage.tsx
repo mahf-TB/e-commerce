@@ -1,6 +1,6 @@
-import { EmptyState } from "@/components/EmptyState";
-import SegmentedControl from "@/components/segmented-control";
 import { Button } from "@/components/ui/button";
+import { EmptyState } from "@/components/utils/EmptyState";
+import SegmentedControl from "@/components/utils/segmented-control";
 import { MarqueCard } from "@/features/marques/MarqueCard";
 import { MarqueListItem } from "@/features/marques/MarqueListItem";
 import useBrands, { type Marque } from "@/hooks/use-marques";
@@ -109,7 +109,7 @@ function MarquesPage() {
 
 
 // Wrapper export : vérifie le rôle avant d'afficher le dashboard
-import RequireRole from "@/components/RequireRole";
+import RequireRole from "@/components/utils/RequireRole";
 
 export default function MarquesPageWrapper() {
   return (

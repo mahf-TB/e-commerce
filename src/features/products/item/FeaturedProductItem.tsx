@@ -1,8 +1,8 @@
-import BadgeButton from "@/components/BadgeButton";
-import FeedbackPopover from "@/components/feedback-popover";
-import Tooltips from "@/components/tooltips";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import BadgeButton from "@/components/utils/BadgeButton";
+import FeedbackPopover from "@/components/utils/feedback-popover";
+import Tooltips from "@/components/utils/tooltips";
 import { useCartStore } from "@/store/use-panier.store";
 import type { Produit } from "@/types";
 import { formatPrice } from "@/utils/helpers";

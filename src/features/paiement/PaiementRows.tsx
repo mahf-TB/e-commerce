@@ -1,7 +1,7 @@
-import Dropdown, { DropdownItems } from "@/components/dropdown";
 import { Badge } from "@/components/ui/badge";
 import { DropdownMenuLabel } from "@/components/ui/dropdown-menu";
-import UserAvatar from "@/components/user-avatar";
+import Dropdown, { DropdownItems } from "@/components/utils/dropdown";
+import UserAvatar from "@/components/utils/user-avatar";
 import type { EtatPaiement } from "@/types";
 import { formatDate, formatPrice, getLibellePayement, getPaiementColorClass } from "@/utils/helpers";
 import {

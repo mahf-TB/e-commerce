@@ -1,10 +1,10 @@
-import type { Column } from "@/components/data-table";
-import PaginationPage from "@/components/pagination-page";
-import SearchInput from "@/components/search-input";
-import SegmentedControl, {
-    type SegmentOption,
-} from "@/components/segmented-control";
 import { Button } from "@/components/ui/button";
+import type { Column } from "@/components/utils/data-table";
+import PaginationPage from "@/components/utils/pagination-page";
+import SearchInput from "@/components/utils/search-input";
+import SegmentedControl, {
+  type SegmentOption,
+} from "@/components/utils/segmented-control";
 import AddUserModal from "@/features/user/AddUserModal";
 import TableListeUser from "@/features/user/TableListeUser";
 import { UserRows } from "@/features/user/UserRows";
@@ -134,7 +134,7 @@ const UserStaff = () => {
 
 
 // Wrapper export : vérifie le rôle avant d'afficher le dashboard
-import RequireRole from "@/components/RequireRole";
+import RequireRole from "@/components/utils/RequireRole";
 
 export default function UserPageWrapper() {
   return (

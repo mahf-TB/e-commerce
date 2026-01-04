@@ -1,6 +1,6 @@
-import BadgeItem from "@/components/BadgeItem";
+import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import UserAvatar from "@/components/user-avatar";
+import UserAvatar from "@/components/utils/user-avatar";
 import { CommandeStatusStepper } from "@/features/orders/commande/commande-status-stepper";
 import useAuthUser from "@/hooks/use-auth-user";
 import {
@@ -19,7 +19,6 @@ import {
 } from "@/utils/helpers";
 import { ArrowLeft } from "lucide-react";
 import ProductOrder from "./ProductOrder";
-import { Badge } from "@/components/ui/badge";
 
 export const DetailCommande = ({
   order,

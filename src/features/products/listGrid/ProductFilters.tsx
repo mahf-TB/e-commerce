@@ -1,10 +1,9 @@
 "use client";
 
 import { Checkbox } from "@/components/ui/checkbox"; // chemin généré par shadcn
-import type { SelectOption } from "@/components/select-form";
-import { useState } from "react";
+import type { SelectOption } from "@/components/utils/select-form";
 import { Minus, Plus } from "lucide-react";
-import { Button } from "@/components/ui/button";
+import { useState } from "react";
 
 export type ProductFiltersProps = {
   selectedBrands: (number | string)[];

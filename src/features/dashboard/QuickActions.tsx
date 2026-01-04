@@ -1,7 +1,6 @@
-import Dropdown, { DropdownItems } from "@/components/dropdown";
 import { Button } from "@/components/ui/button";
-import { Card } from "@/components/ui/card";
-import { Activity, Plus } from "lucide-react";
+import Dropdown, { DropdownItems } from "@/components/utils/dropdown";
+import { Plus } from "lucide-react";
 
 interface QuickAction {
   label: string;

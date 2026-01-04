@@ -2,19 +2,34 @@ import type { NotificationItem } from "@/features/notifications/types";
 import { showToast } from "@/lib/toast";
 import { hasToken } from "@/services/authService";
 import {
-    clearAllNotifications,
-    listNotifications,
-    markAsRead,
-    removeNotification,
+  clearAllNotifications,
+  listNotifications,
+  markAllReadNotifications,
+  markAsRead,
+  removeNotification,
+  type ListNotificationsParams,
 } from "@/services/notificationService";
 import type { NotificationDto } from "@/types/notification";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
-export function useNotifications() {
+export function useNotifications(params: ListNotificationsParams = {}) {
   const hasTokenValue = hasToken();
+  const { page = 1, limit = 20, unreadOnly } = params;
   const query = useQuery<NotificationDto[]>({
-    queryKey: ["notifications"],
-    queryFn: () => listNotifications(),
+    queryKey: [
+      "notifications",
+      {
+        page,
+        limit,
+        unreadOnly,
+      },
+    ],
+    queryFn: () =>
+      listNotifications({
+        page,
+        limit,
+        unreadOnly,
+      }),
     enabled: !!hasTokenValue,
     retry: false,
     staleTime: 1000 * 60, // 1 minute
@@ -45,7 +60,7 @@ export function useNotifications() {
     updatedAt: d.updatedAt,
   }));
 
-  return { ...query, items , total: raw?.totalItems || items.length };
+  return { ...query, items, total: raw?.totalItems };
 }
 
 export function useMarkAsRead() {
@@ -60,7 +75,8 @@ export function useMarkAsRead() {
     onError: (error: any) => {
       showToast(
         "error",
-        error?.response?.data?.message || "Erreur lors du marquage de la notification"
+        error?.response?.data?.message ||
+          "Erreur lors du marquage de la notification"
       );
     },
   });
@@ -78,7 +94,8 @@ export function useRemoveNotification() {
     onError: (error: any) => {
       showToast(
         "error",
-        error?.response?.data?.message || "Erreur lors de la suppression de la notification"
+        error?.response?.data?.message ||
+          "Erreur lors de la suppression de la notification"
       );
     },
   });
@@ -96,7 +113,30 @@ export function useClearAllNotifications() {
     onError: (error: any) => {
       showToast(
         "error",
-        error?.response?.data?.message || "Erreur lors de la suppression des notifications"
+        error?.response?.data?.message ||
+          "Erreur lors de la suppression des notifications"
+      );
+    },
+  });
+}
+
+export function useMarkAllAsRead() {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: async () => markAllReadNotifications(),
+    onSuccess: (res: any) => {
+      showToast(
+        "success",
+        `${res?.count || 0} notification(s) marquée(s) comme lue(s)`
+      );
+      queryClient.invalidateQueries({ queryKey: ["notifications"] });
+    },
+    onError: (error: any) => {
+      showToast(
+        "error",
+        error?.response?.data?.message ||
+          "Erreur lors du marquage des notifications"
       );
     },
   });

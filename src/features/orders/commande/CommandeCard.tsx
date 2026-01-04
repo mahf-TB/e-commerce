@@ -1,5 +1,5 @@
-import BadgeItem from "@/components/BadgeItem";
 import { Card } from "@/components/ui/card";
+import BadgeItem from "@/components/utils/BadgeItem";
 import { formatDateTime, getLibelleStatut, getStatusColorClass } from "@/utils/helpers";
 
 export const CommandeCard = ({ order, onClick, selected }: any) => {

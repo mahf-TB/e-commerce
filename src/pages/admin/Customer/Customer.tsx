@@ -1,10 +1,10 @@
-import type { Column } from "@/components/data-table";
-import PaginationPage from "@/components/pagination-page";
-import SearchInput from "@/components/search-input";
-import SegmentedControl, {
-    type SegmentOption,
-} from "@/components/segmented-control";
 import { Button } from "@/components/ui/button";
+import type { Column } from "@/components/utils/data-table";
+import PaginationPage from "@/components/utils/pagination-page";
+import SearchInput from "@/components/utils/search-input";
+import SegmentedControl, {
+  type SegmentOption,
+} from "@/components/utils/segmented-control";
 import TableListeUser from "@/features/user/TableListeUser";
 import { UserRows } from "@/features/user/UserRows";
 import { useUsersList } from "@/hooks/use-users";

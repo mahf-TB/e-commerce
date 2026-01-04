@@ -1,5 +1,4 @@
 // components/app-sidebar.tsx
-import CommandPalette from "@/components/CommandPalette";
 import { Logo } from "@/components/icon/logo";
 import {
   Sidebar,
@@ -14,10 +13,11 @@ import {
   SidebarSeparator,
 } from "@/components/ui/sidebar";
 import { Skeleton } from "@/components/ui/skeleton";
-import UserAvatar from "@/components/user-avatar";
-import NotificationsSheet from "@/features/notifications/NotificationsSheet";
+import CommandPalette from "@/components/utils/CommandPalette";
+import UserAvatar from "@/components/utils/user-avatar";
 import { useAuthInvalidate } from "@/hooks/use-auth-invalidate";
 import useAuthUser from "@/hooks/use-auth-user";
+import { useNotifications } from "@/hooks/use-notifications";
 import { logout } from "@/services/authService";
 import useSystemStore from "@/store/use-system.store";
 import {
@@ -43,16 +43,17 @@ import {
   Users2
 } from "lucide-react";
 import { NavLink, useLocation, useNavigate } from "react-router-dom";
-import Dropdown, { DropdownItems } from "../components/dropdown";
 import { Badge } from "../components/ui/badge";
 import { DropdownMenuSeparator } from "../components/ui/dropdown-menu";
-import { useNotifications } from "@/hooks/use-notifications";
+import Dropdown, { DropdownItems } from "../components/utils/dropdown";
+import SearchCommande from "./SearchGlobal/SearchCommande";
+import GlobalSearch from "./SearchGlobal/GlobalSearch";
 
 const items = [
-  { title: "Dashboard", url: "/admin/dashboard", icon: Home },
+  { title: "Dashboard", url: "/admin/dashboard", icon: Home , isAdminOnly: true,},
   {
     title: "File d’attente",
-    url: "/admin/commande-attente",
+    url: "/admin/file-attente",
     icon: ListOrdered,
     isManagerOnly: true,
   },
@@ -127,7 +128,9 @@ export function AppSidebar() {
       </SidebarHeader>
       <SidebarContent>
         <div className="px-4 text-white z-50">
-          <CommandPalette inverted  />
+          <SearchCommande  />
+          
+
         </div>
         <SidebarGroup>
           <SidebarGroupContent className="px-2">

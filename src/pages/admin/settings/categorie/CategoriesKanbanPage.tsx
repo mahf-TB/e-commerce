@@ -1,5 +1,5 @@
 import CategoriesKanban from "@/components/kanban/categories-kanban";
-import SegmentedControl from "@/components/segmented-control";
+import SegmentedControl from "@/components/utils/segmented-control";
 import useCategories, { useCreateCategory, type Category } from "@/hooks/use-categories";
 import { useState } from "react";
 
@@ -85,7 +85,7 @@ function CategoriesKanbanPage() {
 }
 
 // Wrapper export : vérifie le rôle avant d'afficher le dashboard
-import RequireRole from "@/components/RequireRole";
+import RequireRole from "@/components/utils/RequireRole";
 
 export default function CategoriesKanbanPageWrapper() {
   return (

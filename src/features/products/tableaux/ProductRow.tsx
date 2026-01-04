@@ -1,7 +1,7 @@
-import BadgeItem from "@/components/BadgeItem";
-import CardSheetModal from "@/components/CardSheetModal";
-import Dropdown, { DropdownItems } from "@/components/dropdown";
 import { DropdownMenuLabel } from "@/components/ui/dropdown-menu";
+import BadgeItem from "@/components/utils/BadgeItem";
+import CardSheetModal from "@/components/utils/CardSheetModal";
+import Dropdown, { DropdownItems } from "@/components/utils/dropdown";
 import { useProduct } from "@/hooks/use-product";
 import { changeStatutProduct } from "@/services/produitService";
 import { formatDate, formatPrice } from "@/utils/helpers";

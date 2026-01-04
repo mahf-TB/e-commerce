@@ -1,21 +1,21 @@
 "use client";
 
 import {
-    CommandDialog,
-    CommandEmpty,
-    CommandGroup,
-    CommandInput,
-    CommandItem,
-    CommandList,
-    CommandSeparator,
-    CommandShortcut,
+  CommandDialog,
+  CommandEmpty,
+  CommandGroup,
+  CommandInput,
+  CommandItem,
+  CommandList,
+  CommandSeparator,
+  CommandShortcut,
 } from "@/components/ui/command";
 import {
-    ArrowUpRightIcon,
-    CircleFadingPlusIcon,
-    FileInputIcon,
-    FolderPlusIcon,
-    SearchIcon,
+  ArrowUpRightIcon,
+  CircleFadingPlusIcon,
+  FileInputIcon,
+  FolderPlusIcon,
+  SearchIcon,
 } from "lucide-react";
 import * as React from "react";
 
@@ -26,6 +26,7 @@ interface Props {
   initialOpen?: boolean;
   children?: React.ReactNode;
   inverted?: boolean;
+  inputProps?: React.ComponentProps<typeof CommandInput>;
 }
 
 export default function CommandPalette({
@@ -35,6 +36,7 @@ export default function CommandPalette({
   initialOpen = false,
   children,
   inverted = false,
+  inputProps,
 }: Props) {
   const [open, setOpen] = React.useState<boolean>(initialOpen);
 
@@ -55,7 +57,7 @@ export default function CommandPalette({
       <button
         className={
           inverted
-            ? "inline-flex h-9 w-full rounded border border-muted-foreground bg-transparent px-3 py-2 text-muted-foreground text-sm shadow-none outline-none transition-colors hover:bg-gray-800/50"
+            ? "inline-flex h-9 w-full rounded border border-gray-800 bg-gray-900 px-3 py-2 text-muted-foreground text-sm shadow-none outline-none transition-colors hover:bg-gray-800/50"
             : "inline-flex h-9 w-full rounded border border-input bg-white px-3 py-2 text-foreground text-sm shadow-xs outline-none transition-[color,box-shadow] placeholder:text-muted-foreground/70 focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50"
         }
         onClick={() => setOpen(true)}
@@ -75,7 +77,7 @@ export default function CommandPalette({
       </button>
 
       <CommandDialog onOpenChange={setOpen} open={open} >
-        <CommandInput placeholder={placeholder} />
+        <CommandInput  placeholder={placeholder} {...(inputProps as any)} />
         <CommandList>
           {children ?? (
             <>

@@ -1,6 +1,5 @@
 "use client";
 
-import React, { useState } from "react";
 import { Badge } from "@/components/ui/badge";
 import {
   Card,
@@ -22,15 +21,14 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { TrendingDown, TrendingUp } from "lucide-react";
+import { useState } from "react";
 import {
-  Area,
   CartesianGrid,
   ComposedChart,
   Line,
   XAxis,
-  YAxis,
+  YAxis
 } from "recharts";
-import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 
 // E-commerce data for different periods with balanced patterns
 const salesViewsData = {

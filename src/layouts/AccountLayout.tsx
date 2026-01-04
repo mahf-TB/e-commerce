@@ -1,4 +1,4 @@
-import UserAvatar from "@/components/user-avatar";
+import UserAvatar from "@/components/utils/user-avatar";
 import useAuthUser from "@/hooks/use-auth-user";
 import { cn } from "@/lib/utils";
 import { getFullName, maskEmail } from "@/utils/helpers";

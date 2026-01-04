@@ -1,7 +1,7 @@
-import BadgeItem from "@/components/BadgeItem";
-import Dropdown, { DropdownItems } from "@/components/dropdown";
 import { DropdownMenuLabel } from "@/components/ui/dropdown-menu";
-import UserAvatar from "@/components/user-avatar";
+import BadgeItem from "@/components/utils/BadgeItem";
+import Dropdown, { DropdownItems } from "@/components/utils/dropdown";
+import UserAvatar from "@/components/utils/user-avatar";
 import { formatDate } from "@/utils/helpers";
 import { EllipsisVertical, PenBox, ReceiptText, Trash } from "lucide-react";
 import type { HTMLAttributes } from "react";

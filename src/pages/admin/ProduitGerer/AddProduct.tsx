@@ -1,8 +1,8 @@
-import DropImageUpload, {
-  type ImageToUpload,
-} from "@/components/drop-images-upload";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
+import DropImageUpload, {
+  type ImageToUpload,
+} from "@/components/utils/drop-images-upload";
 import FormProduct from "@/features/products/create/FormProduct";
 import { ArrowLeft } from "lucide-react";
 
@@ -52,7 +52,7 @@ const AddProduct = () => {
 
 
 // Wrapper export : vérifie le rôle avant d'afficher le dashboard
-import RequireRole from "@/components/RequireRole";
+import RequireRole from "@/components/utils/RequireRole";
 
 export default function AddProductWrapper() {
   return (

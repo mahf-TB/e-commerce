@@ -1,22 +1,22 @@
-import { EmptyState } from "@/components/EmptyState";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { EmptyState } from "@/components/utils/EmptyState";
 import { CreateTicketModal } from "@/features/support/CreateTicketModal";
 import {
-    SupportTicketCard,
-    type SupportTicket,
-    type TicketPriority,
+  SupportTicketCard,
+  type SupportTicket,
+  type TicketPriority,
 } from "@/features/support/SupportTicketCard";
 import {
-    BookOpen,
-    FileText,
-    HelpCircle,
-    MessageSquare,
-    Plus,
-    Search,
-    Video,
+  BookOpen,
+  FileText,
+  HelpCircle,
+  MessageSquare,
+  Plus,
+  Search,
+  Video,
 } from "lucide-react";
 import { useState } from "react";
 

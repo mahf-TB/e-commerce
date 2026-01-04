@@ -1,5 +1,5 @@
-import ProductItem from "@/components/product-item";
 import { Button } from "@/components/ui/button";
+import ProductItem from "@/components/utils/product-item";
 import { useCartStore } from "@/store/use-panier.store";
 import { formatPrice } from "@/utils/helpers";
 import { ShoppingCart } from "lucide-react";

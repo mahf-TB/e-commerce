@@ -1,8 +1,5 @@
 "use client";
 
-import Dropdown, { DropdownItems } from "@/components/dropdown";
-import { OrderProgressBar } from "@/components/OrderProgressBar";
-import Tooltips from "@/components/tooltips";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -12,6 +9,9 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
+import Dropdown, { DropdownItems } from "@/components/utils/dropdown";
+import { OrderProgressBar } from "@/components/utils/OrderProgressBar";
+import Tooltips from "@/components/utils/tooltips";
 import { useDownloadFacture } from "@/hooks/use-commande";
 import { cn } from "@/lib/utils";
 import type { CommandeClient } from "@/types/order";

@@ -1,9 +1,17 @@
 import type { CSSProperties } from "react";
 import { toast, type ExternalToast } from "sonner";
 
-export type ToastVariant = "normal" | "action" | "success" | "info" | "warning" | "error" | "loading" | "default";
+export type ToastVariant =
+  | "normal"
+  | "action"
+  | "success"
+  | "info"
+  | "warning"
+  | "error"
+  | "loading"
+  | "default";
 
-export type ToastOptions = Omit<ExternalToast, "style"> & { 
+export type ToastOptions = Omit<ExternalToast, "style"> & {
   style?: CSSProperties;
 };
 
@@ -12,7 +20,7 @@ export function showToast(
   message: string,
   options?: ToastOptions
 ) {
-  const payload = { 
+  const payload = {
     ...options,
     style: options?.style,
   } satisfies ExternalToast;

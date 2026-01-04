@@ -1,14 +1,14 @@
-import InputForm from "@/components/input-form";
+import { Spinner } from "@/components/icon/spinner";
+import { Button } from "@/components/ui/button";
+import { AnimatedBackground } from "@/components/utils/AnimatedBackground";
+import InputForm from "@/components/utils/input-form";
+import { useAuthInvalidate } from "@/hooks/use-auth-invalidate";
+import { setAuthToken } from "@/lib/axios";
 import authService from "@/services/authService";
 import useAuthStore from "@/store/use-auth.store";
-import { useState } from "react";
-import { Button } from "@/components/ui/button";
-import { Spinner } from "@/components/icon/spinner";
-import { Lock, Mail } from "lucide-react";
 import { isValidEmail } from "@/utils/helpers";
-import { AnimatedBackground } from "@/components/AnimatedBackground";
-import { setAuthToken } from "@/lib/axios";
-import { useAuthInvalidate } from "@/hooks/use-auth-invalidate";
+import { Lock, Mail } from "lucide-react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 const LoginAdmin = () => {

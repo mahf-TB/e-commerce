@@ -1,5 +1,5 @@
-import SelectForm from "@/components/select-form";
 import { Card } from "@/components/ui/card";
+import SelectForm from "@/components/utils/select-form";
 
 interface LocalizationSectionProps {
   data: {

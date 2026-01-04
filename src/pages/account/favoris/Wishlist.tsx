@@ -1,5 +1,5 @@
-import DateRangePickerComponent from "@/components/input-DateRangePicker";
 import { Button } from "@/components/ui/button";
+import DateRangePickerComponent from "@/components/utils/input-DateRangePicker";
 import { FavorisProductCard } from "@/features/favoris/FavorisProductCard";
 import { ProductCardSkeleton } from "@/features/products/skeleton/ProductCardSkeleton";
 import { useClearAllFavoris, useFavoris } from "@/hooks/use-favoris";

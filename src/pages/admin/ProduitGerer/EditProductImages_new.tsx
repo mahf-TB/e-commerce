@@ -1,9 +1,9 @@
-import DialogAlert from "@/components/dialog-alert";
-import DropImageUpload, {
-  type ImageToUpload,
-} from "@/components/drop-images-upload";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
+import DialogAlert from "@/components/utils/dialog-alert";
+import DropImageUpload, {
+  type ImageToUpload,
+} from "@/components/utils/drop-images-upload";
 import { useProduct } from "@/hooks/use-product";
 import { showToast } from "@/lib/toast";
 import {
@@ -253,7 +253,7 @@ const EditProductImages = () => {
 
 
 // Wrapper export : vérifie le rôle avant d'afficher le dashboard
-import RequireRole from "@/components/RequireRole";
+import RequireRole from "@/components/utils/RequireRole";
 
 export default function EditProductImagesWrapper() {
   return (

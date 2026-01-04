@@ -1,6 +1,6 @@
-import StatisticGrid, { type Stat } from "@/components/statistic-grid";
 import { Button } from "@/components/ui/button";
-import UserAvatar from "@/components/user-avatar";
+import StatisticGrid, { type Stat } from "@/components/utils/statistic-grid";
+import UserAvatar from "@/components/utils/user-avatar";
 import CommandeRecentes from "@/features/orders/myOrder/CommandeRecents";
 import useAuthUser from "@/hooks/use-auth-user";
 import { useDashboardStatsForClient } from "@/hooks/use-dashboard";

@@ -1,7 +1,7 @@
-import InputForm from "@/components/input-form";
-import { InputPhoneNumber } from "@/components/input-phone";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Label } from "@/components/ui/label";
+import InputForm from "@/components/utils/input-form";
+import { InputPhoneNumber } from "@/components/utils/input-phone";
 import { MapPin } from "lucide-react";
 
 interface DeliveryAddressProps {

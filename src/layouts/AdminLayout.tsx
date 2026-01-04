@@ -1,6 +1,6 @@
 // src/layouts/AdminLayout.tsx
-import ServerStatusBanner from "@/components/ServerStatusBanner";
 import { SidebarProvider } from "@/components/ui/sidebar";
+import ServerStatusBanner from "@/components/utils/ServerStatusBanner";
 import { AppSidebar } from "@/features/AppSidebar";
 import useAuthUser from "@/hooks/use-auth-user";
 import { Navigate, Outlet } from "react-router-dom";

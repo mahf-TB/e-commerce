@@ -1,8 +1,8 @@
-import BadgeItem from "@/components/BadgeItem";
-import Dropdown, { DropdownItems } from "@/components/dropdown";
 import { Badge } from "@/components/ui/badge";
 import { DropdownMenuLabel } from "@/components/ui/dropdown-menu";
-import UserAvatar from "@/components/user-avatar";
+import BadgeItem from "@/components/utils/BadgeItem";
+import Dropdown, { DropdownItems } from "@/components/utils/dropdown";
+import UserAvatar from "@/components/utils/user-avatar";
 import { useDownloadFacture } from "@/hooks/use-commande";
 import type { EtatPaiement, StatutCommande } from "@/types";
 import {
@@ -13,7 +13,7 @@ import {
   getPaiementColorClass,
   getStatusColorClass,
 } from "@/utils/helpers";
-import { Download, EllipsisVertical, PenBox, ReceiptText, Trash, X } from "lucide-react";
+import { Download, EllipsisVertical, ReceiptText, X } from "lucide-react";
 import type { HTMLAttributes } from "react";
 import { forwardRef } from "react";
 import { useNavigate } from "react-router-dom";

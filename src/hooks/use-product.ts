@@ -59,6 +59,8 @@ export function useProductList(params: ProductListParams = {}) {
         statut
       }),
     keepPreviousData: true,
+    refetchOnReconnect: true, 
+    refetchInterval: 60000, 
     staleTime: 1000 * 60 * 2,
   } as any);
 

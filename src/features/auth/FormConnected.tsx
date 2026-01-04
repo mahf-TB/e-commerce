@@ -2,7 +2,7 @@ import { Spinner } from "@/components/icon/spinner";
 import { Button } from "@/components/ui/button";
 import React, { useState } from "react";
 
-import InputForm from "@/components/input-form";
+import InputForm from "@/components/utils/input-form";
 import { useAuthInvalidate } from "@/hooks/use-auth-invalidate";
 import { setAuthToken } from "@/lib/axios";
 import authService from "@/services/authService";

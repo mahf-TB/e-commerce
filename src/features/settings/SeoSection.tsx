@@ -1,6 +1,6 @@
-import InputForm from "@/components/input-form";
-import TextareaForm from "@/components/textarea-form";
 import { Card } from "@/components/ui/card";
+import InputForm from "@/components/utils/input-form";
+import TextareaForm from "@/components/utils/textarea-form";
 
 interface SeoSectionProps {
   data: {

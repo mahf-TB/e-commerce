@@ -1,7 +1,7 @@
-import InputForm from "@/components/input-form";
+import InputForm from "@/components/utils/input-form";
 import SegmentedControl, {
   type SegmentOption,
-} from "@/components/segmented-control";
+} from "@/components/utils/segmented-control";
 import { CommandeCard } from "@/features/orders/commande/CommandeCard";
 import { DetailCommande } from "@/features/orders/commande/DetailCommande";
 import { CommandeCardSkeleton } from "@/features/orders/skeleton/CommandeCardSkeleton";
@@ -35,7 +35,7 @@ const CommandeAttente = () => {
   const { items, isLoading } = useCommandeList({
     statutCommande: statusFilter === "en_attente" ? "en_attente" : "expediee,en_preparation,livree",
     search: searchTerm || "",
-    traiter: statusFilter !== "en_attente" ? user.id : "",
+    traiter: statusFilter !== "en_attente" && user?.role !== 'admin' ? user.id : "",
   });
   const { data: selectedOrderItems } = useCommande(selectedOrder?.id);
 

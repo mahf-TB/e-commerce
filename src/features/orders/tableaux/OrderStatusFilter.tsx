@@ -1,5 +1,5 @@
-import SearchInput from "@/components/search-input";
-import SelectForm from "@/components/select-form";
+import SearchInput from "@/components/utils/search-input";
+import SelectForm from "@/components/utils/select-form";
 import React from "react";
 
 const orderStatusOptions = [
