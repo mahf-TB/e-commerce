@@ -101,6 +101,9 @@ export function setAuthToken(newToken: string | null) {
     apiAuth.defaults.headers.Authorization = `Bearer ${newToken}`;
     try {
       localStorage.setItem("access_token", newToken);
+      try {
+        window.dispatchEvent(new CustomEvent("auth:token", { detail: { token: newToken } }));
+      } catch (e) {}
     } catch {
       console.warn("Impossible de stocker le token en localStorage");
     }
@@ -108,6 +111,9 @@ export function setAuthToken(newToken: string | null) {
     delete apiAuth.defaults.headers.Authorization;
     try {
       localStorage.removeItem("access_token");
+      try {
+        window.dispatchEvent(new CustomEvent("auth:token", { detail: { token: null } }));
+      } catch (e) {}
     } catch {
       console.warn("Impossible de supprimer le token en localStorage");
     }

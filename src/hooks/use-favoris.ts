@@ -1,23 +1,27 @@
 import { showToast } from "@/lib/toast";
+import { hasToken } from "@/services/authService";
 import {
-    addToFavoris,
-    checkIsFavoris,
-    clearAllFavoris,
-    getFavoris,
-    removeFromFavoris,
-    type AddToFavorisPayload,
-    type FavorisItem,
-    type ItemType,
+  addToFavoris,
+  checkIsFavoris,
+  clearAllFavoris,
+  getFavoris,
+  removeFromFavoris,
+  type AddToFavorisPayload,
+  type FavorisItem,
+  type ItemType,
 } from "@/services/favorisService";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
 /**
  * Hook pour récupérer tous les favoris de l'utilisateur
  */
-export function useFavoris() {
+export function useFavoris(filter?: { startDate?: string; endDate?: string }) {
+   const hasTokenValue = hasToken();
   const query = useQuery<FavorisItem>({
-    queryKey: ["favoris"],
-    queryFn: getFavoris,
+    queryKey: ["favoris", filter],
+    queryFn: () => getFavoris(filter),
+    enabled: !!hasTokenValue,
+    retry: false,
     staleTime: 1000 * 60 * 5, // 5 minutes
   });
 

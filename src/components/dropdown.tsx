@@ -1,8 +1,10 @@
+import { cn } from "@/lib/utils";
+import { ChevronDown } from "lucide-react";
 import React, {
-  useState,
   cloneElement,
-  type ReactNode,
+  useState,
   type ReactElement,
+  type ReactNode,
 } from "react";
 import {
   DropdownMenu,
@@ -10,8 +12,6 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "./ui/dropdown-menu";
-import { ChevronDown } from "lucide-react";
-import { cn } from "@/lib/utils";
 
 interface DropdownProps extends React.ComponentPropsWithoutRef<typeof DropdownMenuContent> {
   children: ReactNode;
@@ -40,13 +40,8 @@ export default function Dropdown({
 
   const enhancedChildren = React.Children.map(children, (child) => {
     if (React.isValidElement(child)) {
-      // Don't inject props into plain DOM elements (string types), only into React components
-      // This prevents passing `setOpen` down to DOM nodes which triggers React warnings.
-      // e.g. avoid adding custom props to <div> or other native elements.
-      // child.type is a string for DOM elements, and a function/class for components.
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const childType: any = (child as any).type;
-      if (typeof childType === "string") return child;
+      if (typeof childType === "string" || childType === React.Fragment) return child;
       return cloneElement(child as DropdownChild, { setOpen });
     }
     return child;

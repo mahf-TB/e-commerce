@@ -1,4 +1,5 @@
 import { Badge } from "@/components/ui/badge";
+import { formatNotificationDateTime } from "@/utils/helpers";
 import { Image as ImageIcon } from "lucide-react";
 import type { NotificationItem as N } from "./types";
 
@@ -28,13 +29,13 @@ export default function NotificationListItem({ item }: Props) {
       <div className="flex-1 min-w-0">
         <div className="flex items-center justify-between gap-2">
           <div className="text-sm font-medium text-gray-900 truncate">{item.titre}</div>
-          {!item.estLu && <Badge className="bg-red-500">New</Badge>}
+          {!item.estLu && <Badge className="bg-blue-500">Nouveau</Badge>}
         </div>
         {item.message && (
           <p className="text-xs text-gray-600 mt-1 truncate">{item.message}</p>
         )}
         {item.createdAt && (
-          <div className="text-xs text-gray-400 mt-1">{item.createdAt}</div>
+          <div className="text-xs text-gray-400 mt-1">{formatNotificationDateTime(item.createdAt)}</div>
         )}
       </div>
     </li>

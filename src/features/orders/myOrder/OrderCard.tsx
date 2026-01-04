@@ -67,11 +67,23 @@ export function OrderCard({ order }: OrderCardProps) {
                     onClick={() => navigate(`/account/orders/${order.id}`)}
                   />
                   <DropdownItems
-                    icon={<X size={16} />}
-                    variant="destructive"
-                    title="Annuler la commande"
-                    onClick={() => navigate(`/account/orders/${order.id}`)}
+                    icon={<Download size={16} />}
+                    title="Télécharger la facture"
+                     onClick={() => handleDownload(order.id, order.reference)}
                   />
+                  {
+                    !["annulee", "expediee", "livree", "completed"].includes(
+                      order.statut
+                    ) && (
+                      <DropdownItems
+                        icon={<X size={16} />}
+                        variant="destructive"
+                        title="Annuler la commande"
+                        onClick={() => navigate(`/account/orders/${order.id}`)}
+                      />
+                    )
+                  }
+                  
                 </Dropdown>
               </div>
             </div>
@@ -134,7 +146,7 @@ export function OrderCard({ order }: OrderCardProps) {
         </div>
 
         {/* Liste des lignes */}
-        {order.items.slice(0, 1).map((ligne) => (
+        {(order.items ?? []).slice(0, 1).map((ligne) => (
           <div
             key={ligne.id}
             className="flex items-end justify-between bg-muted/70 rounded-md px-3 py-2.5 mb-2 last:mb-0"
@@ -185,7 +197,7 @@ export function OrderCard({ order }: OrderCardProps) {
           </div>
           <div className="flex flex-col items-end">
             <div className="text-xs text-muted-foreground font-medium tracking-wide">
-              {order.items.length} article(s)
+              {order.items?.length ?? 0} article(s)
             </div>
             <div className="text-lg font-bold text-foreground">
               {order.total && formatPrice(order.total)}

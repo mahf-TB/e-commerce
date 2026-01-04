@@ -1,5 +1,5 @@
 import { apiAuth } from "@/lib/axios";
-import type { ProductListItem, Produit } from "@/types";
+import type { Produit } from "@/types";
 
 export type ItemType = "Produit" | "Commande" | null;
 
@@ -26,8 +26,15 @@ export interface AddToFavorisPayload {
  * Obtenir tous les favoris de l'utilisateur connecté
  * GET /api/favoris
  */
-export async function getFavoris(): Promise<FavorisItem> {
-  const { data } = await apiAuth.get("/favoris");
+export interface FavorisFilter {
+  startDate?: string; // ISO date
+  endDate?: string; // ISO date
+}
+
+export async function getFavoris(filter?: FavorisFilter): Promise<FavorisItem> {
+  const { data } = await apiAuth.get("/favoris", {
+    params: filter,
+  });
   return data;
 }
 

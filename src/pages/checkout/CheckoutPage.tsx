@@ -7,6 +7,7 @@ import { ShippingMethod } from "@/features/checkout/ShippingMethod";
 import { showToast } from "@/lib/toast";
 import { createCommande } from "@/services/commandeService";
 import { useCartStore } from "@/store/use-panier.store";
+import { ArrowLeft } from "lucide-react";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
@@ -99,8 +100,6 @@ export default function CheckoutPage() {
         items,
       };
 
-      console.log(payload);
-
       // Créer la commande
       const res = await createCommande(payload);
       showToast("success", "Commande créée avec succès !");
@@ -125,6 +124,15 @@ export default function CheckoutPage() {
       <form onSubmit={handleSubmit}>
         <div className="flex items-start -mt-4 -mb-4 h-full ">
           <div className="w-1/2 space-y-6 bg-white p-10 px-[7vw]">
+            <Button
+              variant="outline"
+              size="icon"
+              type="button"
+              className="rounded"
+              onClick={() => navigate(-1)}
+            >
+              <ArrowLeft size={18} />
+            </Button>
             <DeliveryAddress
               prenom={prenom}
               nom={nom}

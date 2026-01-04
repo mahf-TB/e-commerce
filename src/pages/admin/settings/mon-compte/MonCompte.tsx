@@ -1,7 +1,6 @@
 import AvatarUpload from "@/components/AvatarUpload";
 import InputForm from "@/components/input-form";
 import SegmentedControl from "@/components/segmented-control";
-import { InputPhoneNumber } from "@/components/input-phone";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -12,7 +11,8 @@ import {
 } from "@/components/ui/card";
 import useAuthUser, { useUpdateProfileUser } from "@/hooks/use-auth-user";
 import { showToast } from "@/lib/toast";
-import { Lock, Mail, Trash, User, UserCircle } from "lucide-react";
+import { getLibelleRole } from "@/utils/helpers";
+import { Lock, Mail, Trash, UserCircle, UserLock } from "lucide-react";
 import React, { useEffect, useState } from "react";
 
 const MonCompte = () => {
@@ -162,6 +162,18 @@ const MonCompte = () => {
                       </Button>
                     </div>
                   </div>
+                  {/* role*/}
+                    <InputForm
+                    name="role"
+                    label="Rôle"
+                    type="text"
+                    value={getLibelleRole(user?.role)}
+                    aria-label="Rôle d'utilisateur"
+                    placeholder="Ex: johndoe"
+                    className="bg-gray-50 focus:border-transparent focus:ring-0 focus-visible:ring-0 outline-none cursor-not-allowed"
+                    iconLeft={<UserLock size={14} />}
+                    readOnly
+                    />
                   {/* Nom d'utilisateur */}
                   <InputForm
                     name="username"

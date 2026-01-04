@@ -4,38 +4,7 @@ import { PackageX } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
 
-// MOCK pour l’exemple
-const lastOrderMock: CommandeClient = {
-  id: "1",
-  reference: "CMD-20251110-0001",
-  nombreProduits: 4,
-  nomDestinataire: "Alex John",
-  statut: "en_attente",
-  etatPaiement: "en_attente",
-  typeLivraison: "standard",
-  modePaiement: "carte_bancaire",
-  total: 340,
-  frais: 10,
-  creeLe: "2025-11-10T13:45:00Z",
-  dateLivraison: "Fri, 13 Nov, 2025",
-  adresseLivraison: "Great street, New York Brooklyn 5A, PO: 212891",
-  items: [
-    {
-      id: "i1",
-      codeVariant: "PROD-001-VAR-RED",
-      totalLigne: 340,
-      nomProduit: "Great product name goes here",
-      produitId: "",
-      variantId: "",
-      image: "/images/default-product.jpg",
-      quantite: 1,
-      prixUnitaire: 340,
-    },
-  ],
-};
-
-export default function CommandeRecentes() {
-  const order = lastOrderMock as CommandeClient;
+export default function CommandeRecentes({order}: {order?: CommandeClient}) {
 const navigate= useNavigate();
   return (
     <div className="w-full rounded-sm shadow-none gap-3">
@@ -44,7 +13,7 @@ const navigate= useNavigate();
           Ma dernière commande
         </h2>
       </div>
-      {!order ? (
+      {order ? (
         <OrderCard order={order} />
       ) : (
         <div className="col-span-full flex items-center justify-center py-20 bg-white rounded border">

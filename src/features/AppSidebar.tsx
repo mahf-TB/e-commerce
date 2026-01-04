@@ -23,6 +23,7 @@ import useSystemStore from "@/store/use-system.store";
 import {
   fallbackAvatar,
   getFullName,
+  getLibelleRole,
   isAdmin,
   isManagerAccess,
   maskEmail,
@@ -45,6 +46,7 @@ import { NavLink, useLocation, useNavigate } from "react-router-dom";
 import Dropdown, { DropdownItems } from "../components/dropdown";
 import { Badge } from "../components/ui/badge";
 import { DropdownMenuSeparator } from "../components/ui/dropdown-menu";
+import { useNotifications } from "@/hooks/use-notifications";
 
 const items = [
   { title: "Dashboard", url: "/admin/dashboard", icon: Home },
@@ -170,6 +172,7 @@ export function AppSidebar() {
               )}
               {items2.map((item) => {
                 const Icon = item.icon;
+                  const { total } = useNotifications();
                 const isActive =
                   pathname === item.url || pathname.startsWith(item.url);
                     const onNotifyClick = () => {
@@ -199,7 +202,7 @@ export function AppSidebar() {
                         variant={"destructive"}
                         className="w-5 h-5 absolute right-2.5 top-2.5 text-xs"
                       >
-                        24
+                        {total}
                       </Badge>
                     )}
                   </SidebarMenuItem>
@@ -222,7 +225,7 @@ export function AppSidebar() {
             />
             <div className=" text-white">
               <p className="text-sm font-medium ">{getFullName(user)}</p>
-              <p className="text-xs line-clamp-1">{maskEmail(user?.email)}</p>
+              <p className="text-xs line-clamp-1">{getLibelleRole(user?.role)}</p>
             </div>
           </div>
           <Dropdown

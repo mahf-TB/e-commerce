@@ -34,7 +34,7 @@ export function ProductCard({
   const navigate = useNavigate();
   const { addItem, openCart } = useCartStore();
   const { isFavoris, isLoading } = useCheckFavoris("Produit", id.toString());
-  const { toggle, isPending } = useToggleFavoris();  
+  const { toggle, isPending } = useToggleFavoris();
 
   const handleAddToCart = () => {
     addItem({
@@ -52,10 +52,7 @@ export function ProductCard({
   return (
     <Card className="flex flex-col group rounded-sm shadow-none overflow-hidden p-0 gap-0 transition-all duration-200">
       {/* Image */}
-      <div
-        className="relative h-52 w-full cursor-pointer z-0"
-        onClick={() => navigate(`/products/${id}`)}
-      >
+      <div className="relative h-52 w-full cursor-pointer z-0">
         <img
           src={imageUrl ?? "/images/default-product.jpg"}
           alt={produit}
@@ -70,7 +67,7 @@ export function ProductCard({
         >
           <Heart
             size={16}
-            className={cn( isFavoris ? "text-red-500 fill-red-500" : "")}
+            className={cn(isFavoris ? "text-red-500 fill-red-500" : "")}
           />
         </button>
         {/* <div className="absolute top-12 right-2 bg-white rounded-full p-2 hidden group-hover:block shadow-md cursor-pointer hover:bg-gray-100 transition-all duration-200">
@@ -87,9 +84,17 @@ export function ProductCard({
           {produit}
         </h3>
         {/* Description courtes (specs) */}
-        <p className="text-xs text-slate-400 line-clamp-2">{description}</p>
+        <p
+          className="text-xs text-slate-400 line-clamp-2"
+          onClick={() => navigate(`/products/${id}`)}
+        >
+          {description}
+        </p>
         {/* Prix + note */}
-        <div className="mt-2 flex items-center justify-between">
+        <div
+          className="mt-2 flex items-center justify-between"
+          onClick={() => navigate(`/products/${id}`)}
+        >
           <span className="text-sm font-bold ">{formatPrice(price)}</span>
           <div className="flex items-center gap-1 text-xs ">
             <span className="text-amber-400">★</span>

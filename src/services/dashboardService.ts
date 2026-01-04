@@ -41,6 +41,18 @@ export async function getDashboardStats(
   }
 }
 
+export async function getDashboardStatsForClients(
+  id: string,
+  params?: DashboardParams
+): Promise<any> {
+  try {
+    const res = await apiAuth.get(`/dashboard/client/${id}`, { params });
+    return res.data;
+  } catch (error: any) {
+    throw error;
+  }
+}
+
 export async function getDashboardVentes(
   params?: DashboardParams
 ): Promise<any> {

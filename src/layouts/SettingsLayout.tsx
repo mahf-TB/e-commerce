@@ -2,7 +2,7 @@ import { Logo } from "@/components/icon/logo";
 import UserAvatar from "@/components/user-avatar";
 import useAuthUser from "@/hooks/use-auth-user";
 import { cn } from "@/lib/utils";
-import { getFullName, hasAdminAccess, isAdmin, maskEmail } from "@/utils/helpers";
+import { getFullName, getLibelleRole, hasAdminAccess, isAdmin, maskEmail } from "@/utils/helpers";
 import {
   FolderTree,
   HelpCircle,
@@ -127,7 +127,7 @@ const AdminSettingsLayout = () => {
               <UserAvatar fallback="CN" size={40} src={data?.photo} />
               <div className="hidden md:block text-white">
                 <p className="text-sm font-medium">{getFullName(data)}</p>
-                <p className="text-xs line-clamp-1 text-gray-400">{maskEmail(data?.email)}</p>
+                <p className="text-xs line-clamp-1 text-gray-400">{getLibelleRole(data?.role)}</p>
               </div>
             </div>
             <div
@@ -142,6 +142,15 @@ const AdminSettingsLayout = () => {
       </div>
       <div className="container mx-auto flex items-start flex-1 gap-5 overflow-hidden">
         <aside className="w-1/5 py-5 px-4 hidden md:block overflow-y-auto h-full">
+        <div className="py-2 flex items-center gap-2  mb-4 overflow-hidden">
+            <UserAvatar fallback="CN" size={50} src={data?.photo}/>
+            <div className="hidden md:block">
+              <p className="text-lg font-medium">{getFullName(data)}</p>
+              <p className="text-sm line-clamp-1">
+                {getLibelleRole(data?.role)}
+              </p>
+            </div>
+          </div>
           <nav className="flex flex-col gap-2">
             {navItems.map((item) => {
               const isActive =

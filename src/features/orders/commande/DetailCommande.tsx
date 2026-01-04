@@ -21,8 +21,6 @@ import { ArrowLeft } from "lucide-react";
 import ProductOrder from "./ProductOrder";
 import { Badge } from "@/components/ui/badge";
 
-
-
 export const DetailCommande = ({
   order,
   className,
@@ -33,7 +31,7 @@ export const DetailCommande = ({
   onCancel?: () => void;
 }) => {
   console.log(order);
-  
+
   const client = order?.client || {};
   const { user } = useAuthUser();
   const annulerCommandeMutation = useAnnulerCommande();
@@ -91,8 +89,7 @@ export const DetailCommande = ({
 
               <Badge
                 className={getPaiementColorClass(
-                  order?.etatPaiement as EtatPaiement,
-                  "400"
+                  order?.etatPaiement as EtatPaiement
                 )}
               >
                 {getLibellePayement(order?.etatPaiement as EtatPaiement)}
@@ -208,6 +205,19 @@ export const DetailCommande = ({
                 Status d'une commande
               </h3>
               <CommandeStatusStepper statut={order?.statut} />
+            </div>
+            <div className="bg-white p-4 rounded-md">
+              <h3 className="font-bold font-poppins mb-2">Commande</h3>
+              <div className="grid grid-cols-[120px_1fr] gap-3 text-sm text-left">
+                <span className="text-muted-foreground">Mode paiement</span>
+                <span className="font-medium">{order?.modePaiement}</span>
+                <span className="text-muted-foreground">Montant</span>
+                <span className="font-medium">{formatPrice(order?.total)}</span>
+                <span className="text-muted-foreground">Etat</span>
+                <span className="font-medium">
+                  {getLibellePayement(order?.etatPaiement)}
+                </span>
+              </div>
             </div>
             <div className="bg-white p-4 rounded-md">
               <h3 className="font-bold font-poppins mb-2">Livraison</h3>

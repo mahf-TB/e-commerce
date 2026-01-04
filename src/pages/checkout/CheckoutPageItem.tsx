@@ -6,6 +6,7 @@ import { PaymentMethods } from "@/features/checkout/PaymentMethods";
 import { ShippingMethod } from "@/features/checkout/ShippingMethod";
 import { showToast } from "@/lib/toast";
 import { createCommande, type CommandeItem } from "@/services/commandeService";
+import { ArrowLeft } from "lucide-react";
 import { useState } from "react";
 import { useNavigate, useParams, useSearchParams } from "react-router-dom";
 
@@ -29,8 +30,7 @@ export default function CheckoutPageItem() {
   // États pour le paiement
   const [modePaye, setModePaye] = useState("card");
   const [phoneMvola, setPhoneMvola] = useState("");
-  const [cardData, setCardData] = useState<any>(null);
-
+  // const [cardData, setCardData] = useState<any>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -124,6 +124,15 @@ export default function CheckoutPageItem() {
       <form onSubmit={handleSubmit}>
         <div className="flex items-start -mt-4 -mb-4 h-full ">
           <div className="w-1/2 space-y-6 bg-white p-10 px-[7vw]">
+          <Button
+              variant="outline"
+              size="icon"
+              type="button"
+              className="rounded"
+              onClick={() => navigate(-1)}
+            >
+              <ArrowLeft size={18} />
+            </Button>
             <DeliveryAddress
               prenom={prenom}
               nom={nom}
@@ -143,7 +152,7 @@ export default function CheckoutPageItem() {
               phone={phoneMvola}
               onModePayeChange={setModePaye}
               onPhoneChange={setPhoneMvola}
-              onCardDataChange={setCardData}
+              // onCardDataChange={setCardData}
             />
             <Button
               type="submit"

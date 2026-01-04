@@ -14,8 +14,11 @@ import CartPopover from "@/features/cart/PanierPopover";
 import NotificationsSheet from "@/features/notifications/NotificationsSheet";
 import { useAuthInvalidate } from "@/hooks/use-auth-invalidate";
 import useAuthUser from "@/hooks/use-auth-user";
+import { useFavoris } from "@/hooks/use-favoris";
+import { useNotifications } from "@/hooks/use-notifications";
 import { logout } from "@/services/authService";
 import { useCartStore } from "@/store/use-panier.store";
+import useSystemStore from "@/store/use-system.store";
 import {
     fallbackAvatar,
     getFullName,
@@ -39,8 +42,11 @@ import { useNavigate } from "react-router-dom";
 
 const HeaderPage = () => {
   const navigate = useNavigate();
+   const { setNotifySheet } = useSystemStore();
   const { removeAuthUser } = useAuthInvalidate();
+   const { total } = useNotifications();
   const { data, isAuthenticated, isLoading } = useAuthUser();
+   const { data: favoris } = useFavoris();
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const { cartItems } = useCartStore();
 
@@ -90,13 +96,20 @@ const HeaderPage = () => {
           <Tooltips text="Favoris">
             <BadgeButton
               icon={Heart}
-              count={17}
-              onClick={() => console.log("Notifications")}
+              count={favoris?.items.length || undefined}
+              onClick={() => navigate("/account/wishlist")}
             />
           </Tooltips>
-          <NotificationsSheet />
           {/* User Logo and btn connexion */}
           {isAuthenticated ? (
+          <>
+          <Tooltips text="Favoris">
+            <BadgeButton
+              icon={Bell}
+              count={total > 0 ? total : undefined}
+              onClick={() =>  setNotifySheet(true) }
+            />
+          </Tooltips>
             <Tooltips text="Profile">
               <div
                 onClick={() => setDropdownOpen(true)}
@@ -109,6 +122,7 @@ const HeaderPage = () => {
                 />
               </div>
             </Tooltips>
+          </>
           ) : (
             <Button
               onClick={() => navigate("/connexion")}
@@ -154,7 +168,7 @@ const HeaderPage = () => {
                 <DropdownItems
                   icon={<Settings size={18} />}
                   title="Paramètres"
-                  onClick={() => navigate("/admin/settings")}
+                  onClick={() => navigate("/admin/parametre")}
                 />
               </>
             )}
@@ -174,7 +188,7 @@ const HeaderPage = () => {
                 <DropdownItems
                   icon={<Settings size={18} />}
                   title="Paramètres"
-                  onClick={() => navigate("/admin/settings")}
+                  onClick={() => navigate("/account/notifications")}
                 />
                 <DropdownItems
                   icon={<Heart size={18} />}

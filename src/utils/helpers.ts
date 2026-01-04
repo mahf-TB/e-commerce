@@ -37,6 +37,43 @@ export const formatDateTime = (dateStr: string): string => {
   });
 };
 
+// Format spécifique pour les notifications :
+// - "À l'instant" si < 60s
+// - "il y a X min" si < 60min
+// - "Aujourd'hui à HH:mm" si même jour
+// - "Hier à HH:mm" si la veille
+// - sinon : "DD MMM YYYY à HH:mm" (ou sans année si année courante)
+export const formatNotificationDateTime = (dateStr: string): string => {
+  const date = new Date(dateStr);
+  const now = new Date();
+  const diffMs = now.getTime() - date.getTime();
+  const diffSec = Math.floor(diffMs / 1000);
+  const diffMin = Math.floor(diffSec / 60);
+  const diffHour = Math.floor(diffMin / 60);
+
+  if (diffSec < 60) return "À l'instant";
+  if (diffMin < 60) return `il y a ${diffMin} min`;
+
+  const isSameDay = now.toDateString() === date.toDateString();
+  const yesterday = new Date(now);
+  yesterday.setDate(now.getDate() - 1);
+  const isYesterday = yesterday.toDateString() === date.toDateString();
+
+  const timePart = date.toLocaleTimeString(undefined, { hour: '2-digit', minute: '2-digit' });
+
+  if (isSameDay) return `Aujourd'hui à ${timePart}`;
+  if (isYesterday) return `Hier à ${timePart}`;
+
+  const sameYear = now.getFullYear() === date.getFullYear();
+  const datePart = date.toLocaleDateString(undefined, {
+    day: '2-digit',
+    month: 'short',
+    year: sameYear ? undefined : 'numeric',
+  });
+
+  return `${datePart} à ${timePart}`;
+};
+
 // Formater un nombre en format compact (1.2K, 3.4M, etc.)
 export function formatCompactNumber(n: number): string {
   if (n >= 1_000_000)
@@ -94,9 +131,25 @@ export function getLibellePayement(etat: EtatPaiement): string {
   }
 }
 
+export function getLibelleRole(role: string): string {
+  switch (role) {
+    case "admin":
+      return "Administrateur";
+    case "customer":
+      return "Client";
+    case "guest":
+      return "Invité";
+    case "manager":
+      return "Gestionnaire";
+    case "support":
+      return "Support";
+    default:
+      return "Client";
+  }
+}
 
-export function getPaiementColorClass(statut: EtatPaiement , codeColor: string = "100"): string {
-  console.log(statut);
+
+export function getPaiementColorClass(statut: EtatPaiement ): string {
   
   switch (statut) {
     case "en_attente":
@@ -104,7 +157,7 @@ export function getPaiementColorClass(statut: EtatPaiement , codeColor: string =
     case "remboursee":
       return `bg-gray-500 text-gray-100 border-gray-500`;
     case "non_paye":
-      return `bg-indigo-500 text-indigo-100 border-indigo-500`;
+      return `bg-red-500 text-red-100 border-red-500`;
     case "paye":
       return `bg-green-500 text-green-100 border-green-500`;
     case "echoue":

@@ -46,6 +46,7 @@ import AdminRoutes from "./AdminRoutes";
 import PrivateRoutes from "./PrivateRoutes";
 import PublicRoutes from "./PublicRoutes";
 import NotificationsPages from "@/pages/admin/settings/notifications/Notifications";
+import CategoryProductPage from "@/pages/category-product/category-product";
 
 
 const router = createBrowserRouter([
@@ -64,8 +65,8 @@ const router = createBrowserRouter([
       },
       { path: "products", element: <ProductPage /> },
       { path: "products/:id", element: <ProductItemsPage /> },
-      { path: "category", element: <HomePage /> },
-      { path: "category/:id", element: <HomePage /> },
+      { path: "category", element: <CategoryProductPage /> },
+      { path: "category/:id", element: <CategoryProductPage /> },
       { path: "cart", element: <CartPage /> },
       {
         path: "account",

@@ -34,18 +34,19 @@ export interface PaiementRowProps {
  * À utiliser avec TableRowTooltips qui rend la <tr>
  */
 export const PaiementRow = forwardRef<HTMLTableRowElement, PaiementRowProps>(
-  ({
-    id,
-    mode,
-    image,
-    customer,
-    montant,
-    paiement,
-    date,
-    onView,
-    onEdit,
-    onDelete,
-  }) => {
+  (props, ref) => {
+    const {
+      id,
+      mode,
+      image,
+      customer,
+      montant,
+      paiement,
+      date,
+      onView,
+      onEdit,
+      onDelete,
+    } = props;
     const navigate = useNavigate();
     const Icon = (mode: string) => {
       if (mode === "card") return <CreditCard size={14} />;
@@ -53,7 +54,7 @@ export const PaiementRow = forwardRef<HTMLTableRowElement, PaiementRowProps>(
       else return <Bitcoin size={14} />;
     };
     return (
-      <tr className="hover:bg-slate-200  transition-colors">
+      <tr ref={ref} className="hover:bg-slate-200  transition-colors">
         {/* NUMERO DE COMMANDE */}
         <td className="px-4 py-2 text-sm text-gray-700 dark:text-gray-300">
           #{id}
