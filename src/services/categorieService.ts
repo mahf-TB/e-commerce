@@ -1,11 +1,7 @@
 import type { Category } from "@/hooks/use-categories";
 import api, { apiAuth } from "../lib/axios";
 import type { Paginated } from "@/types";
-const headers = {
-  headers: {
-    "Content-Type": "multipart/form-data",
-  },
-};
+
 
 
 export async function fetchCategories(): Promise<Paginated<Category>> {

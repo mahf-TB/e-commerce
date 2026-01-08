@@ -1,10 +1,10 @@
 import React from "react";
-import { useParams } from "react-router-dom";
-import { useQuery } from "@tanstack/react-query";
+// import { useParams } from "react-router-dom";
+
 import { cn } from "@/lib/utils";
 
 const CategoryProductPage: React.FC = () => {
-    const { categoryId } = useParams<{ categoryId: string }>();
+    // const { categoryId } = useParams<{ categoryId: string }>();
 
 
     return (

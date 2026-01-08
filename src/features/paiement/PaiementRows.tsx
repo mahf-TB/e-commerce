@@ -6,12 +6,14 @@ import type { EtatPaiement } from "@/types";
 import { formatDate, formatPrice, getLibellePayement, getPaiementColorClass } from "@/utils/helpers";
 import {
   Banknote,
+  BanknoteArrowDown,
+  BanknoteArrowUp,
   Bitcoin,
   CreditCard,
   EllipsisVertical,
-  PenBox,
+
   ReceiptText,
-  Trash,
+
 } from "lucide-react";
 import { forwardRef } from "react";
 import { useNavigate } from "react-router-dom";
@@ -117,16 +119,19 @@ export const PaiementRow = forwardRef<HTMLTableRowElement, PaiementRowProps>(
               onClick={() => onView && onView(id)}
             />
             <DropdownItems
-              icon={<PenBox size={18} />}
-              title="Modifier"
+              icon={<BanknoteArrowUp size={18} />}
+              title="Prédure le paiement"
               onClick={() => navigate(`${id}`)}
             />
-            <DropdownItems
-              icon={<Trash size={18} />}
-              title="Supprimer"
+            {
+              paiement === "paye" && <DropdownItems
+              icon={<BanknoteArrowDown size={18} />}
+              title="Rembourser le paiement"
               variant="destructive"
               onClick={() => onDelete && onDelete(id)}
             />
+            }
+            
           </Dropdown>
         </td>
       </tr>

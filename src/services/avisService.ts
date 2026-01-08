@@ -1,11 +1,5 @@
-import type { CommandeClient, Produit } from "@/types";
+import type {  Produit } from "@/types";
 import { apiAuth } from "../lib/axios";
-
-const headers = {
-  headers: {
-    "Content-Type": "multipart/form-data",
-  },
-};
 
 export type AvisCredential = {
     produit: string;

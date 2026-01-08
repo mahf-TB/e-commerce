@@ -140,7 +140,7 @@ export function getLibelleRole(role: string): string {
     case "guest":
       return "Invité";
     case "manager":
-      return "Gestionnaire";
+      return "Staff";
     case "support":
       return "Support";
     default:

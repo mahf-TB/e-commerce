@@ -109,7 +109,7 @@ import RequireRole from "@/components/utils/RequireRole";
 
 export default function PaiementPageWrapper() {
   return (
-    <RequireRole allowedRoles={["admin"]}>
+    <RequireRole allowedRoles={["admin" , "manager"]} page="aux Paiements">
       <Paiement />
     </RequireRole>
   );

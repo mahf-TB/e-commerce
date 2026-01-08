@@ -28,6 +28,7 @@ export default function CheckoutPage() {
   const [modePaye, setModePaye] = useState<"card" | "espece" | "mvola">("card");
   const [phoneMvola, setPhoneMvola] = useState("");
   const [cardData, setCardData] = useState<any>(null);
+console.log(cardData);
 
   const [isSubmitting, setIsSubmitting] = useState(false);
 

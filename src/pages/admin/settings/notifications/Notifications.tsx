@@ -7,11 +7,14 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import NotificationToggle from "@/features/notifications/NotificationToggle";
+import useAuthUser from "@/hooks/use-auth-user";
 import { showToast } from "@/lib/toast";
+import { isAdmin } from "@/utils/helpers";
 import { Mail } from "lucide-react";
 import { useState } from "react";
 
 const NotificationsPages = () => {
+  const { user } = useAuthUser();
   const [orderEmail, setOrderEmail] = useState(true);
   const [paymentEmail, setPaymentEmail] = useState(true);
   const [stockAlert, setStockAlert] = useState(false);
@@ -67,13 +70,19 @@ const NotificationsPages = () => {
                 checked={stockAlert}
                 onCheckedChange={setStockAlert}
               />
-              <NotificationToggle
-                id="notif-weekly"
-                label="Résumé hebdomadaire"
-                description="Recevoir un résumé hebdomadaire des activités"
-                checked={weeklySummary}
-                onCheckedChange={setWeeklySummary}
-              />
+              {
+                /* Additional notification toggles can be added here */
+                isAdmin(user?.role) && (
+                  <NotificationToggle
+                    id="notif-weekly"
+                    label="Résumé hebdomadaire"
+                    description="Recevoir un résumé hebdomadaire des activités"
+                    checked={weeklySummary}
+                    onCheckedChange={setWeeklySummary}
+                  />
+                )
+              }
+
               <NotificationToggle
                 id="notif-marketing"
                 label="Emails marketing"

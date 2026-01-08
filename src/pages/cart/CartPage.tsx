@@ -9,15 +9,11 @@ const CartPage = () => {
   const navigate = useNavigate();
   const {
     cartItems,
-    isOpen,
     removeItem,
     incrementQuantity,
     decrementQuantity,
-    getTotalItems,
     getTotalPrice,
-    openCart,
-    closeCart,
-    removeAll,
+
   } = useCartStore();
   return (
     <div className="flex flex-col md:flex-row items-start mt-5 gap-6">

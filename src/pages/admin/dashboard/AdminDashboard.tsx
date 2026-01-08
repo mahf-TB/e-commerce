@@ -296,7 +296,7 @@ import RequireRole from "@/components/utils/RequireRole";
 
 export default function AdminDashboardPageWrapper() {
   return (
-    <RequireRole allowedRoles={["admin"]}>
+    <RequireRole allowedRoles={["admin"]} page="aux Dashboard">
       <AdminDashboard />
     </RequireRole>
   );

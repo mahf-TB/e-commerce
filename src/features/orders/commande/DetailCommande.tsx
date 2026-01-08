@@ -29,9 +29,9 @@ export const DetailCommande = ({
   className?: string;
   onCancel?: () => void;
 }) => {
-  console.log(order);
 
   const client = order?.client || {};
+  const traiterPar = order?.traiterPar || {};
   const { user } = useAuthUser();
   const annulerCommandeMutation = useAnnulerCommande();
   const changeStatutMutation = useChangeStatutCommande();
@@ -188,13 +188,17 @@ export const DetailCommande = ({
           {/* Section right pour les details de la commande */}
           <div className="space-y-3">
             {!isClient(user?.role) && (
-              <div className="bg-white p-2 rounded-md flex items-center gap-4">
-                <UserAvatar src={client.photo || ""} />
-                <div className="">
-                  <h3 className="font-poppins">{client.nom}</h3>
-                  <h3 className="font-poppins text-xs text-muted-foreground">
-                    {client.email}
-                  </h3>
+              <div className="bg-white p-2 rounded-md">
+                <h3 className="font-poppins font-bold mb-2">
+Client              </h3>
+                <div className="flex items-center gap-4">
+                  <UserAvatar src={client.photo || ""} />
+                  <div className="">
+                    <h3 className="font-poppins">{client.nom}</h3>
+                    <h3 className="font-poppins text-xs text-muted-foreground">
+                      {client.email}
+                    </h3>
+                  </div>
                 </div>
               </div>
             )}
@@ -233,6 +237,22 @@ export const DetailCommande = ({
                 <span className="font-medium">{order?.adresseLivraison}</span>
               </div>
             </div>
+            {!isClient(user?.role) && (
+              <div className="bg-white p-2 rounded-md ">
+                  <h3 className="font-poppins font-bold mb-2">
+                Traitée par
+              </h3>
+                <div className="flex items-center gap-4">
+                <UserAvatar src={traiterPar.photo || ""} />
+                <div className="">
+                  <h3 className="font-poppins">{traiterPar.nom}</h3>
+                  <h3 className="font-poppins text-xs text-muted-foreground">
+                    {traiterPar.email}
+                  </h3>
+                </div>
+                </div>
+              </div>
+            )}
           </div>
         </div>
       ) : (

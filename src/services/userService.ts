@@ -1,10 +1,5 @@
 import { apiAuth } from "@/lib/axios";
 import type { Paginated, User } from "@/types";
-const headers = {
-  headers: {
-    "Content-Type": "multipart/form-data",
-  },
-};
 
 // Types pour les paramètres de requête
 export interface UserListParams {
