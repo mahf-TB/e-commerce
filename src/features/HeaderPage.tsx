@@ -39,13 +39,18 @@ import {
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-const HeaderPage = () => {
+const HeaderPage = ({
+  data,
+  isAuthenticated,
+}: {
+  data: any;
+  isAuthenticated: boolean;
+}) => {
   const navigate = useNavigate();
-   const { setNotifySheet } = useSystemStore();
+  const { setNotifySheet } = useSystemStore();
   const { removeAuthUser } = useAuthInvalidate();
-   const { total } = useNotifications();
-  const { data, isAuthenticated, isLoading } = useAuthUser();
-   const { data: favoris } = useFavoris();
+  const { total } = useNotifications();
+  const { data: favoris } = useFavoris();
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const { cartItems } = useCartStore();
 
@@ -56,8 +61,6 @@ const HeaderPage = () => {
       removeAuthUser();
     } catch (error) {}
   };
-
-  if (isLoading) return null; // ou un indicateur de chargement
 
   return (
     <div className="w-full bg-white z-50 ">
@@ -95,33 +98,35 @@ const HeaderPage = () => {
           <Tooltips text="Favoris">
             <BadgeButton
               icon={Heart}
+              className="max-md:hidden"
               count={favoris?.items.length || undefined}
               onClick={() => navigate("/account/wishlist")}
             />
           </Tooltips>
           {/* User Logo and btn connexion */}
           {isAuthenticated ? (
-          <>
-          <Tooltips text="Favoris">
-            <BadgeButton
-              icon={Bell}
-              count={total > 0 ? total : undefined}
-              onClick={() =>  setNotifySheet(true) }
-            />
-          </Tooltips>
-            <Tooltips text="Profile">
-              <div
-                onClick={() => setDropdownOpen(true)}
-                className="cursor-default"
-              >
-                <UserAvatar
-                  size={32}
-                  src={data?.photo}
-                  fallback={fallbackAvatar(data)}
+            <>
+              <Tooltips text="Notifications">
+                <BadgeButton
+                
+                  icon={Bell}
+                  count={total > 0 ? total : undefined}
+                  onClick={() => setNotifySheet(true)}
                 />
-              </div>
-            </Tooltips>
-          </>
+              </Tooltips>
+              <Tooltips text="Profile">
+                <div
+                  onClick={() => setDropdownOpen(true)}
+                  className="cursor-default"
+                >
+                  <UserAvatar
+                    size={32}
+                    src={data?.photo}
+                    fallback={fallbackAvatar(data)}
+                  />
+                </div>
+              </Tooltips>
+            </>
           ) : (
             <Button
               onClick={() => navigate("/connexion")}
@@ -130,6 +135,7 @@ const HeaderPage = () => {
               Connexion
             </Button>
           )}
+          {/* Dropdown Menu User */}
           <Dropdown
             className="mt-4 bg-gray-950 text-white"
             open={dropdownOpen}
@@ -180,33 +186,34 @@ const HeaderPage = () => {
                   onClick={() => navigate("/account")}
                 />
                 <DropdownItems
+                  icon={<ShoppingCart size={18} />}
+                  title="Panier"
+                  onClick={() => navigate("/cart")}
+                />
+                <DropdownItems
                   icon={<Package size={18} />}
                   title="Commandes"
                   onClick={() => navigate("/account/orders")}
                 />
+
                 <DropdownItems
-                  icon={<Settings size={18} />}
-                  title="Paramètres"
-                  onClick={() => navigate("/account/notifications")}
+                  icon={<Bell size={18} />}
+                  title="Notifications"
+                  onClick={() => navigate("/notifications-list")}
                 />
                 <DropdownItems
                   icon={<Heart size={18} />}
                   title="Favoris"
                   onClick={() => navigate("/account/wishlist")}
                 />
+
                 <DropdownItems
-                  icon={<Bell size={18} />}
-                  title="Notifications"
-                  onClick={() => navigate("/notifications-list")}
+                  icon={<Settings size={18} />}
+                  title="Paramètres"
+                  onClick={() => navigate("/account/notifications")}
                 />
               </>
             )}
-
-            <DropdownItems
-              icon={<ShoppingCart size={18} />}
-              title="Panier"
-              onClick={() => navigate("/cart")}
-            />
 
             <DropdownMenuSeparator className="bg-muted-foreground" />
             <DropdownItems

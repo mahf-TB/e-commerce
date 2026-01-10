@@ -46,23 +46,23 @@ const handleApiError = (error: any) => {
     // Définit un flag global pour que la bannière puisse lire l'état
     if (typeof window !== "undefined") {
       try {
+        console.log('mmmmm hhhh bbbb ');
+        
         (window as any).__SERVER_OFFLINE__ = true;
       } catch (e) {
         // noop
       }
     }
     // Rediriger vers une page dédiée d'erreur serveur (une seule fois)
-    if (typeof window !== "undefined") {
-      setTimeout(() => {
-        try {
-          if (window.location.pathname !== "/erreur-serveur") {
-            window.location.href = "/erreur-serveur";
-          }
-        } catch (e) {
-          // noop
-        }
-      }, 800);
-    }
+    // if (typeof window !== "undefined") {
+    //   setTimeout(() => {
+    //     try {
+    //       if (window.location.pathname !== "/erreur-serveur") {
+    //         window.location.href = "/erreur-serveur";
+    //       }
+    //     } catch (e) {}
+    //   }, 800);
+    // }
     // Reset du flag après un délai pour permettre un nouvel affichage futur
     setTimeout(() => {
       hasShownNetworkError = false;
@@ -84,6 +84,7 @@ api.interceptors.response.use(
   },
   handleApiError
 );
+
 apiAuth.interceptors.response.use(
   (response) => {
     if (typeof window !== "undefined") {

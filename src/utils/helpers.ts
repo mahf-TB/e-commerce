@@ -8,11 +8,11 @@ export const formatPrice = (price: number | undefined | null): string => {
   if (price === undefined || price === null || isNaN(price)) {
     return "0 Ar";
   }
-  return price.toLocaleString("fr-FR", {
+  return price.toLocaleString("fr-MG", {
     style: "currency",
     currency: "MGA",
     minimumFractionDigits: 0,
-    maximumFractionDigits: 0,
+    maximumFractionDigits: 2,
   });
 };
 

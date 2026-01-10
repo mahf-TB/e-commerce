@@ -143,7 +143,7 @@ export function FeaturedSection({
       </div>
 
       {/* Grille */}
-      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+      <div className="grid gap-4 grid-cols-2 md:grid-cols-2 lg:grid-cols-3">
         {products.map((product) => (
           <ProductCard
             key={product.id}
@@ -159,7 +159,7 @@ export function FeaturedSection({
           />
         ))}
         {isLoading &&
-          Array.from({ length: 3 }).map((_, i) => (
+          Array.from({ length: 6 }).map((_, i) => (
             <ProductCardSkeleton key={i} />
           ))}
       </div>

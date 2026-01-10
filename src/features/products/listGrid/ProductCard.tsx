@@ -85,7 +85,7 @@ export function ProductCard({
         </h3>
         {/* Description courtes (specs) */}
         <p
-          className="text-xs text-slate-400 line-clamp-2"
+          className="text-xs text-slate-400 md:line-clamp-2 line-clamp-1"
           onClick={() => navigate(`/products/${id}`)}
         >
           {description}
@@ -96,11 +96,14 @@ export function ProductCard({
           onClick={() => navigate(`/products/${id}`)}
         >
           <span className="text-sm font-bold ">{formatPrice(price)}</span>
-          <div className="flex items-center gap-1 text-xs ">
-            <span className="text-amber-400">★</span>
-            <span>{rating.toFixed(1)}</span>
-            <span className="text-slate-500">({reviewsCount})</span>
-          </div>
+          {/* Rating */}
+          {reviewsCount > 0 && (
+            <div className="flex items-center gap-1 text-xs ">
+              <span className="text-amber-400">★</span>
+              <span>{rating.toFixed(1)}</span>
+              <span className="text-slate-500">({reviewsCount})</span>
+            </div>
+          )}
         </div>
         {/* Boutons */}
         <div className="mt-3 flex items-center gap-2">

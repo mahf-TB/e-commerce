@@ -44,7 +44,7 @@ const menuLinks = [
 
 export function NavbarMenu() {
   const isMobile = useIsMobile();
-  const { categoriesOptions, isLoading: isLoadingCategories } = useCategories();
+  const { categoriesOptions, isLoading } = useCategories();
   const [searchParams] = useSearchParams();
   const location = useLocation();
   const currentPath = location.pathname;
@@ -78,7 +78,7 @@ export function NavbarMenu() {
   return (
     <NavigationMenu viewport={isMobile}>
       <NavigationMenuList className="flex-wrap">
-        <NavigationMenuItem className="hidden md:block">
+        <NavigationMenuItem className=" hidden md:block" >
           <NavigationMenuTrigger>
             <ListCollapse size={16} />
             <span className="ml-2">Toutes les catégories</span>
@@ -90,7 +90,44 @@ export function NavbarMenu() {
             </ul>
           </NavigationMenuContent>
         </NavigationMenuItem>
-        <NavigationMenuItem>
+        <NavigationMenuItem className="">
+          {(() => {
+            // Ensure this runs after the menu renders (no hooks/import changes required)
+            setTimeout(() => {
+              if (typeof window === "undefined") return;
+              if (!document.getElementById("hide-scrollbar-styles")) {
+                const style = document.createElement("style");
+                style.id = "hide-scrollbar-styles";
+                style.textContent = `
+                  .scrollbar-hide::-webkit-scrollbar { display: none; }
+                  .scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
+                `;
+                document.head.appendChild(style);
+              }
+              if (window.innerWidth > 768) return; // only on mobile
+              const container = document.querySelector(".flex.flex-1.justify-center") as HTMLElement | null;
+              if (!container) return;
+
+              // make the links horizontally scrollable on mobile
+              container.classList.add("overflow-x-auto", "whitespace-nowrap", "scrollbar-hide");
+
+              const links = Array.from(container.querySelectorAll<HTMLAnchorElement>("a"));
+              const active = links.find((a) => a.getAttribute("href")?.includes(`sort=${currentSort}`));
+
+              if (active) {
+                active.scrollIntoView({ inline: "center", behavior: "smooth" });
+              }
+
+              // ensure clicked links scroll into view
+              links.forEach((a) =>
+                a.addEventListener("click", () =>
+                  setTimeout(() => a.scrollIntoView({ inline: "center", behavior: "smooth" }), 80)
+                )
+              );
+            }, 50);
+
+            return null;
+          })()}
           {/* 
             Pour activer un "MenuLink" avec une bordure en bas lorsque le lien correspond à la page courante,
             tu peux utiliser le hook `useLocation` de react-router-dom pour récupérer le pathname courant,
