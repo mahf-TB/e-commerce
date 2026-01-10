@@ -13,7 +13,7 @@ const NotificationsListPage = () => {
   const markAll = useMarkAllAsRead();
   return (
     <div className="px-6 flex justify-center">
-      <div className="w-4/5">
+      <div className="md:w-4/5">
         <div className="flex items-center justify-between gap-2 border-b">
           <div className="flex gap-2">
             <Button

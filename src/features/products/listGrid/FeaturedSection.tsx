@@ -1,8 +1,10 @@
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 import SelectForm from "@/components/utils/select-form";
 import { useProductList } from "@/hooks/use-product";
 import type { ProductListItem } from "@/types";
 import { sortOptions } from "@/utils/options";
-import { Filter, SortDesc } from "lucide-react";
+import { Filter, SortDesc, XIcon } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import { ProductCardSkeleton } from "../skeleton/ProductCardSkeleton";
@@ -13,6 +15,10 @@ type FeaturedSectionProps = {
   selectedBrands: (number | string)[];
   selectedCategories: (number | string)[];
   priceRange: [number, number];
+  selectedBrandOptions?: { value: number | string; label: string }[];
+  selectedCategoryOptions?: { value: number | string; label: string }[];
+  onRemoveBrand?: (value: number | string) => void;
+  onRemoveCategory?: (value: number | string) => void;
 };
 
 export function FeaturedSection({
@@ -20,6 +26,10 @@ export function FeaturedSection({
   selectedBrands,
   selectedCategories,
   priceRange,
+  selectedBrandOptions = [],
+  selectedCategoryOptions = [],
+  onRemoveBrand,
+  onRemoveCategory,
 }: FeaturedSectionProps) {
   // const [search, setSearch] = useState("");
   const [products, setProducts] = useState<ProductListItem[]>([]);
@@ -121,16 +131,56 @@ export function FeaturedSection({
 
   return (
     <section className="space-y-4">
-      {/* Titre + tri */}
+      {/* Titre + tri + badges */}
       <div className="flex items-end justify-between">
-        <h2 className="text-2xl font-bold">Produits </h2>
+        <div>
+          <div className="mt-2 flex flex-wrap gap-2">
+            {selectedBrandOptions.map((b) => (
+              <Badge
+                variant={"outline"}
+                key={String(b.value)}
+                className="inline-flex items-center gap-1 rounded-md px-2 py-1 text-xs"
+              >
+                <span>{b.label}</span>
+                <button
+                  aria-label={`Remove ${b.label}`}
+                  className="inline-flex h-5 w-5 items-center justify-center rounded-full text-foreground/60 hover:text-foreground"
+                  onClick={() => onRemoveBrand && onRemoveBrand(b.value)}
+                  type="button"
+                >
+                  <XIcon aria-hidden="true" className="text-gray-400" size={14} />
+                </button>
+              </Badge>
+            ))}
+            {selectedCategoryOptions.map((c) => (
+              <Badge
+                variant={"outline"}
+                key={String(c.value)}
+                className="inline-flex items-center gap-1 rounded-md px-2 py-1 text-xs"
+              >
+                <span>{c.label}</span>
+                <button
+                  aria-label={`Remove ${c.label}`}
+                  className="inline-flex h-5 w-5 items-center justify-center rounded-full text-foreground/60 hover:text-foreground"
+                  onClick={() => onRemoveCategory && onRemoveCategory(c.value)}
+                  type="button"
+                >
+                  <XIcon aria-hidden="true" className="text-gray-400" size={14} />
+                </button>
+              </Badge>
+            ))}
+          </div>
+        </div>
+
         <div className="flex items-center gap-2 text-sm">
-          <button
-            className="relative hover:bg-gray-300 p-2 rounded-md cursor-pointer transition-colors md:hidden"
+          <Button
+            size={"icon"}
+            variant={"outline"}
+            className="relative p-2 rounded-md cursor-pointer transition-colors md:hidden"
             onClick={() => setOpen(true)}
           >
             <Filter size={14} />
-          </button>
+          </Button>
           <SelectForm
             labelTitle="Trier par"
             placeholder="Trier par"

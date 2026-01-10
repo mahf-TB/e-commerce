@@ -108,7 +108,7 @@ const HeaderPage = ({
             <>
               <Tooltips text="Notifications">
                 <BadgeButton
-                
+                className="max-md:hidden"
                   icon={Bell}
                   count={total > 0 ? total : undefined}
                   onClick={() => setNotifySheet(true)}

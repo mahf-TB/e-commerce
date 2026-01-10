@@ -70,7 +70,7 @@ export function PromoBanner() {
             transition={{ duration: 0.6 }}
           >
             <Link to="/products?sort=-createdAt">
-              <div className="group relative h-80 rounded-2xl overflow-hidden bg-gradient-to-br from-blue-500 to-purple-600 p-8 text-white hover:shadow-2xl transition-all duration-300">
+              <div className="group relative h-80 rounded-2xl overflow-hidden bg-linear-to-br from-blue-500 to-purple-600 p-8 text-white hover:shadow-2xl transition-all duration-300">
                 {/* Background Pattern */}
                 <div className="absolute inset-0 opacity-10">
                   <div className="absolute inset-0 bg-[url('/grid.svg')] bg-center" />
@@ -93,7 +93,7 @@ export function PromoBanner() {
                     </h3>
 
                     {/* Description */}
-                    <p className="text-lg text-white/90 mb-2">
+                    <p className="text-lg text-white/90">
                       Collection 2026
                     </p>
                     <p className="text-white/80">

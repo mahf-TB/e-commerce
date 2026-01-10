@@ -9,7 +9,13 @@ export default function BlockPub() {
   return (
     <section className="py-16 px-4 ">
       <div className="mx-auto container space-y-8  md:space-y-16">
-        <div className="relative z-10 mx-auto max-w-xl space-y-6 text-center md:space-y-12">
+        <motion.div
+          initial={{ opacity: 0, y: -20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.5 }}
+          className="relative z-10 mx-auto max-w-xl space-y-6 text-center md:space-y-12"
+        >
           <h2 className="text-3xl md:text-4xl font-bold mb-2 font-poppins">
             Flash Deals du Jour
           </h2>
@@ -17,44 +23,50 @@ export default function BlockPub() {
             Promotions exceptionnelles valables seulement aujourd’hui. Livraison
             rapide et retours simplifiés.
           </p>
-        </div>
+        </motion.div>
 
-        <div className="grid gap-4 sm:grid-cols-2 md:grid-cols-4 lg:grid-rows-2">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6 }}
+          className="grid gap-4 sm:grid-cols-2 md:grid-cols-4 lg:grid-rows-2"
+        >
           <Card className="grid grid-rows-[1fr_auto] gap-8 sm:col-span-2 sm:p-6 lg:row-span-2">
             <div className="relative">
-              <div className="absolute  -top-20 left-0">
-              <img
-                className="h-56 w-56 object-cover"
-                src="/images/pc1.png"
-                alt="Enceinte Bluetooth"
-              />
-            </div>
-            <div className="absolute   top-0 left-1/2  right-0">
-              <img
-                className="h-44 w-44 object-cover"
-                src="/images/ip11.png"
-                alt="Enceinte Bluetooth"
-              />
-            </div>
-            <div className="absolute    -bottom-10  right-0">
-              <img
-                className="h-44 w-44 object-cover"
-                src="/images/jbl.png"
-                alt="Enceinte Bluetooth"
-              />
-            </div>
-            <div className="absolute    -bottom-5  left-10">
-              <img
-                className="h-44 w-44 object-cover"
-                src="/images/tvmi.png"
-                alt="Enceinte Bluetooth"
-              />
-            </div>
+              <div className="absolute -top-20 left-0">
+                <img
+                  className="md:h-56 md:w-56 w-32 h-32 object-cover"
+                  src="/images/pc1.png"
+                  alt="Enceinte Bluetooth"
+                />
+              </div>
+              <div className="absolute   top-0 left-1/2  right-0">
+                <img
+                  className="md:h-44 md:w-44 w-32 h-32 object-cover"
+                  src="/images/ip11.png"
+                  alt="Enceinte Bluetooth"
+                />
+              </div>
+              <div className="absolute    -bottom-10  right-0">
+                <img
+                  className="md:h-44 md:w-44 w-32 h-32 object-cover"
+                  src="/images/jbl.png"
+                  alt="Enceinte Bluetooth"
+                />
+              </div>
+              <div className="absolute    -bottom-5  left-10">
+                <img
+                  className="md:h-44 md:w-44 w-32 h-32 object-cover"
+                  src="/images/tvmi.png"
+                  alt="Enceinte Bluetooth"
+                />
+              </div>
             </div>
             <CardContent>
               <div className="grid  grid-rows-[1fr_auto] gap-6">
                 {/* Badge */}
-                
+
                 <div className="">
                   <h3 className="text-2xl font-bold text-black font-poppins">
                     Stabilité pendant l'effort, étanches et autonomie longue
@@ -69,7 +81,8 @@ export default function BlockPub() {
                 <div className="flex items-end gap-4">
                   <div>
                     <div className="text-3xl font-extrabold text-black">
-                     <span className="text-lg font-normal">À partir du </span> {formatPrice(850000)}
+                      <span className="text-lg font-normal">À partir du </span>{" "}
+                      {formatPrice(850000)}
                     </div>
                     <div className="text-sm text-black/70 line-through">
                       {formatPrice(999000)}
@@ -112,7 +125,7 @@ export default function BlockPub() {
               />
             </div>
 
-            <CardContent className="h-full w-2/3 pt-6 z-50">
+            <CardContent className="h-full w-2/3 pt-6 z-40">
               <div className="grid h-full max-w-md grid-rows-[auto_1fr_auto] gap-4">
                 <div className="w-2/3">
                   <h3 className="text-2xl font-bold text-black font-poppins">
@@ -162,14 +175,14 @@ export default function BlockPub() {
           </Card>
           {/* deux autres produits en vente flash */}
           <Card className="relative p-0">
-            <div className="absolute  z-50 sm:-bottom-20 bottom-1/2  right-0">
+            <div className="absolute  z-40 sm:-bottom-20 bottom-1/2  right-0">
               <img
                 className="h-44 w-44 object-cover"
                 src="/images/jbl.png"
                 alt="Enceinte Bluetooth"
               />
             </div>
-            <CardContent className="py-6 z-50">
+            <CardContent className="py-6 z-40">
               <div className="grid grid-rows-[auto_1fr_auto] gap-4">
                 <div>
                   <h3 className="text-lg font-semibold">
@@ -203,14 +216,14 @@ export default function BlockPub() {
           </Card>
 
           <Card className="relative p-0 ">
-            <div className="absolute z-50 sm:-bottom-10 bottom-1/2 right-0">
+            <div className="absolute z-40 sm:-bottom-10 bottom-1/2 right-0">
               <img
                 className="h-44 w-44 object-cover"
                 src="/images/casque.png"
                 alt="Casque Gaming"
               />
             </div>
-            <CardContent className="py-6 z-50">
+            <CardContent className="py-6 z-40">
               <div className="grid  grid-rows-[auto_1fr_auto] gap-4">
                 <div>
                   <h3 className="text-lg font-semibold">
@@ -242,7 +255,7 @@ export default function BlockPub() {
               </div>
             </CardContent>
           </Card>
-        </div>
+        </motion.div>
       </div>
     </section>
   );

@@ -19,14 +19,28 @@ const ProductPage = () => {
     0, 100000000,
   ]);
 
+  console.log("Marques sélectionnées :", selectedBrands);
+  console.log("Catégories sélectionnées :", selectedCategories);
+  
   const { categoriesOptions, isLoading: isLoadingCategories } = useCategories();
   const { marquesOptions, isLoading: isLoadingBrands } = useBrands();
   const isFiltersLoading = isLoadingCategories || isLoadingBrands;
 
+  // Map selected ids to option objects { value, label } for display (badges)
+  const selectedBrandOptions = selectedBrands.map((id) => {
+    const found = marquesOptions?.find((m: any) => String(m.value) === String(id));
+    return found ?? { value: id, label: String(id) };
+  });
+
+  const selectedCategoryOptions = selectedCategories.map((id) => {
+    const found = categoriesOptions?.find((c: any) => String(c.value) === String(id));
+    return found ?? { value: id, label: String(id) };
+  });
+
   const FiltersPanel = isFiltersLoading ? (
     <FiltersPanelSkeleton />
   ) : (
-    <Card className="shadow-none rounded p-5 pt-0 gap-2 max-h-[80vh] overflow-y-auto">
+    <Card className="shadow-none rounded p-5 pt-0 gap-2  max-md:border-none md:max-h-[80vh] max-h-screen overflow-y-auto">
       {/* Titre de la section de filtres */}
       <div className="flex items-center text-gray-500 gap-2 border-b pt-4 pb-2 z-50 sticky top-0 bg-white">
         <ListCheck size={12} />
@@ -66,6 +80,14 @@ const ProductPage = () => {
           selectedBrands={selectedBrands}
           selectedCategories={selectedCategories}
           priceRange={priceRange}
+          selectedBrandOptions={selectedBrandOptions}
+          selectedCategoryOptions={selectedCategoryOptions}
+          onRemoveBrand={(value) =>
+            setSelectedBrands((prev) => prev.filter((id) => String(id) !== String(value)))
+          }
+          onRemoveCategory={(value) =>
+            setSelectedCategories((prev) => prev.filter((id) => String(id) !== String(value)))
+          }
         />
       </div>
     </div>

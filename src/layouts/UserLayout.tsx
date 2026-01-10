@@ -24,7 +24,7 @@ const UserLayout = () => {
         <ServerStatusBanner />
         {!location.pathname.startsWith("/checkout") &&
           (isLoading ? null : (
-            <div className="sticky top-0 z-9999">
+            <div className="sticky top-0 z-50">
               <HeaderPage data={data} isAuthenticated={isAuthenticated} />
               <div className="w-full bg-white z-50 border-b border-gray-300 ">
                 <div className="container mx-auto">
