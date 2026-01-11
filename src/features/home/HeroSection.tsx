@@ -17,7 +17,7 @@ const heroSlides = [
     title: "Nouvelle Collection Hiver 2026",
     subtitle: "Découvrez les dernières tendances",
     description: "Jusqu'à -50% sur une sélection d'articles",
-    image: ["/images/souris.png", "/images/pc1.png", "/images/pcs.png"],
+    image: ["/images/souris.png", "/images/pc1.png", ""],
     cta: "Découvrir",
     ctaLink: "/products",
     bgGradient: "from-blue-600 to-purple-600",
@@ -174,7 +174,7 @@ export function HeroSection() {
 
                       {/* Image décorative : droite-centre */}
                       {slide.image[1] && (
-                        <div className="absolute right-0 top-1/2 -translate-y-1/2 w-96  overflow-hidden ">
+                        <div className="absolute right-0 top-1/2 -translate-y-1/2 w-10/12  overflow-hidden ">
                           <img
                             src={slide.image[1]}
                             alt={`${slide.title} decor-main`}

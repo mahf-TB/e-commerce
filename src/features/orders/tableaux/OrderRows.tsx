@@ -68,7 +68,7 @@ export const OrderRow = forwardRef<HTMLTableRowElement, OrderRowProps>(
     return (
       <tr ref={ref} {...rest} className="hover:bg-slate-200  transition-colors">
         {/* NUMERO DE COMMANDE */}
-        <td className="px-4 py-2 text-sm text-gray-700 dark:text-gray-300">
+        <td className="px-4 py-2 text-sm text-gray-700 dark:text-gray-300 whitespace-nowrap">
           #{orderNumber}
           <span className="block text-xs text-gray-500">
             {totalArticles} articles
@@ -107,7 +107,7 @@ export const OrderRow = forwardRef<HTMLTableRowElement, OrderRowProps>(
         {/* PAIEMENT */}
         <td className="px-4 py-2 text-sm">
           <Badge
-            className={getPaiementColorClass(paiement as EtatPaiement, "400")}
+            className={getPaiementColorClass(paiement as EtatPaiement)}
           >
             {getLibellePayement(paiement as EtatPaiement)}
           </Badge>

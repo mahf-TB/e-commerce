@@ -148,7 +148,7 @@ const CardValueProposition = ({
         <Icon className={`size-6 ${color}`} />
         <h3 className="text-lg font-semibold font-poppins">{title}</h3>
       </div>
-      <p className="text-muted-foreground text-sm">{description}</p>
+      <p className="text-muted-foreground text-base">{description}</p>
     </div>
   );
 };

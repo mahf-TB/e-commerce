@@ -1,5 +1,5 @@
 import type { SelectOption } from "@/components/utils/select-form";
-import { fetchMarques } from "@/services/marqueService";
+import { fetchMarques, type MarqueParams } from "@/services/marqueService";
 import type { Paginated } from "@/types";
 import { useQuery } from "@tanstack/react-query";
 
@@ -14,10 +14,11 @@ export type Marque = {
   updatedAt?: string;
 };
 
-export function useBrands() {
+export function useBrands(params?: MarqueParams) {
+  const { page, limit, q } = params || {};
   const query = useQuery({
-    queryKey: ["brands"],
-    queryFn: fetchMarques,
+    queryKey: ["brands", { page, limit, q }],
+    queryFn: () => fetchMarques({ page, limit, q }),
     retry: false,
     staleTime: 1000 * 60 * 5,
   });

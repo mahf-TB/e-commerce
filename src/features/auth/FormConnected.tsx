@@ -113,6 +113,13 @@ const FormConnected = () => {
               iconLeft={<Lock size={14} />}
             />
             {error && <div className="text-xs text-red-500 mt-1">{error}</div>}
+            <button
+              type="button"
+              onClick={() => setStep("register")}
+              className="text-sm text-blue-600 font-medium hover:underline text-right w-full mt-2"
+            >
+              Mot de passe oublié ?
+            </button>
           </div>
         )}
 

@@ -7,9 +7,15 @@ const headers = {
   },
 };
 
+export type MarqueParams = {
+  page?: number;
+  limit?: number;
+  q?: string;
+};
 
-export async function fetchMarques(): Promise<Paginated<Marque>> {
-  const res = await api.get("/marques");
+
+export async function fetchMarques(params?: MarqueParams  ): Promise<Paginated<Marque>> {
+  const res = await api.get("/marques",  { params });
   return res.data 
 }
 export async function createNewMarque(credential: any) {

@@ -2,6 +2,11 @@
 import type { EtatPaiement, StatutCommande } from "@/types";
 import type { DateRange } from "react-day-picker";
 
+export const normalizeString = (txt: string) =>
+  txt
+    .toLowerCase()
+    .normalize("NFD")
+    .replace(/\p{Diacritic}/gu, "");
 
 // Formater un prix en USD
 export const formatPrice = (price: number | undefined | null): string => {

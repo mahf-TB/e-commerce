@@ -1,18 +1,10 @@
-"use client";
-
 import React from "react";
 import {
   AlertCircleIcon,
-  BadgeCheck,
-  CircleCheck,
-  DownloadIcon,
   ImageIcon,
-  Scan,
-  ScanHeart,
   Star,
   Trash2Icon,
   UploadIcon,
-  XIcon,
 } from "lucide-react";
 import { formatBytes, useFileUpload } from "@/hooks/use-file-upload";
 import { Button } from "@/components/ui/button";

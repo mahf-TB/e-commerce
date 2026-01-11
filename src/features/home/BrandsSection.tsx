@@ -1,16 +1,15 @@
-import { Card } from "@/components/ui/card";
+
 import useBrands from "@/hooks/use-marques";
-import { cn } from "@/lib/utils";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 
 export function BrandsSection() {
-  const { items: brands, isLoading } = useBrands();
+  const { items: brands, isLoading } = useBrands({ page: 1, limit: 8 });
 
   // Prendre les 12 premières marques
-  const displayBrands = brands?.slice(0, 12) || [];
+  // const brands = brands?.slice(0, 12) || [];
 
-  if (isLoading || displayBrands.length === 0) {
+  if (isLoading || brands.length === 0) {
     return null;
   }
 
@@ -37,7 +36,7 @@ export function BrandsSection() {
         {/* Brands Grid */}
 
         <div className="mx-5 mt-10 flex  flex-wrap items-center justify-center gap-x-12 gap-y-8 sm:gap-x-16 sm:gap-y-10">
-          {displayBrands.map((brand, index) => (
+          {brands.map((brand, index) => (
             <motion.div
               key={brand.id}
               initial={{ opacity: 0, scale: 0.9 }}

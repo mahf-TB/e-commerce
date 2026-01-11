@@ -44,7 +44,7 @@ const menuLinks = [
 
 export function NavbarMenu() {
   const isMobile = useIsMobile();
-  const { categoriesOptions, isLoading } = useCategories();
+  const { categoriesOptions, isLoading } = useCategories({parent: "principale"});
   const [searchParams] = useSearchParams();
   const location = useLocation();
   const currentPath = location.pathname;
@@ -70,7 +70,7 @@ export function NavbarMenu() {
             : ""
         )}
       >
-        <Link to={`/category/${cat.value}`}>{cat.label}</Link>
+        <Link to={`/category/${cat.value}?nom=${encodeURIComponent(cat.label)}`}>{cat.label}</Link>
       </NavigationMenuLink>
     ));
   };

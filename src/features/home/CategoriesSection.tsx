@@ -1,12 +1,14 @@
 import { Card } from "@/components/ui/card";
 import { useCategories } from "@/hooks/use-categories";
 import { cn } from "@/lib/utils";
+import { normalizeString } from "@/utils/helpers";
 import { motion } from "framer-motion";
 import {
   Battery,
   BookOpen,
   Dumbbell,
   GamepadIcon,
+  Home,
   Image,
   ImagePlay,
   Laptop,
@@ -21,16 +23,17 @@ import {
 import { Link } from "react-router-dom";
 
 // Icons de fallback pour les catégories
-const categoryIcons: Record<string, any> = {
+export const categoryIcons: Record<string, any> = {
   électronique: Laptop,
-  "accessoires électroniques": Smartphone,
-  "accessoires": Watch,
+  info: Laptop,
+  accessoires: Watch,
+  smartphone: Smartphone,
   mode: Shirt,
   chargeur: Plug,
   énergie: Battery,
-  "énergie & charge": Battery,
-  "réseau": Wifi,
-  "internet": Wifi,
+  réseau: Wifi,
+  internet: Wifi,
+  home: Home,
   sport: Dumbbell,
   photo: ImagePlay,
   gaming: GamepadIcon,
@@ -41,13 +44,9 @@ const categoryIcons: Record<string, any> = {
 };
 
 // Normalize strings: lowercase + remove accents
-const normalizeString = (s: string) =>
-  s
-    .toLowerCase()
-    .normalize("NFD")
-    .replace(/\p{Diacritic}/gu, "");
 
-const getCategoryIcon = (name: string) => {
+
+export const getCategoryIcon = (name: string) => {
   const key = normalizeString(name);
   for (const [iconKey, Icon] of Object.entries(categoryIcons)) {
     const normKey = normalizeString(iconKey);
@@ -57,10 +56,14 @@ const getCategoryIcon = (name: string) => {
 };
 
 export function CategoriesSection() {
-  const { items: categories, isLoading } = useCategories();
+  const { data, items: categories, isLoading, } = useCategories({
+    page: 1,
+    limit: 8,
+    parent: "principale",
+  });
 
   // Prendre les 8 premières catégories
-  const displayCategories = categories?.slice(0, 8) || [];
+  // const displayCategories = categories?.slice(0, 8) || [];
 
   if (isLoading) {
     return (
@@ -68,10 +71,7 @@ export function CategoriesSection() {
         <div className="container mx-auto">
           <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-4 gap-6">
             {[...Array(8)].map((_, i) => (
-              <Card
-                key={i}
-                className="h-40 animate-pulse bg-muted"
-              />
+              <Card key={i} className="h-40 animate-pulse bg-muted" />
             ))}
           </div>
         </div>
@@ -101,7 +101,7 @@ export function CategoriesSection() {
 
         {/* Categories Grid */}
         <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-4 gap-6">
-          {displayCategories.slice(0,8).map((category, index) => {
+          {categories.map((category, index) => {
             const Icon = getCategoryIcon(category.nom);
 
             return (
@@ -112,7 +112,7 @@ export function CategoriesSection() {
                 viewport={{ once: true }}
                 transition={{ delay: index * 0.1, duration: 0.5 }}
               >
-                <Link to={`/products?categorie=${category._id || category.id}`}>
+                <Link to={`/category/${category._id || category.id}?nom=${encodeURIComponent(category.nom)}`}>
                   <Card
                     className={cn(
                       "rounded group relative  overflow-hidden cursor-pointer",
@@ -162,7 +162,7 @@ export function CategoriesSection() {
         </div>
 
         {/* View All Button */}
-        {categories && categories.length > 8 && (
+        {categories && data.totalItems > 8 && (
           <motion.div
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
@@ -173,7 +173,7 @@ export function CategoriesSection() {
               to="/category"
               className="inline-flex items-center text-primary hover:underline font-semibold"
             >
-              Voir toutes les catégories
+              Voir toutes les catégories 
               <svg
                 className="ml-2 h-5 w-5"
                 fill="none"

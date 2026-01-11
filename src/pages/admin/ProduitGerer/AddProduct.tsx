@@ -12,7 +12,7 @@ const AddProduct = () => {
   const [images, setImages] = React.useState<ImageToUpload[]>([]);
 
   return (
-    <div className=" bg-white p-10">
+    <div className=" bg-white px-10 pt-3 pb-10">
       {/* Header */}
         <div className="flex items-center justify-between mb-6">
             <div className="flex items-center gap-4">
@@ -35,13 +35,12 @@ const AddProduct = () => {
             </div>
 
         </div>
-     <div className="flex items-start gap-6">
-       
-       <div className="w-3/4 ">
+     <div className="flex items-start lg:gap-6 relative lg:flex-row flex-col">
+       <div className="lg:w-3/4 ">
          <FormProduct images={images} />
        </div>
-       <div className="w-2/4 sticky top-20">
-         <Card className="shadow-none p-4 rounded-sm">
+       <div className="lg:w-2/4 w-full sticky lg:top-20">
+         <Card className="shadow-none p-4 rounded-sm mb-10">
            <DropImageUpload value={images} onChange={setImages} />
          </Card>
        </div>

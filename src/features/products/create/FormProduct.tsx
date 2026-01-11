@@ -152,12 +152,12 @@ const FormProduct: React.FC<{
         <div
           className={cn(
             !isEditMode
-              ? "flex-row md:gap-4"
-              : "grid grid-cols-[500px_1fr] gap-6"
+              ? "space-y-6"
+              : "grid lg:grid-cols-[500px_1fr] grid-cols-1 gap-6"
           )}
         >
           {/* Infos principales */}
-          <div className="space-y-2">
+          <div className={cn("space-y-2 ", )} >
             <div className="">
               <h2 className="text-lg font-semibold font-poppins">
                 Informations du produit
@@ -235,7 +235,7 @@ const FormProduct: React.FC<{
               </span>
             </div>
             <VariantForm variants={variants} setVariants={setVariants} />
-            <div className="flex items-center justify-end w-full mt-0">
+            <div className="flex items-center justify-end w-full mt-0 pb-4">
               <Button
                 type="button"
                 variant="link"
@@ -249,7 +249,7 @@ const FormProduct: React.FC<{
             </div>
           </div>
         </div>
-        <div className="flex justify-end gap-5">
+        <div className="flex justify-end gap-5 z-3  fixed bottom-0 left-0 w-full py-2 px-10 border-t border-gray-200 shadow-md bg-white">
           <Button
             variant={"destructive"}
             type="button"
